@@ -24,6 +24,13 @@
         </template>
       </BaseInput>
     </div>
+    <button
+      class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0"
+      @click="$emit('add')"
+    >
+      <IconAddCircle class="w-4 h-4 fill-current mr-1"></IconAddCircle>
+      New
+    </button>
   </div>
   <div class="relative w-full overflow-auto">
     <table class="w-full">
@@ -72,8 +79,8 @@
         </tr>
       </tbody>
     </table>
-    <div 
-      v-if="state.filteredFeatures.length === 0 && !isLoading" 
+    <div
+      v-if="state.filteredFeatures.length === 0 && !isLoading"
       class="p-5 text-center text-sm text-gray-700 border-b border-gray-300"
     >
       No data to display...
@@ -102,6 +109,7 @@ import IconEdit from "../assets/svgs/create.svg?component";
 import IconClear from "../assets/svgs/clear.svg?component";
 import IconSearch from "../assets/svgs/search.svg?component";
 import IconDelete from "../assets/svgs/delete.svg?component";
+import IconAddCircle from "../assets/svgs/add-circle.svg?component";
 
 const MATRICES_LIMIT = 3;
 
@@ -109,8 +117,8 @@ const props = defineProps({
   features: Object,
   isLoading: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 });
 
 const emit = defineEmit(["edit", "remove"]);
