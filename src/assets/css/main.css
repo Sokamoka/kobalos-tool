@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply text-indigo-500 hover:text-indigo-700 font-medium;
+  }
+}
+
+@layer components {
+  .tag {
+    @apply py-1 px-3 bg-gray-200 text-gray-500 text-sm font-semibold rounded-full overflow-hidden overflow-ellipsis;
+  }
+
+  .tag.is-xs {
+    @apply text-xs;
+  }
+
+  .tag.is-fixed {
+    max-width: 150px;
+  }
+
+  .tag.is-primary {
+    @apply bg-indigo-100 text-indigo-500;
+  }
+
+  label {
+    @apply text-gray-700 text-sm uppercase font-semibold;
+  }
+
+  .button {
+    @apply inline-block h-10 px-6 py-3 bg-gray-100 text-gray-700 text-sm font-semibold leading-none rounded shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-opacity-75;
+  }
+
+  .button.is-primary {
+    @apply bg-pink-500 text-white hover:bg-pink-700 focus:ring-pink-400;
+  }
+
+  .button.is-secondary {
+    @apply bg-indigo-500 text-white hover:bg-indigo-700 focus:ring-indigo-400;
+  }
+
+  .button.is-flat {
+    @apply bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-200 shadow-none;
+  }
+
+  .button.is-flat.is-secondary {
+    @apply text-indigo-500 hover:bg-indigo-100 focus:ring-indigo-200 shadow-none;
+  }
+
+  .button.is-icon {
+    @apply p-0 w-10 h-10 flex items-center justify-center rounded-full;
+  }
+
+  .input {
+    @apply flex flex-row items-center px-2 bg-white border border-gray-300 rounded shadow-sm focus-within:border-indigo-500;
+  }
+  .input input {
+    @apply flex-grow py-3 px-1 bg-white placeholder-gray-400 text-sm text-gray-900 font-medium rounded appearance-none block focus:outline-none;
+  }
+
+  .input.is-xs input {
+    @apply py-2 px-1 text-xs;
+  }
+
+  table {
+    @apply w-full;
+  }
+
+  table th {
+    @apply p-4 text-xs text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
+  }
+
+  table td {
+    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
+  }
+
+  table th:first-of-type,
+  table td:first-of-type {
+    @apply pl-7;
+  }
+
+  table th:last-of-type,
+  table td:last-of-type {
+    @apply pr-7;
+  }
+}

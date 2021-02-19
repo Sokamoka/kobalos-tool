@@ -1,0 +1,25 @@
+{
+  "name": "kobalos-feature-manager",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "firebase": "^8.2.7",
+    "nanoid": "^3.1.20",
+    "vue": "^3.0.5",
+    "vue-router": "^4.0.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.4",
+    "@vue/compiler-sfc": "^3.0.5",
+    "autoprefixer": "^10.2.4",
+    "postcss": "^8.2.6",
+    "sass": "^1.32.7",
+    "tailwindcss": "^2.0.3",
+    "vite": "^2.0.0",
+    "vite-plugin-vue-svg": "^0.1.0"
+  }
+}
