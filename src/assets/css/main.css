@@ -42,7 +42,7 @@
   }
 
   .button.is-flat {
-    @apply bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-200 shadow-none border-none;
+    @apply bg-transparent text-gray-700 hover:bg-gray-200 focus:ring-transparent shadow-none border-none;
   }
 
   .button.is-flat.is-secondary {

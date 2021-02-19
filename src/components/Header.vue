@@ -7,10 +7,10 @@
         <User />
       </div>
       <div>
-        <router-link :to="{ name: 'Features' }" tag="button" class="button is-flat">
+        <router-link :to="{ name: 'Features' }" tag="button" class="button is-flat px-3">
           A/B Tests
         </router-link>
-        <router-link :to="{ name: 'Login' }" tag="button" class="button is-flat ml-1">
+        <router-link :to="{ name: 'Login' }" tag="button" class="button is-flat ml-1 px-3">
           Site settings
         </router-link>
       </div>
@@ -22,7 +22,7 @@ import User from "./User.vue";
 </script>
 
 <style>
-.button.router-link-active {
-  @apply text-indigo-700 bg-indigo-100 hover:bg-indigo-100 focus:ring-indigo-200;
+.button.router-link-active.is-flat{
+  @apply text-indigo-700 bg-transparent hover:bg-indigo-100 focus:ring-transparent;
 }
 </style>
