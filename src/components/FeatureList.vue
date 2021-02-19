@@ -121,7 +121,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmit(["edit", "remove"]);
+const emit = defineEmit(["add", "edit", "remove"]);
 
 const state = reactive({
   search: "",

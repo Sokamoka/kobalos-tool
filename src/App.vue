@@ -1,10 +1,18 @@
 <template>
   <div class="w-screen p-10">
+    <Header v-if="isHeaderVisible" />
     <router-view></router-view>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
+import Header from "./components/Header.vue";
+import { useStore } from "./store";
+
+const store = useStore();
+
+const isHeaderVisible = ref(store.isSignIn);
 </script>
 
 <style>

@@ -1,20 +1,5 @@
 <template>
   <div class="container m-auto">
-    <div class="flex flex-col sm:flex-row mb-5">
-      <div class="flex-grow mb-5 sm:mb-0">
-        <h1 class="text-3xl font-bold uppercase">
-          Kobalos Tool
-        </h1>
-        <User />
-      </div>
-      <!-- <button
-        class="button is-secondary flex items-center"
-        @click="onClickAddNew"
-      >
-        <IconAddCircle class="w-5 h-5 fill-current mr-1"></IconAddCircle>
-        Add new
-      </button> -->
-    </div>
     <div class="flex flex-col bg-white rounded-lg shadow-lg">
       <FeatureList
         :features="state.features"
@@ -64,7 +49,6 @@ import { computed, onMounted, reactive } from "vue";
 import { nanoid } from "nanoid";
 import { db, featuresRef } from "../firebase";
 import Modal from "./Modal.vue";
-import User from "./User.vue";
 import FeatureList from "./FeatureList.vue";
 import BaseTagInput from "./BaseTagInput.vue";
 import IconAddCircle from "../assets/svgs/add-circle.svg?component";

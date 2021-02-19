@@ -6,7 +6,7 @@
       <h1 class="text-3xl font-bold uppercase flex-grow">
         Sign in
       </h1>
-      <p class="text-gray-500 text-sm mb-5">Kobalos FTM Tool</p>
+      <p class="text-gray-500 text-sm mb-5">Kobalos Options Tool</p>
       <div class="mb-4">
         <label class="block mb-1">Name (E-mail)</label>
         <BaseInput v-model="state.userName" type="text" />

@@ -11,9 +11,10 @@ const state = reactive(
 watch(state, (value) => localStorage.setItem(storeName, JSON.stringify(value)));
 
 export const useStore = () => ({
-  debug: false,
+  debug: true,
 
   user: computed(() => state.user),
+  isSignIn: computed(() => state.user?.uid),
 
   SignIn(newValue) {
     if (this.debug) {
