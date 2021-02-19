@@ -18,7 +18,11 @@
       </div>
 
       <div>
-        <button class="button is-secondary w-full" @click="onSignIn">
+        <button
+          class="button is-secondary w-full"
+          :class="{ 'is-loading': state.isLoading }"
+          @click="onSignIn"
+        >
           Sign in
         </button>
       </div>
@@ -31,16 +35,22 @@ import { reactive } from "vue";
 import { auth } from "../firebase";
 import { useStore } from "../store";
 
-const store = useStore()
+const store = useStore();
 
 const state = reactive({
-  userName: 'x-stegnera@wizzair.com',
-  password: 'Abc123'
-})
+  isLoading: false,
+  userName: "x-stegnera@wizzair.com",
+  password: "Abc123",
+});
 
 const onSignIn = async () => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(state.userName, state.password);
+    state.isLoading = true;
+    const userCredential = await auth.signInWithEmailAndPassword(
+      state.userName,
+      state.password
+    );
+    state.isLoading = false;
     const user = userCredential.user;
     store.SignIn(user);
   } catch (error) {

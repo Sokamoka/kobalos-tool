@@ -7,13 +7,13 @@
         </h1>
         <User />
       </div>
-      <button
+      <!-- <button
         class="button is-secondary flex items-center"
         @click="onClickAddNew"
       >
         <IconAddCircle class="w-5 h-5 fill-current mr-1"></IconAddCircle>
         Add new
-      </button>
+      </button> -->
     </div>
     <div class="flex flex-col bg-white rounded-lg shadow-lg">
       <FeatureList

@@ -1,5 +1,5 @@
 <template>
-  <div class="input flex flex-wrap">
+  <div class="input flex flex-wrap h-auto">
     <div
       v-for="item in modelValue"
       :key="item"
@@ -14,7 +14,7 @@
     <input
       v-model="variant"
       type="text"
-      class="flex-1 flex-shrink-0 min-w-max"
+      class="flex-1 flex-shrink-0 min-w-max py-3"
       v-bind="$attrs"
       @change="onChange($event.target.value)"
     />
