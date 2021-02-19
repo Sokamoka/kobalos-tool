@@ -29,7 +29,9 @@
 <script setup>
 import { reactive } from "vue";
 import { auth } from "../firebase";
-import { store } from "../store";
+import { useStore } from "../store";
+
+const store = useStore()
 
 const state = reactive({
   userName: 'x-stegnera@wizzair.com',

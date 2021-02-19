@@ -6,10 +6,12 @@
 
 <script setup>
 import { ref } from "vue";
-import { store } from "../store";
+import { useStore } from "../store";
 import { auth } from "../firebase";
 
-const user = ref(store.state.user);
+const store = useStore();
+
+const user = ref(store.user);
 
 const onSignOut = async () => {
   try {
