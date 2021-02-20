@@ -4,20 +4,22 @@
       v-if="isVisible"
       class="fixed top-0 left-0 right-0 bottom-0 flex flex-col items-center"
     >
+      <div class="curtain"></div>
       <div
-        class="bg-pink-600 text-white py-3 px-5 m-5 rounded shadow-lg font-semibold text-sm leading-loose"
+        class="flex flex-wrap flex-row items-center bg-pink-600 text-white py-3 px-5 m-5 rounded shadow-lg font-semibold text-sm leading-loose z-10"
       >
-        <span>{{ dialog.title }}</span>
+        <Icon name="delete" class="w-5 h-5 fill-current mr-3 text-pink-200" />
+        <span class="mr-2">{{ dialog.title }}</span>
         <a
           href="#"
-          class="text-sm text-pink-200 hover:text-white px-3 font-semibold"
+          class="text-sm text-pink-200 hover:text-white px-3 py-2 mx-2 font-semibold hover:bg-pink-500 rounded"
           @click.prevent="onConfirm"
         >
           {{ dialog.confirmText }}
         </a>
         <a
           href="#"
-          class="text-sm text-pink-200 hover:text-white px-3 font-semibold"
+          class="text-sm text-pink-200 hover:text-white px-3 py-2 font-semibold hover:bg-pink-500 rounded"
           @click.prevent="onCancel"
         >
           {{ dialog.cancelText }}
@@ -35,25 +37,27 @@ let isVisible = ref(false);
 let dialog = ref({});
 
 emitter.on("add", function (payload) {
-  console.log(payload);
   dialog.value = payload;
   isVisible.value = true;
 });
 
 const onConfirm = () => {
-  console.log("CONFIRM:", dialog);
   isVisible.value = false;
   dialog.value.cb(true);
 };
 
 const onCancel = () => {
-  console.log("onCancel");
   isVisible.value = false;
   dialog.value.cb(false);
 };
 </script>
 
 <style lang="scss" scoped>
+.curtain {
+  @apply h-screen w-full absolute left-0 top-0 z-0;
+  backdrop-filter: blur(2px);
+}
+
 .dialog-fade {
   &-enter-active,
   &-leave-active {
