@@ -129,11 +129,13 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit } from "vue";
+import { defineProps, computed, reactive, defineEmit, inject } from "vue";
 import BaseCheckbox from "./BaseCheckbox.vue";
 import useSelection from "../composables/UseSelection.js";
 
 const MATRICES_LIMIT = 3;
+
+const $confirm = inject("$confirm");
 
 const props = defineProps({
   features: Object,
@@ -154,14 +156,12 @@ const state = reactive({
 
 const itemSelection = useSelection();
 
-let numberSelected = computed(() => itemSelection.selected.size)
+let numberSelected = computed(() => itemSelection.selected.size);
 let allItemSelected = computed(
   () => numberSelected.value === state.total && state.total > 0
 );
 let someEmailsSelected = computed(() => {
-  return (
-    numberSelected.value > 0 && numberSelected.value < state.total
-  );
+  return numberSelected.value > 0 && numberSelected.value < state.total;
 });
 const bulkSelect = () => {
   if (allItemSelected.value) {
@@ -181,7 +181,10 @@ const onEdit = (payload) => {
   emit("edit", payload);
 };
 
-const onRemove = (payload) => {
+const onRemove = async (payload) => {
+  const result = await $confirm({ title: "Are you sure you want to delete?" });
+  console.log({ result });
+  if (!result) return;
   itemSelection.clear();
   emit("remove", payload);
 };

@@ -4,6 +4,7 @@ import App from "./App.vue";
 import BaseInput from "./components/BaseInput.vue";
 import { iconNames } from "./composables/Icon.js";
 import Icon from "./components/Icon.vue";
+import { confirmPromise } from "./composables/Confirm.js";
 import "./assets/css/main.css";
 
 const app = createApp(App);
@@ -14,8 +15,9 @@ app.component("BaseInput", BaseInput);
 app.component("Icon", Icon);
 
 iconNames.forEach((value, key) => {
-  console.log(value, key);
+  // console.log(value, key);
   app.component(key, value);
 });
+app.provide("$confirm", confirmPromise);
 
 app.mount("#app");

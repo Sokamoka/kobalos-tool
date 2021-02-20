@@ -2,6 +2,7 @@
   <div class="w-screen p-10">
     <Header v-if="isHeaderVisible" />
     <router-view></router-view>
+    <ConfirmDialog></ConfirmDialog>
   </div>
 </template>
 
@@ -9,6 +10,7 @@
 import { ref } from "vue";
 import { useStore } from "./store";
 import Header from "./components/Header.vue";
+import ConfirmDialog from './components/ConfirmDialog.vue';
 
 const store = useStore();
 
