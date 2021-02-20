@@ -6,7 +6,8 @@
       class="tag my-2 mr-1 pr-2 flex flex-row items-center"
     >
       {{ item }}
-      <IconRemoveCircle
+      <Icon
+        name="remove-circle"
         class="w-5 h-5 fill-current ml-1 cursor-pointer"
         @click.passive="onRemove(item)"
       />
@@ -22,13 +23,7 @@
 </template>
 
 <script>
-import IconRemoveCircle from "../assets/svgs/remove-circle.svg?component";
-
 export default {
-  components: {
-    IconRemoveCircle
-  },
-
   emits: {
     add: (value) => {
       if (value) {

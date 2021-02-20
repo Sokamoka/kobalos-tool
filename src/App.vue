@@ -7,8 +7,8 @@
 
 <script setup>
 import { ref } from "vue";
-import Header from "./components/Header.vue";
 import { useStore } from "./store";
+import Header from "./components/Header.vue";
 
 const store = useStore();
 

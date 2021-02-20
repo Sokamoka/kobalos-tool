@@ -12,15 +12,17 @@
     <div>
       <BaseInput v-model="state.search" type="text" class="is-xs">
         <template v-slot:before>
-          <IconSearch
+          <Icon
+            name="search"
             class="w-4 h-4 fill-current text-gray-400 pointer-events-none"
-          ></IconSearch>
+          ></Icon>
         </template>
         <template v-slot:after>
-          <IconClear
+          <Icon
+            name="clear"
             class="w-4 h-4 fill-current text-gray-400 hover:text-gray-600 cursor-pointer"
             @click="state.search = ''"
-          ></IconClear>
+          ></Icon>
         </template>
       </BaseInput>
     </div>
@@ -28,7 +30,7 @@
       class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0"
       @click="$emit('add')"
     >
-      <IconAddCircle class="w-4 h-4 fill-current mr-1"></IconAddCircle>
+      <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
       New
     </button>
   </div>
@@ -36,6 +38,7 @@
     <table class="w-full">
       <thead>
         <tr>
+          <th class="w-8"><BaseCheckbox /></th>
           <th class="w-1/4">Title</th>
           <th class="w-auto">Variants</th>
           <th class="w-8 text-center">Edit</th>
@@ -48,6 +51,9 @@
           :key="feature.key"
           class="my-2"
         >
+          <td>
+            <BaseCheckbox />
+          </td>
           <td>
             <h5 class="font-bold text-base">{{ feature.title }}</h5>
             <p class="text-gray-400">{{ feature.name }}</p>
@@ -68,12 +74,12 @@
           </td>
           <td class="text-gray-400">
             <button class="button is-icon is-flat" @click="onEdit(feature)">
-              <IconEdit class="w-6 h-6 fill-current"></IconEdit>
+              <Icon name="edit" class="w-6 h-6 fill-current" />
             </button>
           </td>
           <td class="text-gray-400">
             <button class="button is-icon is-flat" @click="onRemove(feature)">
-              <IconDelete class="w-6 h-6 fill-current"></IconDelete>
+              <Icon name="delete" class="w-6 h-6 fill-current" />
             </button>
           </td>
         </tr>
@@ -105,11 +111,7 @@
 
 <script setup>
 import { defineProps, computed, reactive, defineEmit } from "vue";
-import IconEdit from "../assets/svgs/create.svg?component";
-import IconClear from "../assets/svgs/clear.svg?component";
-import IconSearch from "../assets/svgs/search.svg?component";
-import IconDelete from "../assets/svgs/delete.svg?component";
-import IconAddCircle from "../assets/svgs/add-circle.svg?component";
+import BaseCheckbox from './BaseCheckbox.vue';
 
 const MATRICES_LIMIT = 3;
 
