@@ -7,6 +7,7 @@
         @edit="onEdit"
         @remove="onRemove"
         @add="onClickAddNew"
+        @bulk-remove="onBulkRemove"
       />
     </div>
   </div>
@@ -123,7 +124,24 @@ function onEdit(payload) {
 }
 
 const onRemove = async (payload) => {
-  await db.ref(`kobalos/features/${payload.key}`).remove();
+  try {
+    await db.ref(`kobalos/features/${payload.key}`).remove();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const onBulkRemove = async (payload) => {
+  const deleted = {}
+  payload.forEach(item => {
+    deleted[`kobalos/features/${item.key}`] = null
+  });
+  
+  try {
+    await db.ref().update(deleted);
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const onSave = async () => {
@@ -146,6 +164,4 @@ const onSave = async () => {
   }
   state.isModalVisible = false;
 };
-
-const onDelete = () => {};
 </script>

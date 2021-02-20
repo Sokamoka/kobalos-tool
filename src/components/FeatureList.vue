@@ -53,7 +53,7 @@
           </template>
           <template v-else>
             <th colspan="4" class="py-2">
-              <button class="button is-xs is-primary">
+              <button class="button is-xs is-primary" @click="onBulkRemove">
                 <Icon name="delete" class="w-4 h-4 fill-current mr-2" />
                 Delete {{ numberSelected }} items
               </button>
@@ -135,7 +135,7 @@ import useSelection from "../composables/UseSelection.js";
 
 const MATRICES_LIMIT = 3;
 
-const $confirm = inject("$confirm");
+const confirm = inject("$confirm");
 
 const props = defineProps({
   features: Object,
@@ -145,7 +145,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmit(["add", "edit", "remove"]);
+const emit = defineEmit(["add", "edit", "remove", "bulk-remove"]);
 
 const state = reactive({
   search: "",
@@ -182,11 +182,17 @@ const onEdit = (payload) => {
 };
 
 const onRemove = async (payload) => {
-  const result = await $confirm({ title: "Are you sure you want to delete?" });
-  console.log({ result });
+  const result = await confirm({ title: "Are you sure you want to delete?" });
   if (!result) return;
   itemSelection.clear();
   emit("remove", payload);
+};
+
+const onBulkRemove = async () => {
+  const result = await confirm({ title: "Are you sure you want to delete?" });
+  if (!result) return;
+  emit("bulk-remove", new Set(itemSelection.selected));
+  itemSelection.clear();
 };
 
 const searchfFilter = (data, value) => {
