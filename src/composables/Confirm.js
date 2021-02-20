@@ -2,11 +2,11 @@ import emitter from "tiny-emitter/instance";
 
 export const confirmPromise = ({
   title,
+  icon = "delete",
   confirmText = "Yes",
   cancelText = "Cancel",
-  icon = "delete",
-}) => {
-  return new Promise((resolve) => {
+}) =>
+  new Promise((resolve) => {
     emitter.emit("add", {
       icon,
       title,
@@ -15,4 +15,3 @@ export const confirmPromise = ({
       cb: resolve,
     });
   });
-};

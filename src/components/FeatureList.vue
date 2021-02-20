@@ -10,7 +10,7 @@
       </p>
     </div>
     <div>
-      <BaseInput v-model="state.search" type="text" class="is-xs">
+      <BaseInput v-model="state.search" @update:model-value="onInput" type="text" class="is-xs">
         <template v-slot:before>
           <Icon
             name="search"
@@ -171,6 +171,10 @@ const bulkSelect = () => {
   }
 };
 
+const onInput = () => {
+  if (numberSelected.value > 0) itemSelection.clear();
+}
+
 const onAdd = () => {
   itemSelection.clear();
   emit("add");
@@ -195,8 +199,7 @@ const onBulkRemove = async () => {
   itemSelection.clear();
 };
 
-const searchfFilter = (data, value) => {
-  return Object.keys(data)
+const searchfFilter = (data, value) => Object.keys(data)
     .map((key) => ({
       key,
       ...data[key],
@@ -209,5 +212,4 @@ const searchfFilter = (data, value) => {
         item.name.toLowerCase().includes(value.toLowerCase())
     )
     .reverse();
-};
 </script>
