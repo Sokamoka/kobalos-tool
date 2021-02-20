@@ -28,7 +28,7 @@
     </div>
     <button
       class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0"
-      @click="$emit('add')"
+      @click="onAdd"
     >
       <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
       New
@@ -38,11 +38,27 @@
     <table class="w-full">
       <thead>
         <tr>
-          <th class="w-8"><BaseCheckbox /></th>
-          <th class="w-1/4">Title</th>
-          <th class="w-auto">Variants</th>
-          <th class="w-8 text-center">Edit</th>
-          <th class="w-8 text-center">Delete</th>
+          <th class="w-8">
+            <BaseCheckbox
+              :model-value="allItemSelected"
+              :intermediate="someEmailsSelected"
+              @update:model-value="bulkSelect"
+            />
+          </th>
+          <template v-if="itemSelection.selected.size === 0">
+            <th>Title</th>
+            <th>Variants</th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Delete</th>
+          </template>
+          <template v-else>
+            <th colspan="4" class="py-2">
+              <button class="button is-xs is-primary">
+                <Icon name="delete" class="w-4 h-4 fill-current mr-2" />
+                Delete {{ numberSelected }} items
+              </button>
+            </th>
+          </template>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +68,10 @@
           class="my-2"
         >
           <td>
-            <BaseCheckbox />
+            <BaseCheckbox
+              :model-value="itemSelection.selected.has(feature)"
+              @update:model-value="itemSelection.toggle(feature)"
+            />
           </td>
           <td>
             <h5 class="font-bold text-base">{{ feature.title }}</h5>
@@ -111,7 +130,8 @@
 
 <script setup>
 import { defineProps, computed, reactive, defineEmit } from "vue";
-import BaseCheckbox from './BaseCheckbox.vue';
+import BaseCheckbox from "./BaseCheckbox.vue";
+import useSelection from "../composables/UseSelection.js";
 
 const MATRICES_LIMIT = 3;
 
@@ -132,11 +152,37 @@ const state = reactive({
   filteredFeatures: computed(() => searchfFilter(props.features, state.search)),
 });
 
+const itemSelection = useSelection();
+
+let numberSelected = computed(() => itemSelection.selected.size)
+let allItemSelected = computed(
+  () => numberSelected.value === state.total && state.total > 0
+);
+let someEmailsSelected = computed(() => {
+  return (
+    numberSelected.value > 0 && numberSelected.value < state.total
+  );
+});
+const bulkSelect = () => {
+  if (allItemSelected.value) {
+    itemSelection.clear();
+  } else {
+    itemSelection.addMultiple(state.filteredFeatures);
+  }
+};
+
+const onAdd = () => {
+  itemSelection.clear();
+  emit("add");
+};
+
 const onEdit = (payload) => {
+  itemSelection.clear();
   emit("edit", payload);
 };
 
 const onRemove = (payload) => {
+  itemSelection.clear();
   emit("remove", payload);
 };
 
