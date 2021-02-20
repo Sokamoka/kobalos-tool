@@ -5,15 +5,19 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { inject, ref } from "vue";
 import { useStore } from "../store";
 import { auth } from "../firebase";
+
+const confirm = inject("$confirm");
 
 const store = useStore();
 
 const user = ref(store.user);
 
 const onSignOut = async () => {
+  const result = await confirm({ title: "You want to Sign out?", icon: "remove-circle" });
+  if (!result) return;
   try {
     await auth.signOut();
     store.SignOut();
