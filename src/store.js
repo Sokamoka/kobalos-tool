@@ -8,6 +8,7 @@ const state = reactive(
         user: {},
       }
 );
+
 watch(state, (value) => localStorage.setItem(storeName, JSON.stringify(value)));
 
 export const useStore = () => ({
@@ -20,7 +21,6 @@ export const useStore = () => ({
     if (this.debug) {
       console.log("SignIn", newValue);
     }
-
     state.user = newValue;
   },
 
@@ -28,7 +28,6 @@ export const useStore = () => ({
     if (this.debug) {
       console.log("SignOut");
     }
-
     state.user = {};
   },
 });
