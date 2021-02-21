@@ -1,13 +1,31 @@
+import { ref } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
-import { auth } from '../firebase';
+import { useStore } from '../store';
 import Login from '../components/Login.vue';
 import Features from '../components/Features.vue';
 import Settings from '../components/Settings.vue';
 
+const store = useStore();
+const isSignIn = ref(store.isSignIn);
+
 const routes = [
   { path: '/', name: 'Login', component: Login },
-  { path: '/features', name: 'Features', component: Features },
-  { path: '/settings', name: 'Settings', component: Settings },
+  {
+    path: '/features',
+    name: 'Features',
+    component: Features,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings,
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ];
 
 const router = createRouter({
@@ -15,12 +33,14 @@ const router = createRouter({
   routes,
 });
 
-auth.onAuthStateChanged((user) => {
-  // console.log(user);
-  if (user) {
-    return router.push({ name: 'Features' });
+router.beforeEach((to, from, next) => {
+  const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
+
+  if (requiresAuth && !isSignIn.value) {
+    next({ name: 'Login' });
+  } else {
+    next();
   }
-  router.push({ name: 'Login' });
 });
 
 export default router;

@@ -1,5 +1,7 @@
-import { reactive, computed, watch } from "vue";
-const storeName = "kobalos-user-store";
+import { reactive, computed, watch } from 'vue';
+import router from './router/index.js';
+
+const storeName = 'kobalos-user-store';
 
 const state = reactive(
   localStorage.getItem(storeName)
@@ -12,22 +14,24 @@ const state = reactive(
 watch(state, (value) => localStorage.setItem(storeName, JSON.stringify(value)));
 
 export const useStore = () => ({
-  debug: true,
+  debug: false,
 
   user: computed(() => state.user),
-  isSignIn: computed(() => state.user?.uid),
+  isSignIn: computed(() => Boolean(state.user?.uid)),
 
   SignIn(newValue) {
     if (this.debug) {
-      console.log("SignIn", newValue);
+      console.log('SignIn', newValue);
     }
     state.user = newValue;
+    router.push({ name: 'Features' });
   },
 
   SignOut() {
     if (this.debug) {
-      console.log("SignOut");
+      console.log('SignOut');
     }
     state.user = {};
+    router.push({ name: 'Login' });
   },
 });
