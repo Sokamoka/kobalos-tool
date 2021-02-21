@@ -40,6 +40,13 @@
       </div>
     </template>
     <template v-slot:footer>
+      <div v-if="state.feature.id" class="flex-grow">
+        <button class="button" @click="onModalRemove">
+          <Icon name="delete" class="w-5 h-5 fill-current mr-1" />
+          Delete
+        </button>
+      </div>
+
       <button class="button is-primary" @click="onSave">
         <Icon name="save" class="w-5 h-5 fill-current mr-1" />
         Save
@@ -49,7 +56,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive } from "vue";
+import { computed, inject, onMounted, reactive } from "vue";
 import { nanoid } from "nanoid";
 import { db, featuresRef } from "../firebase";
 import Modal from "./Modal.vue";
@@ -57,6 +64,8 @@ import FeatureList from "./FeatureList.vue";
 import BaseTagInput from "./BaseTagInput.vue";
 import IconAddCircle from "../assets/svgs/add-circle.svg?component";
 import IconRemoveCircle from "../assets/svgs/remove-circle.svg?component";
+
+const confirm = inject("$confirm");
 
 const state = reactive({
   isLoading: false,
@@ -124,6 +133,13 @@ function onEdit(payload) {
     ),
   };
   state.isModalVisible = true;
+}
+
+const onModalRemove = async () => {
+  const result = await confirm({ title: "Are you sure you want to delete?" });
+  if (!result) return;
+  onRemove({ key: state.feature.id });
+  state.isModalVisible = false;
 }
 
 const onRemove = async (payload) => {

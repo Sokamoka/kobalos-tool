@@ -101,7 +101,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal {
-  @apply h-screen w-full fixed top-0 right-0 bottom-0 left-0 flex flex-col justify-center overflow-hidden items-center z-50;
+  @apply h-screen w-full fixed top-0 right-0 bottom-0 left-0 flex flex-col justify-center overflow-hidden items-center z-40;
 
   .modal-background {
     @apply h-screen w-full absolute left-0 top-0 bg-gray-900 bg-opacity-75 z-0;

@@ -26,13 +26,25 @@
           Sign in
         </button>
       </div>
+
+      <hr />
+
+      <div>
+        <button
+          class="button w-full"
+          :class="{ 'is-loading': state.isLoading }"
+          @click="onSignInWithMicrosoft"
+        >
+          Sign in with Microsoft
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { reactive } from "vue";
-import { auth } from "../firebase";
+import { auth, provider } from "../firebase";
 import { useStore } from "../store";
 
 const store = useStore();
@@ -57,4 +69,22 @@ const onSignIn = async () => {
     console.error(error);
   }
 };
+
+const onSignInWithMicrosoft = async () => {
+  auth.signInWithPopup(provider)
+  .then((result) => {
+    // IdP data available in result.additionalUserInfo.profile.
+    // ...
+
+    /** @type {firebase.auth.OAuthCredential} */
+    const credential = result.credential;
+
+    // OAuth access and id tokens can also be retrieved:
+    const accessToken = credential.accessToken;
+    const idToken = credential.idToken;
+  })
+  .catch((error) => {
+    // Handle error.
+  });
+}
 </script>

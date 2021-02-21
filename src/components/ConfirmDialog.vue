@@ -2,7 +2,7 @@
   <transition name="dialog-fade">
     <div
       v-if="isVisible"
-      class="curtain fixed top-0 left-0 right-0 bottom-0 flex flex-col items-center"
+      class="curtain fixed top-0 left-0 right-0 bottom-0 flex flex-col items-center z-50"
     >
       <div
         class="flex flex-wrap flex-row items-center bg-pink-600 text-white py-3 px-5 m-5 rounded shadow-lg font-semibold text-sm leading-loose z-10"
