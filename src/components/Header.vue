@@ -10,7 +10,7 @@
         <router-link :to="{ name: 'Features' }" tag="button" class="button is-flat px-3">
           A/B Tests
         </router-link>
-        <router-link :to="{ name: 'Login' }" tag="button" class="button is-flat ml-1 px-3">
+        <router-link :to="{ name: 'Settings' }" tag="button" class="button is-flat ml-1 px-3">
           Site settings
         </router-link>
       </div>
