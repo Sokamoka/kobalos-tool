@@ -10,7 +10,7 @@
       </p>
     </div>
     <div>
-      <BaseInput v-model="state.search" @update:model-value="onInput" type="text" class="is-xs">
+      <BaseInput v-model="state.search" @update:model-value="onInput" type="text" size="xs">
         <template v-slot:before>
           <Icon
             name="search"
