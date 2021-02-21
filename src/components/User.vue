@@ -16,7 +16,7 @@ const store = useStore();
 const user = ref(store.user);
 
 const onSignOut = async () => {
-  const result = await confirm({ title: "You want to Sign out?", icon: "remove-circle" });
+  const result = await confirm({ title: "You want to Sign out?", icon: "help" });
   if (!result) return;
   try {
     await auth.signOut();

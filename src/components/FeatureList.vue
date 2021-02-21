@@ -93,7 +93,7 @@
           </td>
           <td class="text-gray-400">
             <button class="button is-icon is-flat" @click="onEdit(feature)">
-              <Icon name="edit" class="w-6 h-6 fill-current" />
+              <Icon name="create" class="w-6 h-6 fill-current" />
             </button>
           </td>
           <td class="text-gray-400">

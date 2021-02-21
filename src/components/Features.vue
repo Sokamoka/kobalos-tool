@@ -40,7 +40,10 @@
       </div>
     </template>
     <template v-slot:footer>
-      <button class="button is-primary" @click="onSave">Save</button>
+      <button class="button is-primary" @click="onSave">
+        <Icon name="save" class="w-5 h-5 fill-current mr-1" />
+        Save
+      </button>
     </template>
   </Modal>
 </template>
