@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import router from './router/index';
 import App from './App.vue';
-import BaseInput from './components/BaseInput.vue';
+import BaseInput from './components/FormControls/BaseInput.vue';
 import { iconComponents } from './composables/Icon.js';
 import Icon from './components/Icon.vue';
 import { confirmPromise } from './composables/Confirm.js';
