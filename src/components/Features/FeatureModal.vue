@@ -39,7 +39,7 @@
 <script setup>
 import { computed, defineProps, markRaw } from 'vue';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { object, string, array } from 'yup';
 import Modal from '../Modal.vue';
 import BaseTagInput from '../FormControls/BaseTagInput.vue';
 
@@ -60,10 +60,10 @@ const emit = defineEmit(['save', 'remove']);
 const modalTitle = computed(() => (props.feature.id ? 'Edit feature' : 'Add new feature'));
 
 const schema = markRaw(
-  yup.object({
-    title: yup.string().required(),
-    name: yup.string().required(),
-    variants: yup.array().min(2),
+  object({
+    title: string().required(),
+    name: string().required(),
+    variants: array().min(2),
   })
 );
 

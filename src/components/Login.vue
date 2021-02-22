@@ -42,13 +42,13 @@
 <script setup>
 import { ref } from 'vue';
 import { useForm } from 'vee-validate';
-import * as yup from 'yup';
+import { object, string } from 'yup';
 import { auth, provider } from '../firebase';
 import { useStore } from '../store';
 
-const schema = yup.object({
-  email: yup.string().required().email(),
-  password: yup.string().required().min(6),
+const schema = object({
+  email: string().required().email(),
+  password: string().required().min(6),
 });
 
 const { handleSubmit, isSubmitting } = useForm({
