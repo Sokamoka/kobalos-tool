@@ -7,11 +7,11 @@
       <p class="text-gray-500 text-sm mb-5">Kobalos Options Tool</p>
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
-          <BaseInput name="email" v-model="email" type="text" label="E-mail" />
+          <BaseInput name="email" type="text" label="E-mail" />
         </div>
 
         <div class="mb-6">
-          <BaseInput name="password" v-model="password" type="password" label="Password" />
+          <BaseInput name="password" type="password" label="Password" />
         </div>
 
         <div

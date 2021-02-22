@@ -1,4 +1,4 @@
-import { defineAsyncComponent, ref } from 'vue';
+import { ref } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useStore } from '../store';
 
@@ -9,12 +9,12 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: defineAsyncComponent(() => import('../components/Login.vue')),
+    component: () => import('../components/Login.vue'),
   },
   {
     path: '/features',
     name: 'Features',
-    component: defineAsyncComponent(() => import('../components/Features/Features.vue')),
+    component: () => import('../components/Features/Features.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -22,7 +22,7 @@ const routes = [
   {
     path: '/settings',
     name: 'Settings',
-    component: defineAsyncComponent(() => import('../components/Settings.vue')),
+    component: () => import('../components/Settings.vue'),
     meta: {
       requiresAuth: true,
     },
