@@ -7,11 +7,11 @@
       <p class="text-gray-500 text-sm mb-5">Kobalos Options Tool</p>
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
-          <BaseInput name="email" v-model="email" type="text" label="E-mail" :error="emailError" />
+          <BaseInput name="email" v-model="email" type="text" label="E-mail" />
         </div>
 
         <div class="mb-6">
-          <BaseInput name="password" v-model="password" type="password" label="Password" :error="passwordError" />
+          <BaseInput name="password" v-model="password" type="password" label="Password" />
         </div>
 
         <div
@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { useForm, useField } from 'vee-validate';
+import { useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { auth, provider } from '../firebase';
 import { useStore } from '../store';
@@ -62,9 +62,6 @@ const { handleSubmit, isSubmitting } = useForm({
 const store = useStore();
 
 const error = ref('');
-
-const { value: email, errorMessage: emailError } = useField('email');
-const { value: password, errorMessage: passwordError } = useField('password');
 
 const onSubmit = handleSubmit(async (values) => {
   try {
