@@ -13,7 +13,7 @@
       @change="onChange($event.target.value)"
     />
   </div>
-  <p v-if="errorMessage" class="mt-2 text-xs text-red-500 font-semibold uppercase">{{ errorMessage }}</p>
+  <p v-if="errorMessage" class="mt-2 text-xs text-red-a400 font-semibold uppercase">{{ errorMessage }}</p>
 </template>
 
 <script>

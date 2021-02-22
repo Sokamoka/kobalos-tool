@@ -82,7 +82,7 @@
   }
 
   .input.is-error {
-    @apply border-red-600 bg-red-50;
+    @apply border-red-a400;
   }
 
   .input.is-error input {

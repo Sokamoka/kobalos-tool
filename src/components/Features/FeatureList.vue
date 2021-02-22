@@ -17,7 +17,7 @@
           <Icon
             name="clear"
             class="w-4 h-4 fill-current text-gray-400 hover:text-gray-600 cursor-pointer"
-            @click="search = ''"
+            @click="onSearchClear"
           ></Icon>
         </template>
       </BaseInput>
@@ -152,6 +152,11 @@ const bulkSelect = () => {
 const onInput = (value) => {
   search.value = value;
   if (numberSelected.value > 0) itemSelection.clear();
+};
+
+const onSearchClear = () => {
+  search.value = '';
+  itemSelection.clear();
 };
 
 const onAdd = () => {
