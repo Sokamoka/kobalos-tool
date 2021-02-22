@@ -1,5 +1,5 @@
 <template>
-  <Modal v-model="modelValue" :title="modalTitle" size="sm" header footer>
+  <Modal v-model="isVisible" :title="modalTitle" size="sm" header footer>
     <template v-slot:content>
       <form>
         <div class="mb-4">
@@ -55,9 +55,16 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmit(['save', 'remove']);
+const emit = defineEmit(['save', 'remove', 'update:modelValue']);
 
 const modalTitle = computed(() => (props.feature.id ? 'Edit feature' : 'Add new feature'));
+
+const isVisible = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
+  },
+});
 
 const schema = markRaw(
   object({
