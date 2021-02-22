@@ -5,31 +5,24 @@
         Recent Features List
       </h2>
       <p class="text-xs text-gray-400 font-medium">
-        Showing <b>{{ state.filteredCount }}</b> of
-        <b>{{ state.total }}</b> features
+        Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> features
       </p>
     </div>
     <div>
-      <BaseInput v-model="state.search" @update:model-value="onInput" type="text" size="xs">
+      <BaseInput name="filter" v-model="search" @update:model-value="onInput" type="text" size="xs">
         <template v-slot:before>
-          <Icon
-            name="search"
-            class="w-4 h-4 fill-current text-gray-400 pointer-events-none"
-          ></Icon>
+          <Icon name="search" class="w-4 h-4 fill-current text-gray-400 pointer-events-none"></Icon>
         </template>
         <template v-slot:after>
           <Icon
             name="clear"
             class="w-4 h-4 fill-current text-gray-400 hover:text-gray-600 cursor-pointer"
-            @click="state.search = ''"
+            @click="search = ''"
           ></Icon>
         </template>
       </BaseInput>
     </div>
-    <button
-      class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0"
-      @click="onAdd"
-    >
+    <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" @click="onAdd">
       <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
       New
     </button>
@@ -62,11 +55,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="feature in state.filteredFeatures"
-          :key="feature.key"
-          class="my-2"
-        >
+        <tr v-for="feature in state.filteredFeatures" :key="feature.key" class="my-2">
           <td>
             <BaseCheckbox
               :model-value="itemSelection.selected.has(feature)"
@@ -79,16 +68,10 @@
           </td>
           <td>
             <ul class="flex py-2">
-              <li
-                v-for="matrice in feature.tags"
-                :key="matrice.id"
-                class="tag is-primary is-xs is-fixed mr-2"
-              >
+              <li v-for="matrice in feature.tags" :key="matrice.id" class="tag is-primary is-xs is-fixed mr-2">
                 {{ matrice.name }}
               </li>
-              <li v-if="feature.add > 0" class="tag is-xs is-primary">
-                + {{ feature.add }}
-              </li>
+              <li v-if="feature.add > 0" class="tag is-xs is-primary">+ {{ feature.add }}</li>
             </ul>
           </td>
           <td class="text-gray-400">
@@ -110,10 +93,7 @@
     >
       No data to display...
     </div>
-    <div
-      v-if="isLoading"
-      class="p-5 text-center text-sm text-gray-700 border-b border-gray-300"
-    >
+    <div v-if="isLoading" class="p-5 text-center text-sm text-gray-700 border-b border-gray-300">
       Loading...
     </div>
   </div>
@@ -129,13 +109,13 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit, inject } from "vue";
-import BaseCheckbox from "./BaseCheckbox.vue";
-import useSelection from "../composables/UseSelection.js";
+import { defineProps, computed, reactive, defineEmit, inject, ref } from 'vue';
+import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
+import useSelection from '../../composables/UseSelection.js';
 
 const MATRICES_LIMIT = 3;
 
-const confirm = inject("$confirm");
+const confirm = inject('$confirm');
 
 const props = defineProps({
   features: Object,
@@ -145,21 +125,19 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmit(["add", "edit", "remove", "bulk-remove"]);
+const emit = defineEmit(['add', 'edit', 'remove', 'bulk-remove']);
 
+const search = ref('');
 const state = reactive({
-  search: "",
   total: computed(() => Object.keys(props.features).length),
   filteredCount: computed(() => state.filteredFeatures.length),
-  filteredFeatures: computed(() => searchfFilter(props.features, state.search)),
+  filteredFeatures: computed(() => searchfFilter(props.features, search.value)),
 });
 
 const itemSelection = useSelection();
 
 let numberSelected = computed(() => itemSelection.selected.size);
-let allItemSelected = computed(
-  () => numberSelected.value === state.total && state.total > 0
-);
+let allItemSelected = computed(() => numberSelected.value === state.total && state.total > 0);
 let someEmailsSelected = computed(() => {
   return numberSelected.value > 0 && numberSelected.value < state.total;
 });
@@ -171,35 +149,37 @@ const bulkSelect = () => {
   }
 };
 
-const onInput = () => {
+const onInput = (value) => {
+  search.value = value;
   if (numberSelected.value > 0) itemSelection.clear();
-}
+};
 
 const onAdd = () => {
   itemSelection.clear();
-  emit("add");
+  emit('add');
 };
 
 const onEdit = (payload) => {
   itemSelection.clear();
-  emit("edit", payload);
+  emit('edit', payload);
 };
 
 const onRemove = async (payload) => {
-  const result = await confirm({ title: "Are you sure you want to delete?" });
+  const result = await confirm({ title: 'Are you sure you want to delete?' });
   if (!result) return;
   itemSelection.clear();
-  emit("remove", payload);
+  emit('remove', payload);
 };
 
 const onBulkRemove = async () => {
-  const result = await confirm({ title: "Are you sure you want to delete?" });
+  const result = await confirm({ title: 'Are you sure you want to delete?' });
   if (!result) return;
-  emit("bulk-remove", new Set(itemSelection.selected));
+  emit('bulk-remove', new Set(itemSelection.selected));
   itemSelection.clear();
 };
 
-const searchfFilter = (data, value) => Object.keys(data)
+const searchfFilter = (data, value) =>
+  Object.keys(data)
     .map((key) => ({
       key,
       ...data[key],
@@ -208,8 +188,7 @@ const searchfFilter = (data, value) => Object.keys(data)
     }))
     .filter(
       (item) =>
-        item.title.toLowerCase().includes(value.toLowerCase()) ||
-        item.name.toLowerCase().includes(value.toLowerCase())
+        item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
     )
     .reverse();
 </script>

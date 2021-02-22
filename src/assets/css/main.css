@@ -82,12 +82,21 @@
   }
 
   .input.is-error {
-    @apply border-red-600 text-red-500 bg-red-200;
+    @apply border-red-600 bg-red-50;
   }
 
   .input.is-error input {
-    @apply text-red-600;
+    @apply text-red-600 placeholder-red-300;
   }
+
+  /* if needed */
+  /* .input.is-valid {
+    @apply border-green-400 bg-green-50;
+  }
+
+  .input.is-valid input {
+    @apply text-green-600;
+  } */
 
   table {
     @apply w-full;

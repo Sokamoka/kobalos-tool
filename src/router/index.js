@@ -2,7 +2,7 @@ import { ref } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { useStore } from '../store';
 import Login from '../components/Login.vue';
-import Features from '../components/Features.vue';
+import Features from '../components/Features/Features.vue';
 import Settings from '../components/Settings.vue';
 
 const store = useStore();
