@@ -17,12 +17,13 @@
 </template>
 
 <script setup>
-import { computed, inject, onMounted, reactive } from 'vue';
+import { computed, defineAsyncComponent, inject, onMounted, reactive } from 'vue';
 import { nanoid } from 'nanoid';
 import { db, featuresRef } from '../../firebase';
-import FeatureModal from './FeatureModal.vue';
-import FeatureList from './FeatureList.vue';
-import BaseTagInput from '../FormControls/BaseTagInput.vue';
+
+const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
+const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
+const BaseTagInput = defineAsyncComponent(() => import('../FormControls/BaseTagInput.vue'));
 
 const confirm = inject('$confirm');
 
