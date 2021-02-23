@@ -3,7 +3,6 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 import { useStore } from '../store';
 
 const store = useStore();
-const isSignIn = ref(store.isSignIn);
 
 const routes = [
   {
@@ -11,7 +10,7 @@ const routes = [
     name: 'Login',
     component: () => import('../components/Login.vue'),
     beforeEnter: (_to, _from, next) => {
-      if (isSignIn.value) next({ name: 'Features' });
+      if (store.isSignIn.value) next({ name: 'Features' });
       else next();
     },
   },
@@ -41,7 +40,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
 
-  if (requiresAuth && !isSignIn.value) {
+  if (requiresAuth && !store.isSignIn.value) {
     next({ name: 'Login' });
   } else {
     next();
