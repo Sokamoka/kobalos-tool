@@ -53,10 +53,10 @@ const schema = object({
 
 const { handleSubmit, isSubmitting } = useForm({
   validationSchema: schema,
-  initialValues: {
-    email: 'x-stegnera@wizzair.com',
-    password: 'Abc123',
-  },
+  // initialValues: {
+  //   email: 'x-stegnera@wizzair.com',
+  //   password: 'Abc123',
+  // },
 });
 
 const store = useStore();
