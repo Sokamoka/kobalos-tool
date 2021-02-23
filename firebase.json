@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "kobalos-tool",
+    "site": "kobalos-manager",
     "public": "./dist",
     "ignore": [
       "firebase.json",
