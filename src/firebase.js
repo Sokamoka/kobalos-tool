@@ -11,6 +11,7 @@ const firebaseConfig = {
   storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_APP_ID,
+  measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
 firebase.initializeApp(firebaseConfig);
 
@@ -19,6 +20,9 @@ const db = firebase.database();
 const auth = firebase.auth();
 
 const provider = new firebase.auth.OAuthProvider('microsoft.com');
+provider.setCustomParameters({
+  tenant: import.meta.env.VITE_APP_TENANT,
+});
 
 // References
 const featuresRef = db.ref('kobalos/features');

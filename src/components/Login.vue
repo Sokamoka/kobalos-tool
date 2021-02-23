@@ -74,21 +74,13 @@ const onSubmit = handleSubmit(async (values) => {
 });
 
 const onSignInWithMicrosoft = async () => {
-  auth
-    .signInWithPopup(provider)
-    .then((result) => {
-      // IdP data available in result.additionalUserInfo.profile.
-      // ...
-
-      /** @type {firebase.auth.OAuthCredential} */
-      const credential = result.credential;
-
-      // OAuth access and id tokens can also be retrieved:
-      const accessToken = credential.accessToken;
-      const idToken = credential.idToken;
-    })
-    .catch((error) => {
-      // Handle error.
-    });
+  try {
+    const userCredential =  await auth.signInWithPopup(provider);
+    const { displayName, email, uid  } = userCredential.user;
+    store.SignIn({ displayName, email, uid });
+  } catch (err) {
+    console.error(err);
+    error.value = err?.message;
+  }
 };
 </script>
