@@ -10,6 +10,10 @@ const routes = [
     path: '/',
     name: 'Login',
     component: () => import('../components/Login.vue'),
+    beforeEnter: (_to, _from, next) => {
+      if (isSignIn.value) next({ name: 'Features' });
+      else next();
+    },
   },
   {
     path: '/features',

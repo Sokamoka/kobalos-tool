@@ -66,10 +66,11 @@ const error = ref('');
 const onSubmit = handleSubmit(async (values) => {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(values.email, values.password);
-    store.SignIn(userCredential.user);
+    const { email, uid  } = userCredential.user;
+    store.SignIn({ displayName: email, email, uid });
   } catch (err) {
     console.error(err);
-    error.value = err?.message;
+    error.value = err.message;
   }
 });
 
@@ -80,7 +81,7 @@ const onSignInWithMicrosoft = async () => {
     store.SignIn({ displayName, email, uid });
   } catch (err) {
     console.error(err);
-    error.value = err?.message;
+    error.value = err.message;
   }
 };
 </script>
