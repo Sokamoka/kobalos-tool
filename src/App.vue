@@ -20,7 +20,7 @@ const isHeaderVisible = ref(store.isSignIn);
 
 watch(
   () => route.meta,
-  (to) => (document.title = to.title || 'Kobalos Manager')
+  (to) => (document.title = to.title || import.meta.env.VITE_TITLE)
 );
 </script>
 
