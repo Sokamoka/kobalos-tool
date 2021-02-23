@@ -20,6 +20,7 @@ const routes = [
     component: () => import('../components/Features/Features.vue'),
     meta: {
       requiresAuth: true,
+      title: 'A/B Tests',
     },
   },
   {
@@ -28,6 +29,7 @@ const routes = [
     component: () => import('../components/Settings.vue'),
     meta: {
       requiresAuth: true,
+      title: 'Site settings',
     },
   },
 ];
@@ -38,9 +40,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some((route) => route.meta.requiresAuth);
-
-  if (requiresAuth && !store.isSignIn.value) {
+  if (to.meta.requiresAuth && !store.isSignIn.value) {
     next({ name: 'Login' });
   } else {
     next();

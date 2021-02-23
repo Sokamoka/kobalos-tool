@@ -7,14 +7,21 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useStore } from "./store";
-import Header from "./components/Header.vue";
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from './store';
+import Header from './components/Header.vue';
 import ConfirmDialog from './components/ConfirmDialog.vue';
 
 const store = useStore();
+const route = useRoute();
 
 const isHeaderVisible = ref(store.isSignIn);
+
+watch(
+  () => route.meta,
+  (to) => (document.title = to.title || 'Kobalos Manager')
+);
 </script>
 
 <style>
