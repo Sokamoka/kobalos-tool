@@ -2,7 +2,7 @@
   <div class="container flex flex-col sm:flex-row mb-5 items-center m-auto">
       <div class="flex-grow mb-5 sm:mb-0">
         <h1 class="text-3xl font-bold uppercase">
-          Kobalos Options Tool
+          {{ title }}
         </h1>
         <User />
       </div>
@@ -18,7 +18,10 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import User from "./User.vue";
+
+const title = ref(import.meta.env.VITE_TITLE);
 </script>
 
 <style>

@@ -4,7 +4,7 @@
       <h1 class="text-3xl font-bold uppercase flex-grow">
         Sign in
       </h1>
-      <p class="text-gray-500 text-sm mb-5">Kobalos Options Tool</p>
+      <p class="text-gray-500 text-sm mb-5">{{ title }}</p>
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
           <BaseInput name="email" type="text" label="E-mail" />
@@ -62,6 +62,7 @@ const { handleSubmit, isSubmitting } = useForm({
 const store = useStore();
 
 const error = ref('');
+const title = ref(import.meta.env.VITE_TITLE);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
