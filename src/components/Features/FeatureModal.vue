@@ -82,7 +82,7 @@ const onSubmit = handleSubmit((values) => {
   const payload = {
     ...props.feature,
     title: values.title,
-    name: values.title,
+    name: values.name,
     variants: values.variants,
   };
   emit('save', payload);
