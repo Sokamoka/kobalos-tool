@@ -2,14 +2,14 @@
   <div class="flex flex-col sm:flex-row p-7">
     <div class="mb-4 sm:mb-0 flex-grow">
       <h2 class="text-sm font-bold uppercase text-gray-900">
-        Recent Features List
+        Recent Settings List
       </h2>
       <p class="text-xs text-gray-400 font-medium">
-        Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> features
+        Showing <b>{{ filteredCount }}</b> of <b>{{ total }}</b> settings
       </p>
     </div>
     <div>
-      <BaseInput name="filter" v-model="search" @update:model-value="onInput" type="text" size="xs">
+      <BaseInput name="filter" v-model="filter" @update:model-value="onInput" type="text" size="xs">
         <template v-slot:before>
           <Icon name="search" class="w-4 h-4 fill-current text-gray-400 pointer-events-none"></Icon>
         </template>
@@ -34,13 +34,13 @@
           <th class="w-8">
             <BaseCheckbox
               :model-value="allItemSelected"
-              :intermediate="someItemsSelected"
+              :intermediate="someItemSelected"
               @update:model-value="bulkSelect"
             />
           </th>
           <template v-if="itemSelection.selected.size === 0">
             <th>Title</th>
-            <th>Variants</th>
+            <th>Labels</th>
             <th class="text-center">Edit</th>
             <th class="text-center">Delete</th>
           </template>
@@ -55,23 +55,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="feature in state.filteredFeatures" :key="feature.key" class="my-2">
+        <tr v-for="setting in filteredSettings" :key="setting.id" class="my-2">
           <td>
             <BaseCheckbox
-              :model-value="itemSelection.selected.has(feature)"
-              @update:model-value="itemSelection.toggle(feature)"
+              :model-value="itemSelection.selected.has(setting)"
+              @update:model-value="itemSelection.toggle(setting)"
             />
           </td>
           <td>
-            <h5 class="font-bold text-base">{{ feature.title }}</h5>
-            <p class="text-gray-400">{{ feature.name }}</p>
+            <h5 class="font-bold text-base">{{ setting.label }}</h5>
+            <p class="text-gray-400">{{ setting.key }}</p>
           </td>
           <td>
             <ul class="flex py-2">
-              <li v-for="matrice in feature.tags" :key="matrice.id" class="tag is-primary is-xs is-fixed mr-2">
-                {{ matrice.name }}
+              <li v-for="value in setting.values" :key="value.value" class="tag is-primary is-xs is-fixed mr-2">
+                {{ value.label }}
               </li>
-              <li v-if="feature.add > 0" class="tag is-xs is-primary">+ {{ feature.add }}</li>
             </ul>
           </td>
           <td class="text-gray-400">
@@ -88,7 +87,7 @@
       </tbody>
     </table>
     <div
-      v-if="state.filteredFeatures.length === 0 && !isLoading"
+      v-if="filteredSettings.length === 0 && !isLoading"
       class="p-5 text-center text-sm text-gray-700 border-b border-gray-300"
     >
       No data to display...
@@ -110,15 +109,19 @@
 
 <script setup>
 import { defineProps, computed, reactive, defineEmit, inject, ref } from 'vue';
-import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
-import useSelection from '../../composables/UseSelection.js';
+import BaseCheckbox from './FormControls/BaseCheckbox.vue';
+import useSelection from '../composables/UseSelection.js';
 
 const MATRICES_LIMIT = 3;
 
 const confirm = inject('$confirm');
 
 const props = defineProps({
-  features: Object,
+  settings: {
+    type: Array,
+    required: true,
+  },
+
   isLoading: {
     type: Boolean,
     default: false,
@@ -127,35 +130,39 @@ const props = defineProps({
 
 const emit = defineEmit(['add', 'edit', 'remove', 'bulk-remove']);
 
-const search = ref('');
-const state = reactive({
-  total: computed(() => Object.keys(props.features).length),
-  filteredCount: computed(() => state.filteredFeatures.length),
-  filteredFeatures: computed(() => searchfFilter(props.features, search.value)),
-});
+const filter = ref('');
+
+const total = computed(() => props.settings.length);
+const filteredCount = computed(() => filteredSettings.value.length);
+const filteredSettings = computed(() =>
+  props.settings.filter(
+    (item) =>
+      item.label.toLowerCase().includes(filter.value.toLowerCase()) || item.key.toLowerCase().includes(filter.value.toLowerCase())
+  )
+);
 
 const itemSelection = useSelection();
 
 let numberSelected = computed(() => itemSelection.selected.size);
-let allItemSelected = computed(() => numberSelected.value === state.total && state.total > 0);
-let someItemsSelected = computed(() => {
-  return numberSelected.value > 0 && numberSelected.value < state.total;
+let allItemSelected = computed(() => numberSelected.value === total && total > 0);
+let someItemSelected = computed(() => {
+  return numberSelected.value > 0 && numberSelected.value < total;
 });
 const bulkSelect = () => {
   if (allItemSelected.value) {
     itemSelection.clear();
   } else {
-    itemSelection.addMultiple(state.filteredFeatures);
+    itemSelection.addMultiple(filteredSettings);
   }
 };
 
 const onInput = (value) => {
-  search.value = value;
+  filter.value = value;
   if (numberSelected.value > 0) itemSelection.clear();
 };
 
 const onSearchClear = () => {
-  search.value = '';
+  filter.value = '';
   itemSelection.clear();
 };
 
@@ -183,17 +190,10 @@ const onBulkRemove = async () => {
   itemSelection.clear();
 };
 
-const searchfFilter = (data, value) =>
-  Object.keys(data)
-    .map((key) => ({
-      key,
-      ...data[key],
-      tags: (data[key].matrices || []).slice(0, MATRICES_LIMIT),
-      add: (data[key].matrices || []).length - MATRICES_LIMIT,
-    }))
-    .filter(
-      (item) =>
-        item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
-    )
-    .reverse();
+const searchfFilter = (data, value) => {
+  return data.filter(
+    (item) =>
+      item.label.toLowerCase().includes(value.toLowerCase()) || item.key.toLowerCase().includes(value.toLowerCase())
+  );
+};
 </script>

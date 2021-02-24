@@ -43,7 +43,7 @@ onMounted(async () => {
   state.isLoading = true;
   const snapshot = await featuresRef.once('value');
   state.isLoading = false;
-  state.features = snapshot.val();
+  // state.features = snapshot.val();
 
   featuresRef.on('value', (snapshot) => {
     const data = snapshot.val();
