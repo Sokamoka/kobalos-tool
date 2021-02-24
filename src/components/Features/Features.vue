@@ -39,8 +39,6 @@ const state = reactive({
   features: {},
 });
 
-const modalTitle = computed(() => (state.feature.id ? 'Edit feature' : 'Add new feature'));
-
 onMounted(async () => {
   state.isLoading = true;
   const snapshot = await featuresRef.once('value');

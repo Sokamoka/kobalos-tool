@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col sm:flex-row p-7">
     <div class="mb-4 sm:mb-0 flex-grow">
-      <h2 class="text-sm font-bold uppercase text-gray-500">
+      <h2 class="text-sm font-bold uppercase text-gray-700">
         Recent Features List
       </h2>
       <p class="text-xs text-gray-400 font-medium">
