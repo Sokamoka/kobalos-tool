@@ -1,25 +1,19 @@
 <template>
-  <component :is="icon" v-bind="$attrs"></component>
+  <i class="inline-block">
+    <component :is="componentFile" />
+  </i>
 </template>
 
 <script setup>
-import {
-  defineProps,
-  shallowRef,
-  watchEffect,
-} from "vue";
+import { computed, defineAsyncComponent, defineProps } from "vue";
 
-const props = defineProps({
+const props =  defineProps({
   name: {
     type: String,
-    default: "",
-  },
+    required: true
+  }
 });
 
-const icon = shallowRef();
+const componentFile = computed(()=> defineAsyncComponent( () => import(`../assets/svgs/${props.name}.svg`)));
 
-watchEffect(() => {
-  // icon.value = iconComponents[props.name];
-  icon.value = props.name;
-});
 </script>

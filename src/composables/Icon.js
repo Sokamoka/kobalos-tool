@@ -1,3 +1,5 @@
+// Example for dynamic imports from folder
+// I didn't use it
 import { defineAsyncComponent } from 'vue';
 
 export const iconComponents = new Map();
