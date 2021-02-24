@@ -15,5 +15,4 @@ const props =  defineProps({
 });
 
 const componentFile = computed(()=> defineAsyncComponent( () => import(`../assets/svgs/${props.name}.svg`)));
-
 </script>
