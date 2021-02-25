@@ -36,9 +36,7 @@ export const useStore = () => ({
 
   // Actions
   ResetStore() {
-    state.user = {};
-    state.settings = [];
-    state.manageSetting = defaultManageSettingState();
+    Object.keys(defaultState()).forEach((key) => (state[key] = defaultState()[key]));
   },
 
   SignIn(user) {
