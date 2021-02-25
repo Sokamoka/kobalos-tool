@@ -1,7 +1,12 @@
 <template>
   <label v-if="label" :for="name" class="mb-1">{{ label }}</label>
   <div :class="mainClasses">
-    <div v-for="item in inputValue" :key="item" class="tag is-primary my-2 mr-1 pr-2 flex flex-row items-center">
+    <div
+      v-for="(item, index) in inputValue"
+      :key="item"
+      :data-index="index"
+      class="tag is-primary my-2 mr-1 pr-2 flex flex-row items-center"
+    >
       {{ item }}
       <Icon name="remove-circle" class="w-5 h-5 fill-current ml-1 cursor-pointer" @click.passive="onRemove(item)" />
     </div>
@@ -11,6 +16,7 @@
       class="flex-1 flex-shrink-0 min-w-max py-3"
       v-bind="$attrs"
       @change="onChange($event.target.value)"
+      @input="onInput"
     />
   </div>
   <p v-if="errorMessage" class="mt-2 text-xs text-red-a400 font-semibold uppercase">{{ errorMessage }}</p>
@@ -82,11 +88,22 @@ export default {
     },
 
     onChange(value) {
-      if (this.inputValue.indexOf(value) >= 0) return;
+      if (!value) return;
+      const index = this.inputValue.indexOf(value);
+      if (index >= 0) {
+        const items = this.$el.parentElement.querySelectorAll(`[data-index='${index}']`);
+        items[0].classList.add('animate-shake');
+        return;
+      }
       this.inputValue.push(value);
       this.$emit('update:modelValue', this.inputValue);
       this.variant = '';
     },
+
+    onInput() {
+      const items = this.$el.parentElement.querySelectorAll(`[data-index]`);
+      items.forEach((item) => item.classList.remove('animate-shake'))
+    }
   },
 };
 </script>

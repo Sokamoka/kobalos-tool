@@ -78,7 +78,7 @@ const manageFeatureVariants = computed({
   },
 });
 
-const modalTitle = computed(() => (manageFeatureId ? 'Edit feature' : 'Add new feature'));
+const modalTitle = computed(() => (manageFeatureId.value ? 'Edit feature' : 'Add new feature'));
 
 const isVisible = computed({
   get: () => props.modelValue,
