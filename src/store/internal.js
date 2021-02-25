@@ -1,3 +1,27 @@
+import { nanoid } from 'nanoid';
+
+const MATRICES_LIMIT = 3;
+
+export const convertFeatures = (data) =>
+  Object.keys(data).map((key) => ({
+    id: key,
+    title: data[key].title,
+    name: data[key].name,
+    variants: data[key].matrices?.map((value) => value.name) ?? [],
+    tags: (data[key].matrices || []).map((item) => item.name).slice(0, MATRICES_LIMIT),
+    tagsOverLimit: (data[key].matrices || []).length - MATRICES_LIMIT,
+  }));
+
+export const convertFeaturePayload = (data) => ({
+  title: data.title,
+  name: data.name,
+  matrices: data.variants.map((item) => ({
+    id: nanoid(6),
+    name: item,
+    checked: false,
+  })),
+});
+
 export const convertSettings = (data) =>
   Object.keys(data).map((key) => ({
     id: key,

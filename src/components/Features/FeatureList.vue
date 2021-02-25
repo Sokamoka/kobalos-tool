@@ -68,10 +68,10 @@
           </td>
           <td>
             <ul class="flex py-2">
-              <li v-for="matrice in feature.tags" :key="matrice.id" class="tag is-primary is-xs is-fixed mr-2">
-                {{ matrice.name }}
+              <li v-for="matrice in feature.tags" :key="matrice" class="tag is-primary is-xs is-fixed mr-2">
+                {{ matrice }}
               </li>
-              <li v-if="feature.add > 0" class="tag is-xs is-primary">+ {{ feature.add }}</li>
+              <li v-if="feature.tagsOverLimit > 0" class="tag is-xs is-primary">+ {{ feature.tagsOverLimit }}</li>
             </ul>
           </td>
           <td class="text-gray-400">
@@ -113,12 +113,13 @@ import { defineProps, computed, reactive, defineEmit, inject, ref } from 'vue';
 import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
 import useSelection from '../../composables/UseSelection.js';
 
-const MATRICES_LIMIT = 3;
-
 const confirm = inject('$confirm');
 
 const props = defineProps({
-  features: Object,
+  features: {
+    type: Array,
+    required: true,
+  },
   isLoading: {
     type: Boolean,
     default: false,
@@ -173,7 +174,7 @@ const onRemove = async (payload) => {
   const result = await confirm({ title: 'Are you sure you want to delete?' });
   if (!result) return;
   itemSelection.clear();
-  emit('remove', payload);
+  emit('remove', payload.id);
 };
 
 const onBulkRemove = async () => {
@@ -184,16 +185,8 @@ const onBulkRemove = async () => {
 };
 
 const searchfFilter = (data, value) =>
-  Object.keys(data)
-    .map((key) => ({
-      key,
-      ...data[key],
-      tags: (data[key].matrices || []).slice(0, MATRICES_LIMIT),
-      add: (data[key].matrices || []).length - MATRICES_LIMIT,
-    }))
-    .filter(
-      (item) =>
-        item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
-    )
-    .reverse();
+  data.filter(
+    (item) =>
+      item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
+  );
 </script>

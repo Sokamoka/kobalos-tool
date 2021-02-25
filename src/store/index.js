@@ -1,9 +1,16 @@
 import { reactive, computed, watch } from 'vue';
-import { db, settingsRef } from '../firebase.js';
+import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
-import { convertSettingPayload, convertSettings } from './internal.js';
+import { convertFeaturePayload, convertFeatures, convertSettingPayload, convertSettings } from './internal.js';
 
 const storeName = 'kobalos-manager-store';
+
+const defaultManageFeatureState = () => ({
+  id: null,
+  title: '',
+  name: '',
+  variants: [],
+});
 
 const defaultManageSettingState = () => ({
   id: null,
@@ -14,7 +21,9 @@ const defaultManageSettingState = () => ({
 
 const defaultState = () => ({
   user: {},
+  features: [],
   settings: [],
+  manageFeature: defaultManageFeatureState(),
   manageSetting: defaultManageSettingState(),
 });
 
@@ -26,29 +35,28 @@ export const useStore = () => ({
   debug: false,
 
   // Getters
+
   user: computed(() => state.user),
   isSignIn: computed(() => Boolean(state.user?.uid)),
+  features: computed(() => state.features.slice().reverse()),
   settings: computed(() => state.settings.slice().reverse()),
   manageSettingId: computed(() => state.manageSetting.id),
   manageSettingLabel: computed(() => state.manageSetting.label),
   manageSettingKey: computed(() => state.manageSetting.key),
   manageSettingValues: computed(() => state.manageSetting.values),
+  manageFeatureId: computed(() => state.manageFeature.id),
+  manageFeatureTitle: computed(() => state.manageFeature.title),
+  manageFeatureName: computed(() => state.manageFeature.name),
+  manageFeatureVariants: computed(() => state.manageFeature.variants),
 
-  // Actions
-  ResetStore() {
+  // Mutations
+
+  resetStore() {
     Object.keys(defaultState()).forEach((key) => (state[key] = defaultState()[key]));
   },
 
-  SignIn(user) {
-    if (this.debug) console.log('SignIn', user);
-    state.user = user;
-    router.push({ name: 'Features' });
-  },
-
-  SignOut() {
-    if (this.debug) console.log('SignOut');
-    this.ResetStore();
-    router.push({ name: 'Login' });
+  setFeatures(data) {
+    state.features = convertFeatures(data);
   },
 
   setSettings(data) {
@@ -75,6 +83,40 @@ export const useStore = () => ({
     state.manageSetting.values = payload;
   },
 
+  resetManageFeature() {
+    state.manageFeature = defaultManageFeatureState();
+  },
+
+  setManageFeature(payload) {
+    state.manageFeature = JSON.parse(JSON.stringify(payload));
+  },
+
+  setManageFeatureTitle(value) {
+    state.manageFeature.title = value;
+  },
+
+  setManageFeatureName(value) {
+    state.manageFeature.name = value;
+  },
+
+  setManageFeatureVariants(payload) {
+    state.manageFeature.variants = payload;
+  },
+
+  // Actions
+
+  SignIn(user) {
+    if (this.debug) console.log('SignIn', user);
+    state.user = user;
+    router.push({ name: 'Features' });
+  },
+
+  SignOut() {
+    if (this.debug) console.log('SignOut');
+    this.resetStore();
+    router.push({ name: 'Login' });
+  },
+
   saveSetting() {
     const payload = convertSettingPayload(state.manageSetting);
     if (state.manageSetting.id) {
@@ -83,11 +125,29 @@ export const useStore = () => ({
     return settingsRef.push(payload);
   },
 
+  saveFeature() {
+    const payload = convertFeaturePayload(state.manageFeature);
+    console.log({ payload });
+    if (state.manageFeature.id) {
+      return db.ref(`kobalos/features/${state.manageFeature.id}`).update(payload);
+    }
+    return featuresRef.push(payload);
+  },
+
   bulkRemoveSetting(payload) {
     if (typeof payload === 'string') payload = new Set().add({ id: payload });
     const deleted = {};
     payload.forEach((item) => {
       deleted[`kobalos/settings/${item.id}`] = null;
+    });
+    return db.ref().update(deleted);
+  },
+
+  bulkRemoveFeature(payload) {
+    if (typeof payload === 'string') payload = new Set().add({ id: payload });
+    const deleted = {};
+    payload.forEach((item) => {
+      deleted[`kobalos/features/${item.id}`] = null;
     });
     return db.ref().update(deleted);
   },
