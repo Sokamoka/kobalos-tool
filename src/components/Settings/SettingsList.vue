@@ -108,9 +108,9 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit, inject, ref } from 'vue';
-import BaseCheckbox from './FormControls/BaseCheckbox.vue';
-import useSelection from '../composables/UseSelection.js';
+import { defineProps, computed, defineEmit, inject, ref } from 'vue';
+import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
+import useSelection from '../../composables/UseSelection.js';
 
 const MATRICES_LIMIT = 3;
 

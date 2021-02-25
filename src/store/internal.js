@@ -3,3 +3,13 @@ export const convertSettings = (data) =>
     id: key,
     ...data[key],
   }));
+
+export const convertSettingPayload = (data) => ({
+  checked: false,
+  key: data.key,
+  label: data.label,
+  values: data.values.map((item, index) => ({
+    label: item,
+    value: index,
+  })),
+});
