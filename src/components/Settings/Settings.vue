@@ -29,7 +29,6 @@ const state = reactive({
 });
 
 onMounted(async () => {
-  console.log('MOUNTED');
   settingsRef.on('value', (snapshot) => {
     const data = snapshot.val();
     store.setSettings(data);
@@ -58,11 +57,10 @@ const onModalRemove = async (id) => {
 };
 
 const onBulkRemove = async (payload) => {
-  console.log({ payload });
   onRemoveProcess(payload);
 };
 
-const onRemoveProcess = async (ids = []) => {
+const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveSetting(ids);
   } catch (error) {

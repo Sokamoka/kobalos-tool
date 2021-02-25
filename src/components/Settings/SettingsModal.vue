@@ -11,8 +11,9 @@
         </div>
 
         <div class="mb-4">
-          <label>Values</label>
-          <BaseTagInput name="values" v-model="manageSettingValues" placeholder="Add new variant..."></BaseTagInput>
+          <label class="mb-0">Labels for switcher</label>
+          <p class="text-xs font-medium text-gray-400 mb-1">Example: On / Off</p>
+          <BaseTagInput name="labels" v-model="manageSettingValues" placeholder="Add new label..."></BaseTagInput>
         </div>
       </form>
     </template>
@@ -87,11 +88,11 @@ const schema = markRaw(
   object({
     label: string().required(),
     key: string().required(),
-    values: array().min(2),
+    labels: array().min(2),
   })
 );
 
-const { handleSubmit, meta } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: schema,
 });
 

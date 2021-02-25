@@ -23,7 +23,7 @@ const state = reactive(localStorage.getItem(storeName) ? JSON.parse(localStorage
 watch(state, (value) => localStorage.setItem(storeName, JSON.stringify(value)));
 
 export const useStore = () => ({
-  debug: true,
+  debug: false,
 
   // Getters
   user: computed(() => state.user),
@@ -41,18 +41,14 @@ export const useStore = () => ({
     state.manageSetting = defaultManageSettingState();
   },
 
-  SignIn(newValue) {
-    if (this.debug) {
-      console.log('SignIn', newValue);
-    }
-    state.user = newValue;
+  SignIn(user) {
+    if (this.debug) console.log('SignIn', user);
+    state.user = user;
     router.push({ name: 'Features' });
   },
 
   SignOut() {
-    if (this.debug) {
-      console.log('SignOut');
-    }
+    if (this.debug) console.log('SignOut');
     this.ResetStore();
     router.push({ name: 'Login' });
   },
@@ -66,8 +62,7 @@ export const useStore = () => ({
   },
 
   setManageSetting(payload) {
-    console.log({ setManageSetting: payload });
-    state.manageSetting = payload;
+    state.manageSetting = JSON.parse(JSON.stringify(payload));
   },
 
   setManageSettingLabel(value) {
@@ -83,7 +78,11 @@ export const useStore = () => ({
   },
 
   saveSetting() {
-    return settingsRef.push(convertSettingPayload(state.manageSetting));
+    const payload = convertSettingPayload(state.manageSetting);
+    if (state.manageSetting.id) {
+      return db.ref(`kobalos/settings/${state.manageSetting.id}`).update(payload);
+    }
+    return settingsRef.push(payload);
   },
 
   bulkRemoveSetting(payload) {

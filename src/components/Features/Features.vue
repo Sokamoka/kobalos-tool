@@ -41,7 +41,7 @@ const state = reactive({
 
 onMounted(async () => {
   state.isLoading = true;
-  const snapshot = await featuresRef.once('value');
+  // const snapshot = await featuresRef.once('value');
   state.isLoading = false;
   // state.features = snapshot.val();
 
