@@ -40,12 +40,23 @@ import { useStore } from '../../store';
 import Modal from '../Modal.vue';
 import BaseTagInput from '../FormControls/BaseTagInput.vue';
 
-const store = useStore();
+const emit = defineEmit(['save', 'remove', 'update:modelValue']);
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
     required: true,
+  },
+});
+
+const store = useStore();
+
+const modalTitle = computed(() => (manageSettingId.value ? 'Edit setting' : 'Add new setting'));
+
+const isVisible = computed({
+  get: () => props.modelValue,
+  set: (value) => {
+    emit('update:modelValue', value);
   },
 });
 
@@ -72,22 +83,11 @@ const manageSettingValues = computed({
   },
 });
 
-const emit = defineEmit(['save', 'remove', 'update:modelValue']);
-
-const modalTitle = computed(() => (manageSettingId.value ? 'Edit setting' : 'Add new setting'));
-
-const isVisible = computed({
-  get: () => props.modelValue,
-  set: (value) => {
-    emit('update:modelValue', value);
-  },
-});
-
 const schema = markRaw(
   object({
-    title: string().required(),
-    name: string().required(),
-    variants: array().min(2),
+    label: string().required(),
+    key: string().required(),
+    values: array().min(2),
   })
 );
 
@@ -100,6 +100,6 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onRemove = () => {
-  emit('remove');
+  emit('remove', manageSettingId.value);
 };
 </script>

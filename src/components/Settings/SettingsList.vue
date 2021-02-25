@@ -68,18 +68,18 @@
           </td>
           <td>
             <ul class="flex py-2">
-              <li v-for="value in setting.values" :key="value.value" class="tag is-primary is-xs is-fixed mr-2">
-                {{ value.label }}
+              <li v-for="value in setting.values" :key="value" class="tag is-primary is-xs is-fixed mr-2">
+                {{ value }}
               </li>
             </ul>
           </td>
           <td class="text-gray-400">
-            <button class="button is-icon is-flat" @click="onEdit(feature)">
+            <button class="button is-icon is-flat" @click="onEdit(setting)">
               <Icon name="create" class="w-6 h-6 fill-current" />
             </button>
           </td>
           <td class="text-gray-400">
-            <button class="button is-icon is-flat" @click="onRemove(feature)">
+            <button class="button is-icon is-flat" @click="onRemove(setting)">
               <Icon name="delete" class="w-6 h-6 fill-current" />
             </button>
           </td>
@@ -180,7 +180,7 @@ const onRemove = async (payload) => {
   const result = await confirm({ title: 'Are you sure you want to delete?' });
   if (!result) return;
   itemSelection.clear();
-  emit('remove', payload);
+  emit('remove', payload.id);
 };
 
 const onBulkRemove = async () => {

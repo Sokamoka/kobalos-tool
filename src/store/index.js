@@ -1,5 +1,5 @@
 import { reactive, computed, watch } from 'vue';
-import { settingsRef } from '../firebase.js';
+import { db, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
 import { convertSettingPayload, convertSettings } from './internal.js';
 
@@ -58,17 +58,16 @@ export const useStore = () => ({
   },
 
   setSettings(data) {
-    // if (state.settings.length > 0) return;
-    // try {
-    //   // await settingsRef.once('value');
-    // } catch (error) {
-    //   console.error(error.message);
-    // }
     state.settings = convertSettings(data);
   },
 
   resetManageSetting() {
     state.manageSetting = defaultManageSettingState();
+  },
+
+  setManageSetting(payload) {
+    console.log({ setManageSetting: payload });
+    state.manageSetting = payload;
   },
 
   setManageSettingLabel(value) {
@@ -85,5 +84,14 @@ export const useStore = () => ({
 
   saveSetting() {
     return settingsRef.push(convertSettingPayload(state.manageSetting));
+  },
+
+  bulkRemoveSetting(payload) {
+    if (typeof payload === 'string') payload = new Set().add({ id: payload });
+    const deleted = {};
+    payload.forEach((item) => {
+      deleted[`kobalos/settings/${item.id}`] = null;
+    });
+    return db.ref().update(deleted);
   },
 });
