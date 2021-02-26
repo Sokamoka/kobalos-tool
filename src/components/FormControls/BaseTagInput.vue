@@ -24,6 +24,7 @@
 
 <script>
 import { useField } from 'vee-validate';
+import { equalityIndicatorClass } from './internal';
 
 export default {
   emits: ['update:modelValue'],
@@ -91,8 +92,7 @@ export default {
       if (!value) return;
       const index = this.inputValue.indexOf(value);
       if (index >= 0) {
-        const items = this.$el.parentElement.querySelectorAll(`[data-index='${index}']`);
-        items[0].classList.add('animate-shake');
+        equalityIndicatorClass(this.$el, index).add();
         return;
       }
       this.inputValue.push(value);
@@ -101,8 +101,7 @@ export default {
     },
 
     onInput() {
-      const items = this.$el.parentElement.querySelectorAll(`[data-index]`);
-      items.forEach((item) => item.classList.remove('animate-shake'))
+      equalityIndicatorClass(this.$el).remove();
     }
   },
 };

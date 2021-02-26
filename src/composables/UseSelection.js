@@ -1,6 +1,6 @@
-import { reactive } from "vue";
+import { reactive } from 'vue';
 
-export const useSelection = function () {
+export const useSelection = () => {
   const selected = reactive(new Set());
   const toggle = (item) => {
     if (selected.has(item)) {
