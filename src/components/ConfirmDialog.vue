@@ -32,8 +32,8 @@
 import { ref, reactive } from "vue";
 import emitter from "tiny-emitter/instance";
 
-let isVisible = ref(false);
-let dialog = ref({});
+const isVisible = ref(false);
+const dialog = ref({});
 
 emitter.on("add", function (payload) {
   dialog.value = payload;
