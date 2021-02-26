@@ -105,14 +105,14 @@ export const useStore = () => ({
 
   // Actions
 
-  SignIn(user) {
-    if (this.debug) console.log('SignIn', user);
+  signIn(user) {
+    if (this.debug) console.log('signIn', user);
     state.user = user;
     router.push({ name: 'Features' });
   },
 
-  SignOut() {
-    if (this.debug) console.log('SignOut');
+  signOut() {
+    if (this.debug) console.log('signOut');
     this.resetStore();
     router.push({ name: 'Login' });
   },

@@ -68,7 +68,7 @@ const onSubmit = handleSubmit(async (values) => {
   try {
     const userCredential = await auth.signInWithEmailAndPassword(values.email, values.password);
     const { email, uid  } = userCredential.user;
-    store.SignIn({ displayName: email, email, uid });
+    store.signIn({ displayName: email, email, uid });
   } catch (err) {
     console.error(err);
     error.value = err.message;
@@ -79,7 +79,7 @@ const onSignInWithMicrosoft = async () => {
   try {
     const userCredential =  await auth.signInWithPopup(provider);
     const { displayName, email, uid  } = userCredential.user;
-    store.SignIn({ displayName, email, uid });
+    store.signIn({ displayName, email, uid });
   } catch (err) {
     console.error(err);
     error.value = err.message;

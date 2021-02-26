@@ -23,7 +23,7 @@ const onSignOut = async () => {
   if (!result) return;
   try {
     await auth.signOut();
-    store.SignOut();
+    store.signOut();
   } catch (error) {
     console.error(error);
   }

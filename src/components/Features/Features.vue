@@ -37,10 +37,6 @@ const state = reactive({
 });
 
 onMounted(async () => {
-  // state.isLoading = true;
-  // const snapshot = await featuresRef.once('value');
-  // state.isLoading = false;
-
   featuresRef.on('value', (snapshot) => {
     const data = snapshot.val();
     store.setFeatures(data);
