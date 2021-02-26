@@ -12,7 +12,7 @@
 
         <div class="mb-4">
           <label class="mb-0">Labels for switcher</label>
-          <p class="text-xs font-medium text-gray-400 mb-1">Example: On / Off</p>
+          <p class="text-xs font-medium text-gray-400 mb-1">Example: Off / On</p>
           <BaseTagInput name="labels" v-model="manageSettingValues" placeholder="Add new label..."></BaseTagInput>
         </div>
       </form>
