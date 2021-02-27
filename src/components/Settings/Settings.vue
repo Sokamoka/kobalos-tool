@@ -14,6 +14,7 @@
 </template>
 
 <script setup>
+import { dbErrorMessage } from '../../utils/db-error-message';
 import { inject, onMounted, reactive, ref } from 'vue';
 import { settingsRef } from '../../firebase';
 import { useStore } from '../../store';
@@ -73,7 +74,7 @@ const onSave = async () => {
     await store.saveSetting();
     notify({ type: 'success', title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error'});
+    notify({ type: 'error', title: dbErrorMessage(error.message), icon: 'error'});
   } finally {
     isModalVisible.value = false;
   }
