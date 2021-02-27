@@ -57,6 +57,10 @@
     @apply p-0 w-10 h-10 flex items-center justify-center rounded-full;
   }
 
+  .button.is-icon.is-xs {
+    @apply p-0 w-8 h-8 flex items-center justify-center rounded-full;
+  }
+
   .button.is-xs {
     @apply text-xs px-4 h-8;
   }

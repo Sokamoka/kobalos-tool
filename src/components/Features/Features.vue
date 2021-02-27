@@ -26,7 +26,7 @@ const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
 const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
 const BaseTagInput = defineAsyncComponent(() => import('../FormControls/BaseTagInput.vue'));
 
-const confirm = inject('$confirm');
+const confirm = inject('notify');
 
 const store = useStore();
 
@@ -54,7 +54,7 @@ function onEdit(payload) {
 }
 
 const onModalRemove = async (id) => {
-  const result = await confirm({ title: 'Are you sure you want to delete?' });
+  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   onRemoveProcess(id);
   state.isModalVisible = false;

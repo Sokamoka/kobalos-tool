@@ -11,7 +11,7 @@ import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useStore } from './store';
 import Header from './components/Header.vue';
-import ConfirmDialog from './components/ConfirmDialog.vue';
+import ConfirmDialog from './components/Dialog/index.vue';
 
 const store = useStore();
 const route = useRoute();

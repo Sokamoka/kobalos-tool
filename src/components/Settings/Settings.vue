@@ -20,7 +20,7 @@ import { useStore } from '../../store';
 import SettingList from './SettingsList.vue';
 import SettingsModal from './SettingsModal.vue';
 
-const confirm = inject('$confirm');
+const notify = inject('notify');
 
 const store = useStore();
 const isModalVisible = ref(false);
@@ -50,7 +50,7 @@ const onRemove = (id) => {
 };
 
 const onModalRemove = async (id) => {
-  const result = await confirm({ title: 'Are you sure you want to delete?' });
+  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   isModalVisible.value = false;
   onRemoveProcess(id);
@@ -64,7 +64,7 @@ const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveSetting(ids);
   } catch (error) {
-    console.error(error.message);
+    notify({ type: 'error', title: error.message, icon: 'error', duration: 4000 });
   }
 };
 
@@ -72,7 +72,7 @@ const onSave = async () => {
   try {
     await store.saveSetting();
   } catch (error) {
-    console.error(error.message);
+    notify({ type: 'error', title: error.message, icon: 'error', duration: 4000 });
   }
   isModalVisible.value = false;
 };

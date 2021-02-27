@@ -114,7 +114,7 @@ import useSelection from '../../composables/UseSelection.js';
 
 const MATRICES_LIMIT = 3;
 
-const confirm = inject('$confirm');
+const confirm = inject('notify');
 
 const props = defineProps({
   settings: {
@@ -177,14 +177,14 @@ const onEdit = (payload) => {
 };
 
 const onRemove = async (payload) => {
-  const result = await confirm({ title: 'Are you sure you want to delete?' });
+  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   itemSelection.clear();
   emit('remove', payload.id);
 };
 
 const onBulkRemove = async () => {
-  const result = await confirm({ title: 'Are you sure you want to delete?' });
+  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   emit('bulk-remove', new Set(itemSelection.selected));
   itemSelection.clear();
