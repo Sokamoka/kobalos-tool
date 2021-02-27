@@ -127,7 +127,6 @@ export const useStore = () => ({
 
   saveFeature() {
     const payload = convertFeaturePayload(state.manageFeature);
-    console.log({ payload });
     if (state.manageFeature.id) {
       return db.ref(`kobalos/features/${state.manageFeature.id}`).update(payload);
     }
