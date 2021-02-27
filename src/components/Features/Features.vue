@@ -7,20 +7,19 @@
         @edit="onEdit"
         @remove="onRemove"
         @add="onClickAddNew"
-        @bulk-remove="onBulkRemove"
       />
     </div>
   </div>
 
-  <FeatureModal v-model="state.isModalVisible" :feature="state.feature" @save="onSave" @remove="onModalRemove" />
+  <FeatureModal v-model="state.isModalVisible" :feature="state.feature" @save="onSave" @remove="onRemove" />
 
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, inject, onMounted, reactive } from 'vue';
-import { nanoid } from 'nanoid';
-import { db, featuresRef } from '../../firebase';
+import { defineAsyncComponent, inject, onMounted, reactive } from 'vue';
+import { featuresRef } from '../../firebase';
 import { useStore } from '../../store';
+import useSelection from '../../composables/UseSelection';
 
 const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
 const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
@@ -53,25 +52,18 @@ function onEdit(payload) {
   state.isModalVisible = true;
 }
 
-const onModalRemove = async (id) => {
+const onRemove = async (payload) => {
   const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
-  onRemoveProcess(id);
   state.isModalVisible = false;
-};
-
-const onRemove = async (id) => {
-  onRemoveProcess(id);
-};
-
-const onBulkRemove = async (payload) => {
-  onRemoveProcess(payload);
+  onRemoveProcess(new Set(payload.selected));
+  if (payload.clear) payload.clear();
 };
 
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveFeature(ids);
-    notify({ type: 'success', title: 'Remove success', icon: 'check-circle' });
+    notify({ type: 'success', title: 'Delete success', icon: 'check-circle' });
   } catch (error) {
     notify({ type: 'error', title: error.message, icon: 'error'});
   }

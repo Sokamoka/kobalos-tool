@@ -99,11 +99,11 @@ const { handleSubmit, meta } = useForm({
   validationSchema: schema,
 });
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(() => {
   emit('save');
 });
 
 const onRemove = () => {
-  emit('remove', manageFeatureId.value);
+  emit('remove', { selected: new Set().add({ id: manageFeatureId.value }) });
 };
 </script>

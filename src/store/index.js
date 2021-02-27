@@ -143,7 +143,6 @@ export const useStore = () => ({
   },
 
   bulkRemoveFeature(payload) {
-    if (typeof payload === 'string') payload = new Set().add({ id: payload });
     const deleted = {};
     payload.forEach((item) => {
       deleted[`kobalos/features/${item.id}`] = null;
