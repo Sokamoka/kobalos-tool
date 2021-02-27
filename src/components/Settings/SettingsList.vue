@@ -114,7 +114,7 @@ import useSelection from '../../composables/UseSelection.js';
 
 const MATRICES_LIMIT = 3;
 
-const confirm = inject('notify');
+const notify = inject('notify');
 
 const props = defineProps({
   settings: {
@@ -144,15 +144,15 @@ const filteredSettings = computed(() =>
 const itemSelection = useSelection();
 
 let numberSelected = computed(() => itemSelection.selected.size);
-let allItemSelected = computed(() => numberSelected.value === total && total > 0);
+let allItemSelected = computed(() => numberSelected.value === total.value && total.value > 0);
 let someItemSelected = computed(() => {
-  return numberSelected.value > 0 && numberSelected.value < total;
+  return numberSelected.value > 0 && numberSelected.value < total.value;
 });
 const bulkSelect = () => {
   if (allItemSelected.value) {
     itemSelection.clear();
   } else {
-    itemSelection.addMultiple(filteredSettings);
+    itemSelection.addMultiple(filteredSettings.value);
   }
 };
 
@@ -177,14 +177,14 @@ const onEdit = (payload) => {
 };
 
 const onRemove = async (payload) => {
-  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
+  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   itemSelection.clear();
   emit('remove', payload.id);
 };
 
 const onBulkRemove = async () => {
-  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
+  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   emit('bulk-remove', new Set(itemSelection.selected));
   itemSelection.clear();

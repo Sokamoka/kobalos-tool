@@ -30,8 +30,7 @@ const state = reactive({
 
 onMounted(async () => {
   settingsRef.on('value', (snapshot) => {
-    const data = snapshot.val();
-    store.setSettings(data);
+    store.setSettings(snapshot.val());
   });
 });
 
@@ -63,17 +62,20 @@ const onBulkRemove = async (payload) => {
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveSetting(ids);
+    notify({ type: 'success', title: 'Remove success', icon: 'check-circle'});
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error', duration: 4000 });
+    notify({ type: 'error', title: error.message, icon: 'error'});
   }
 };
 
 const onSave = async () => {
   try {
     await store.saveSetting();
+    notify({ type: 'success', title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error', duration: 4000 });
+    notify({ type: 'error', title: error.message, icon: 'error'});
+  } finally {
+    isModalVisible.value = false;
   }
-  isModalVisible.value = false;
 };
 </script>

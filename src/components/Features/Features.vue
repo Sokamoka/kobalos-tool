@@ -26,7 +26,7 @@ const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
 const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
 const BaseTagInput = defineAsyncComponent(() => import('../FormControls/BaseTagInput.vue'));
 
-const confirm = inject('notify');
+const notify = inject('notify');
 
 const store = useStore();
 
@@ -54,7 +54,7 @@ function onEdit(payload) {
 }
 
 const onModalRemove = async (id) => {
-  const result = await confirm({ type: 'confirm', title: 'Are you sure you want to delete?' });
+  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
   if (!result) return;
   onRemoveProcess(id);
   state.isModalVisible = false;
@@ -71,17 +71,20 @@ const onBulkRemove = async (payload) => {
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveFeature(ids);
+    notify({ type: 'success', title: 'Remove success', icon: 'check-circle' });
   } catch (error) {
-    console.error(error.message);
+    notify({ type: 'error', title: error.message, icon: 'error'});
   }
 };
 
 const onSave = async (payload) => {
   try {
     await store.saveFeature();
+    notify({ type: 'success', title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    console.error(error.message);
+    notify({ type: 'error', title: error.message, icon: 'error'});
+  } finally {
+    state.isModalVisible = false;
   }
-  state.isModalVisible = false;
 };
 </script>

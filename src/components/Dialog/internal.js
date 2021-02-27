@@ -13,7 +13,7 @@ export const notification = ({
   icon = 'delete',
   confirmText = 'Yes',
   cancelText = 'Cancel',
-  duration = 3000,
+  duration = 4000,
 }) => {
   const emit = (props) =>
     emitter.emit('add', {
