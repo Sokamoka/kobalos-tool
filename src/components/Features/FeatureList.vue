@@ -4,7 +4,7 @@
       <h2 class="text-sm font-bold uppercase text-gray-900">
         Recent Features List
       </h2>
-      <p class="text-xs text-gray-400 font-medium">
+      <p class="text-xs text-gray-500 font-medium">
         Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> features
       </p>
     </div>
@@ -64,7 +64,7 @@
           </td>
           <td>
             <h5 class="font-bold text-base">{{ feature.title }}</h5>
-            <p class="text-gray-400">{{ feature.name }}</p>
+            <p class="text-gray-500">{{ feature.name }}</p>
           </td>
           <td>
             <ul class="flex py-2">

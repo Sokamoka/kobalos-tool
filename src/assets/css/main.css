@@ -8,7 +8,7 @@
   }
 
   a {
-    @apply text-indigo-500 hover:text-indigo-700 font-medium;
+    @apply text-indigo-600 hover:text-indigo-800 font-medium;
   }
 }
 
@@ -26,7 +26,7 @@
   }
 
   .tag.is-primary {
-    @apply bg-indigo-100 text-indigo-500;
+    @apply bg-indigo-100 text-indigo-600;
   }
 
   label {
@@ -50,7 +50,7 @@
   }
 
   .button.is-flat.is-secondary {
-    @apply text-indigo-500 hover:bg-indigo-100 focus:ring-indigo-200 shadow-none;
+    @apply text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 focus:ring-indigo-200 shadow-none;
   }
 
   .button.is-icon {

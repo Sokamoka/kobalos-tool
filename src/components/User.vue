@@ -1,7 +1,7 @@
 <template>
-  <p class="text-xs text-gray-500">
+  <p class="text-xs text-gray-600">
     Sign in user
-    <a :href="`mailto:${user.email}`" target="_blank" class="text-gray-500 font-semibold">
+    <a :href="`mailto:${user.email}`" target="_blank" class="text-gray-600 font-semibold">
       {{ user.displayName }}
     </a>. <a href="#" @click.prevent="onSignOut">Sign Out</a>
   </p>
