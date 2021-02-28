@@ -22,7 +22,7 @@
         </div>
 
         <div>
-          <button class="button is-secondary w-full" type="submit" :class="{ 'is-loading': isSubmitting }">
+          <button class="button is-secondary w-full" type="submit" :class="{ 'is-loading': isSubmitting }" aria-label="Sign in">
             Sign in
           </button>
         </div>
@@ -31,7 +31,7 @@
       <hr />
 
       <div>
-        <button class="button w-full" @click="onSignInWithMicrosoft">
+        <button class="button w-full" @click="onSignInWithMicrosoft" aria-label="Sign in with Microsoft">
           Sign in with Microsoft
         </button>
       </div>

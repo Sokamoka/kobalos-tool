@@ -22,7 +22,7 @@
         </template>
       </BaseInput>
     </div>
-    <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" @click="onAdd">
+    <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" aria-label="New setting" @click="onAdd">
       <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
       New
     </button>
@@ -46,7 +46,7 @@
           </template>
           <template v-else>
             <th colspan="4" class="py-2">
-              <button class="button is-xs is-primary" @click="onBulkRemove">
+              <button class="button is-xs is-primary" aria-label="Delete items" @click="onBulkRemove">
                 <Icon name="delete" class="w-4 h-4 fill-current mr-2" />
                 Delete {{ numberSelected }} items
               </button>
@@ -74,12 +74,12 @@
             </ul>
           </td>
           <td class="text-gray-400">
-            <button class="button is-icon is-flat" @click="onEdit(setting)">
+            <button class="button is-icon is-flat" aria-label="Edit" @click="onEdit(setting)">
               <Icon name="create" class="w-6 h-6 fill-current" />
             </button>
           </td>
           <td class="text-gray-400">
-            <button class="button is-icon is-flat" @click="onRemove(setting)">
+            <button class="button is-icon is-flat" aria-label="Delete" @click="onRemove(setting)">
               <Icon name="delete" class="w-6 h-6 fill-current" />
             </button>
           </td>
@@ -100,6 +100,7 @@
     <a
       href="https://console.firebase.google.com/u/0/project/tyr-label-manager/database/tyr-label-manager/data"
       target="_blank"
+      rel="noreferrer"
       class="button is-flat is-secondary"
     >
       Open firebase database

@@ -7,7 +7,7 @@
           <slot name="header">
             <header v-if="header" class="modal-card-head">
               <p class="modal-card-title">{{ title }}</p>
-              <button class="button is-icon is-flat" @click="close">
+              <button class="button is-icon is-flat" @click="close" aria-label="Close modal">
                 <Icon name="clear" class="w-5 h-5"></Icon>
               </button>
             </header>

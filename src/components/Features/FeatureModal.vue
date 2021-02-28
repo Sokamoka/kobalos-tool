@@ -22,13 +22,13 @@
     </template>
     <template v-slot:footer>
       <div v-if="manageFeatureId" class="flex-grow">
-        <button class="button" @click="onRemove">
+        <button class="button" @click="onRemove" aria-label="Delete">
           <Icon name="delete" class="w-5 h-5 fill-current mr-1" />
           Delete
         </button>
       </div>
 
-      <button class="button is-primary" @click="onSubmit">
+      <button class="button is-primary" @click="onSubmit" aria-label="Save">
         <Icon name="save" class="w-5 h-5 fill-current mr-1" />
         Save
       </button>
