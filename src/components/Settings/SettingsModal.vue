@@ -101,6 +101,6 @@ const onSubmit = handleSubmit((values) => {
 });
 
 const onRemove = () => {
-  emit('remove', manageSettingId.value);
+  emit('remove', { selected: new Set().add({ id: manageSettingId.value }) });
 };
 </script>

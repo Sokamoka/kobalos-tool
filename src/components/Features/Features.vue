@@ -20,6 +20,7 @@ import { defineAsyncComponent, inject, onMounted, reactive } from 'vue';
 import { featuresRef } from '../../firebase';
 import { useStore } from '../../store';
 import useSelection from '../../composables/UseSelection';
+import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
 
 const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
 const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
@@ -53,7 +54,7 @@ function onEdit(payload) {
 }
 
 const onRemove = async (payload) => {
-  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
+  const result = await notify({ type: TYPE_CONFIRM, title: 'Are you sure you want to delete?' });
   if (!result) return;
   state.isModalVisible = false;
   onRemoveProcess(new Set(payload.selected));
@@ -63,18 +64,18 @@ const onRemove = async (payload) => {
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveFeature(ids);
-    notify({ type: 'success', title: 'Delete success', icon: 'check-circle' });
+    notify({ type: TYPE_SUCCESS, title: 'Delete success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error'});
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
   }
 };
 
 const onSave = async (payload) => {
   try {
     await store.saveFeature();
-    notify({ type: 'success', title: 'Save success', icon: 'check-circle' });
+    notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error'});
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
   } finally {
     state.isModalVisible = false;
   }

@@ -112,9 +112,7 @@ import { defineProps, computed, defineEmit, inject, ref } from 'vue';
 import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
 import useSelection from '../../composables/UseSelection.js';
 
-const MATRICES_LIMIT = 3;
-
-const notify = inject('notify');
+// const notify = inject('notify');
 
 const props = defineProps({
   settings: {
@@ -177,17 +175,12 @@ const onEdit = (payload) => {
 };
 
 const onRemove = async (payload) => {
-  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
-  if (!result) return;
   itemSelection.clear();
-  emit('remove', payload.id);
+  emit('remove', { selected: new Set().add({ id: payload.id }) });
 };
 
 const onBulkRemove = async () => {
-  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
-  if (!result) return;
-  emit('bulk-remove', new Set(itemSelection.selected));
-  itemSelection.clear();
+  emit('remove', itemSelection);
 };
 
 const searchfFilter = (data, value) => {

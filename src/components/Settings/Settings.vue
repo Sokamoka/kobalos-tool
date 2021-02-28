@@ -6,11 +6,10 @@
         @add="onAdd"
         @edit="onEdit"
         @remove="onRemove"
-        @bulk-remove="onBulkRemove"
       />
     </div>
   </div>
-  <SettingsModal v-model="isModalVisible" @save="onSave" @remove="onModalRemove"></SettingsModal>
+  <SettingsModal v-model="isModalVisible" @save="onSave" @remove="onRemove"></SettingsModal>
 </template>
 
 <script setup>
@@ -20,6 +19,7 @@ import { settingsRef } from '../../firebase';
 import { useStore } from '../../store';
 import SettingList from './SettingsList.vue';
 import SettingsModal from './SettingsModal.vue';
+import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
 
 const notify = inject('notify');
 
@@ -45,36 +45,29 @@ const onEdit = (payload) => {
   isModalVisible.value = true;
 };
 
-const onRemove = (id) => {
-  onRemoveProcess(id);
-};
-
-const onModalRemove = async (id) => {
-  const result = await notify({ type: 'confirm', title: 'Are you sure you want to delete?' });
+const onRemove = async (payload) => {
+  const result = await notify({ type: TYPE_CONFIRM, title: 'Are you sure you want to delete?' });
   if (!result) return;
   isModalVisible.value = false;
-  onRemoveProcess(id);
-};
-
-const onBulkRemove = async (payload) => {
-  onRemoveProcess(payload);
+  onRemoveProcess(new Set(payload.selected));
+  if (payload.clear) payload.clear();
 };
 
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemoveSetting(ids);
-    notify({ type: 'success', title: 'Remove success', icon: 'check-circle'});
+    notify({ type: TYPE_SUCCESS, title: 'Remove success', icon: 'check-circle'});
   } catch (error) {
-    notify({ type: 'error', title: error.message, icon: 'error'});
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
   }
 };
 
 const onSave = async () => {
   try {
     await store.saveSetting();
-    notify({ type: 'success', title: 'Save success', icon: 'check-circle' });
+    notify({ type: YPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: 'error', title: dbErrorMessage(error.message), icon: 'error'});
+    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error'});
   } finally {
     isModalVisible.value = false;
   }

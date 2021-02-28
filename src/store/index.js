@@ -134,7 +134,6 @@ export const useStore = () => ({
   },
 
   bulkRemoveSetting(payload) {
-    if (typeof payload === 'string') payload = new Set().add({ id: payload });
     const deleted = {};
     payload.forEach((item) => {
       deleted[`kobalos/settings/${item.id}`] = null;

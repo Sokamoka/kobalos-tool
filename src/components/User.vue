@@ -11,6 +11,7 @@
 import { inject, ref } from 'vue';
 import { useStore } from '../store';
 import { auth } from '../firebase';
+import { TYPE_CONFIRM } from './Dialog/internal';
 
 const notify = inject('notify');
 
@@ -19,7 +20,7 @@ const store = useStore();
 const user = ref(store.user);
 
 const onSignOut = async () => {
-  const result = await notify({ type: 'confirm', title: 'You want to Sign out?', icon: 'help' });
+  const result = await notify({ type: TYPE_CONFIRM, title: 'You want to Sign out?', icon: 'help' });
   if (!result) return;
   try {
     await auth.signOut();
