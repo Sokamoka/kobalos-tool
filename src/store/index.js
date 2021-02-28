@@ -133,18 +133,10 @@ export const useStore = () => ({
     return featuresRef.push(payload);
   },
 
-  bulkRemoveSetting(payload) {
+  bulkRemove(payload, reference) {
     const deleted = {};
     payload.forEach((item) => {
-      deleted[`kobalos/settings/${item.id}`] = null;
-    });
-    return db.ref().update(deleted);
-  },
-
-  bulkRemoveFeature(payload) {
-    const deleted = {};
-    payload.forEach((item) => {
-      deleted[`kobalos/features/${item.id}`] = null;
+      deleted[`kobalos/${reference}/${item.id}`] = null;
     });
     return db.ref().update(deleted);
   },

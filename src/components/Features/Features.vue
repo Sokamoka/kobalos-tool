@@ -21,6 +21,7 @@ import { featuresRef } from '../../firebase';
 import { useStore } from '../../store';
 import useSelection from '../../composables/UseSelection';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
+import { dbErrorMessage } from '../../utils/db-error-message';
 
 const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
 const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
@@ -63,7 +64,7 @@ const onRemove = async (payload) => {
 
 const onRemoveProcess = async (ids) => {
   try {
-    await store.bulkRemoveFeature(ids);
+    await store.bulkRemove(ids, 'features');
     notify({ type: TYPE_SUCCESS, title: 'Delete success', icon: 'check-circle' });
   } catch (error) {
     notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
@@ -75,7 +76,7 @@ const onSave = async (payload) => {
     await store.saveFeature();
     notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
+    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error'});
   } finally {
     state.isModalVisible = false;
   }

@@ -55,7 +55,7 @@ const onRemove = async (payload) => {
 
 const onRemoveProcess = async (ids) => {
   try {
-    await store.bulkRemoveSetting(ids);
+    await store.bulkRemove(ids, 'settings');
     notify({ type: TYPE_SUCCESS, title: 'Remove success', icon: 'check-circle'});
   } catch (error) {
     notify({ type: TYPE_ERROR, title: error.message, icon: 'error'});
@@ -65,7 +65,7 @@ const onRemoveProcess = async (ids) => {
 const onSave = async () => {
   try {
     await store.saveSetting();
-    notify({ type: YPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
+    notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
     notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error'});
   } finally {
