@@ -109,11 +109,9 @@
 </template>
 
 <script setup>
-import { defineProps, computed, defineEmit, inject, ref } from 'vue';
+import { defineProps, computed, defineEmit, ref } from 'vue';
 import BaseCheckbox from '../FormControls/BaseCheckbox.vue';
 import useSelection from '../../composables/UseSelection.js';
-
-// const notify = inject('notify');
 
 const props = defineProps({
   settings: {
