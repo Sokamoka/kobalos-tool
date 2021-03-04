@@ -10,6 +10,28 @@
   a {
     @apply text-indigo-600 hover:text-indigo-800 font-medium;
   }
+
+  table {
+    @apply w-full;
+  }
+
+  table th {
+    @apply text-xs h-12 px-5 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
+  }
+
+  table td {
+    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
+  }
+
+  table th:first-of-type,
+  table td:first-of-type {
+    @apply pl-7;
+  }
+
+  table th:last-of-type,
+  table td:last-of-type {
+    @apply pr-7;
+  }
 }
 
 @layer components {
@@ -101,26 +123,4 @@
   .input.is-valid input {
     @apply text-green-600;
   } */
-
-  table {
-    @apply w-full;
-  }
-
-  table th {
-    @apply p-4 text-xs text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
-  }
-
-  table td {
-    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
-  }
-
-  table th:first-of-type,
-  table td:first-of-type {
-    @apply pl-7;
-  }
-
-  table th:last-of-type,
-  table td:last-of-type {
-    @apply pr-7;
-  }
 }
