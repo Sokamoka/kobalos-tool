@@ -26,6 +26,7 @@ export const convertSettings = (data) =>
   Object.keys(data).map((key) => ({
     id: key,
     ...data[key],
+    tags: data[key].values?.map((value) => value.label) ?? [],
     values: data[key].values?.map((value) => value.label) ?? [],
   }));
 

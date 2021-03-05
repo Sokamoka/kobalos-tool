@@ -16,7 +16,7 @@
   }
 
   table th {
-    @apply text-xs h-12 px-5 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
+    @apply text-xs h-12 px-4 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
   }
 
   table td {

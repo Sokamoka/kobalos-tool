@@ -15,7 +15,7 @@
         </template>
       </BaseInput>
     </div>
-    <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" aria-label="New feature" @click="onAdd">
+    <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" aria-label="New" @click="onAdd">
       <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
       New
     </button>
@@ -47,8 +47,8 @@
 
       <template v-slot:cell-values="{ row }">
         <ul class="flex py-2">
-          <li v-for="matrice in row.tags" :key="matrice" class="tag is-primary is-xs is-fixed mr-2">
-            {{ matrice }}
+          <li v-for="tag in row.tags" :key="tag" class="tag is-primary is-xs is-fixed mr-2">
+            {{ tag }}
           </li>
           <li v-if="row.tagsOverLimit > 0" class="tag is-xs is-primary">+ {{ row.tagsOverLimit }}</li>
         </ul>

@@ -47,7 +47,6 @@ import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
 import { dbErrorMessage } from '../../utils/db-error-message';
 
 const FeatureModal = defineAsyncComponent(() => import('./FeatureModal.vue'));
-const FeatureList = defineAsyncComponent(() => import('./FeatureList.vue'));
 const BaseTagInput = defineAsyncComponent(() => import('../FormControls/BaseTagInput.vue'));
 const List = defineAsyncComponent(() => import('../List.vue'));
 
@@ -62,7 +61,7 @@ const state = reactive({
   columns: {
     index: {
       label: '#',
-      class: '',
+      class: 'w-8',
     },
     names: {
       label: 'Title',
