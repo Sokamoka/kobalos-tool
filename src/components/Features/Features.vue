@@ -25,13 +25,6 @@
           <p class="text-gray-500">{{ row.name }}</p>
         </template>
       </List>
-      <!-- <FeatureList
-        :features="state.features"
-        :is-loading="state.isLoading"
-        @edit="onEdit"
-        @remove="onRemove"
-        @add="onClickAddNew"
-      /> -->
     </div>
   </div>
 
@@ -42,7 +35,6 @@
 import { defineAsyncComponent, inject, onMounted, reactive } from 'vue';
 import { featuresRef } from '../../firebase';
 import { useStore } from '../../store';
-import useSelection from '../../composables/UseSelection';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
 import { dbErrorMessage } from '../../utils/db-error-message';
 
@@ -61,7 +53,7 @@ const state = reactive({
   columns: {
     index: {
       label: '#',
-      class: 'w-8',
+      class: 'w-1',
     },
     names: {
       label: 'Title',
@@ -73,11 +65,11 @@ const state = reactive({
     },
     edit: {
       label: 'Edit',
-      class: '',
+      class: 'w-1 text-center',
     },
     delete: {
       label: 'Delete',
-      class: '',
+      class: 'w-1',
     },
   },
 });

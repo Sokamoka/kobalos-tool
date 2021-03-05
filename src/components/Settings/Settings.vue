@@ -25,12 +25,6 @@
           <p class="text-gray-500">{{ row.key }}</p>
         </template>
       </List>
-      <!-- <SettingList
-        :settings="state.settings"
-        @add="onAdd"
-        @edit="onEdit"
-        @remove="onRemove"
-      /> -->
     </div>
   </div>
   <SettingsModal v-model="isModalVisible" @save="onSave" @remove="onRemove"></SettingsModal>
@@ -41,38 +35,38 @@ import { dbErrorMessage } from '../../utils/db-error-message';
 import { defineAsyncComponent, inject, onMounted, reactive, ref } from 'vue';
 import { settingsRef } from '../../firebase';
 import { useStore } from '../../store';
-// import SettingList from './SettingsList.vue';
-import SettingsModal from './SettingsModal.vue';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
 
 const List = defineAsyncComponent(() => import('../List.vue'));
+const SettingsModal = defineAsyncComponent(() => import('./SettingsModal.vue'));
 
 const notify = inject('notify');
 
 const store = useStore();
+
 const isModalVisible = ref(false);
 const state = reactive({
   settings: store.settings,
   columns: {
     index: {
       label: '#',
-      class: 'w-8',
+      class: 'w-1',
     },
     names: {
       label: 'Title',
       class: '',
     },
     values: {
-      label: 'Variants',
+      label: 'Labels',
       class: '',
     },
     edit: {
       label: 'Edit',
-      class: '',
+      class: 'w-1 text-center',
     },
     delete: {
       label: 'Delete',
-      class: '',
+      class: 'w-1',
     },
   },
 });
