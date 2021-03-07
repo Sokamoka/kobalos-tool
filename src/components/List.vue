@@ -21,7 +21,7 @@
     </button>
   </div>
   <div class="relative w-full overflow-auto">
-    <DataTable :columns="state.columns" :rows="state.filteredFeatures">
+    <DataTable :columns="state.columns" :rows="sortedData" :sort="state.sort" @sort="onSort">
       <template v-slot:header-index>
         <BaseCheckbox
           :model-value="allItemSelected"
@@ -80,10 +80,11 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit, inject, ref } from 'vue';
+import { defineProps, computed, reactive, defineEmit, ref, isReactive, watch } from 'vue';
 import DataTable from './DataTable.vue';
 import BaseCheckbox from './FormControls/BaseCheckbox.vue';
 import useSelection from '../composables/UseSelection.js';
+import useSort from '../composables/UseSort.js';
 
 const props = defineProps({
   columns: {
@@ -115,6 +116,16 @@ const state = reactive({
   filteredCount: computed(() => state.filteredFeatures.length),
   filteredFeatures: computed(() => props.searchFilter(props.data, search.value)),
   columns: props.columns,
+  sort: {
+    sortTarget: 'names',
+    sortReverse: true
+  },
+});
+
+const { sortedData, sorting, setData, toggle } = useSort(state.filteredFeatures);
+
+watch(state, (value) => { 
+  setData(value.filteredFeatures)
 });
 
 const itemSelection = useSelection();
@@ -152,12 +163,18 @@ const onEdit = (payload) => {
   emit('edit', payload);
 };
 
-const onRemove = async (payload) => {
+const onRemove = (payload) => {
   itemSelection.clear();
   emit('remove', { selected: new Set().add({ id: payload.id }) });
 };
 
-const onBulkRemove = async () => {
+const onBulkRemove = () => {
   emit('remove', itemSelection);
+};
+
+const onSort = (value) => {
+  console.log(value, isReactive(sorting));
+  state.sort.sortReverse = !state.sort.sortReverse;
+  toggle();
 };
 </script>

@@ -9,7 +9,7 @@
             [column.class],
             {
               'is-active': prop === sort.sortTarget,
-              'is-sortable': column.sortable,
+              'is-sortable cursor-pointer': column.sortable,
               'is-desc': prop === sort.sortTarget && sort.sortReverse,
               'is-asc': prop === sort.sortTarget && !sort.sortReverse
             }
@@ -19,9 +19,9 @@
           <slot :name="`header-${prop}`">
             <span>{{ column.label }}</span>
           </slot>
-          <!-- <IconSort v-if="column.sortable && prop !== sort.sortTarget" class="icon-sort"></IconSort>
-          <IconSortAsc v-if="prop === sort.sortTarget && sort.sortReverse" class="icon-sort"></IconSortAsc>
-          <IconSortDesc v-if="prop === sort.sortTarget && !sort.sortReverse" class="icon-sort"></IconSortDesc> -->
+          <Icon v-if="column.sortable && prop !== sort.sortTarget" name="create" class="w-4 h-4"></Icon>
+          <Icon v-if="prop === sort.sortTarget && sort.sortReverse" name="sort-up" class="ml-auto w-4 h-4"></Icon>
+          <Icon v-if="prop === sort.sortTarget && !sort.sortReverse" name="sort-down" class="ml-auto w-4 h-4"></Icon>
         </th>
       </tr>
     </thead>
@@ -73,10 +73,11 @@ export default {
   },
 
   setup(props) {
-    const { columns, rows } = toRefs(props)
+    const { columns, rows, sort } = toRefs(props)
 
     return {
       columns,
+      sort,
       rows
     }
   },

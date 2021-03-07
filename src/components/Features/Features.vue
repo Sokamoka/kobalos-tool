@@ -58,6 +58,7 @@ const state = reactive({
     names: {
       label: 'Title',
       class: '',
+      sortable: true
     },
     values: {
       label: 'Variants',
