@@ -10,6 +10,39 @@
   a {
     @apply text-indigo-600 hover:text-indigo-800 font-medium;
   }
+
+  table {
+    @apply w-full;
+  }
+
+  table th {
+    @apply text-xs h-12 px-4 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left align-middle;
+  }
+
+  table th .state-sort {
+    @apply mt-1 ml-1 w-4 h-4 text-gray-400;
+  }
+  table th.is-active {
+    @apply text-black;
+  }
+
+  table th:hover .state-sort {
+    @apply text-gray-600;
+  }
+
+  table td {
+    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
+  }
+
+  table th:first-of-type,
+  table td:first-of-type {
+    @apply pl-7;
+  }
+
+  table th:last-of-type,
+  table td:last-of-type {
+    @apply pr-7;
+  }
 }
 
 @layer components {
@@ -101,26 +134,4 @@
   .input.is-valid input {
     @apply text-green-600;
   } */
-
-  table {
-    @apply w-full;
-  }
-
-  table th {
-    @apply p-4 text-xs text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
-  }
-
-  table td {
-    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
-  }
-
-  table th:first-of-type,
-  table td:first-of-type {
-    @apply pl-7;
-  }
-
-  table th:last-of-type,
-  table td:last-of-type {
-    @apply pr-7;
-  }
 }

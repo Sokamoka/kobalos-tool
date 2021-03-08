@@ -2,6 +2,7 @@ import { reactive } from 'vue';
 
 export const useSelection = () => {
   const selected = reactive(new Set());
+
   const toggle = (item) => {
     if (selected.has(item)) {
       selected.delete(item);
