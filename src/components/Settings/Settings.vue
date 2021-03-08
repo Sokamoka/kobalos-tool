@@ -55,6 +55,7 @@ const state = reactive({
     title: {
       label: 'Title',
       class: '',
+      sortable: true
     },
     values: {
       label: 'Labels',

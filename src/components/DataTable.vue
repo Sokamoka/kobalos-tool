@@ -92,7 +92,7 @@ export default {
   methods: {
     sortBy(column, prop) {
       if (!column.sortable) return;
-      this.$emit('sort', prop);
+      this.$emit('sort', { target: prop, initialState: column.initSortState });
     }
   }
 };

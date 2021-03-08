@@ -31,7 +31,7 @@
       </template>
 
       <template v-if="itemSelection.selected.size > 0" v-slot:header-title>
-        <button class="button is-xs is-primary" aria-label="Delete items" @click="onBulkRemove">
+        <button class="button is-xs is-primary" aria-label="Delete items" @click.stop="onBulkRemove">
           <Icon name="delete" class="w-4 h-4 fill-current mr-2" />
           Delete {{ numberSelected }} items
         </button>
@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit, ref, isReactive, watch } from 'vue';
+import { defineProps, computed, reactive, defineEmit, ref, watch } from 'vue';
 import DataTable from './DataTable.vue';
 import BaseCheckbox from './FormControls/BaseCheckbox.vue';
 import useSelection from '../composables/UseSelection.js';
@@ -104,8 +104,8 @@ const props = defineProps({
 
   searchFilter: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 });
 
 const emit = defineEmit(['add', 'edit', 'remove']);
@@ -113,15 +113,15 @@ const emit = defineEmit(['add', 'edit', 'remove']);
 const search = ref('');
 const state = reactive({
   total: computed(() => Object.keys(props.data).length),
-  filteredCount: computed(() => state.filteredFeatures.length),
-  filteredFeatures: computed(() => props.searchFilter(props.data, search.value)),
+  filteredCount: computed(() => state.filteredData.length),
+  filteredData: computed(() => props.searchFilter(props.data, search.value)),
   columns: props.columns,
 });
 
-const { sortedData, sorting, setData, toggle } = useSort(state.filteredFeatures);
+const { sortedData, sorting, setData, toggle } = useSort(state.filteredData);
 
-watch(state, (value) => { 
-  setData(value.filteredFeatures)
+watch(state, (value) => {
+  setData(value.filteredData);
 });
 
 const itemSelection = useSelection();
@@ -135,7 +135,7 @@ const bulkSelect = () => {
   if (allItemSelected.value) {
     itemSelection.clear();
   } else {
-    itemSelection.addMultiple(state.filteredFeatures);
+    itemSelection.addMultiple(state.filteredData);
   }
 };
 
@@ -168,9 +168,7 @@ const onBulkRemove = () => {
   emit('remove', itemSelection);
 };
 
-const onSort = (target) => {
-  // console.log(value, isReactive(sorting));
-  // state.sort.sortReverse = !state.sort.sortReverse;
-  toggle(target);
+const onSort = (payload) => {
+  toggle(payload);
 };
 </script>

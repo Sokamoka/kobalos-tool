@@ -57,17 +57,11 @@ const state = reactive({
     },
     title: {
       label: 'Title',
-      class: '',
-      sortable: true
-    },
-    name: {
-      label: 'Name',
-      class: '',
-      sortable: true
+      sortable: true,
+      initSortState: 'ascend'
     },
     values: {
       label: 'Variants',
-      class: '',
     },
     edit: {
       label: 'Edit',

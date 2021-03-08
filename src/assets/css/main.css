@@ -23,7 +23,7 @@
     @apply mt-1 ml-1 w-4 h-4 text-gray-400;
   }
   table th.is-active {
-    @apply text-gray-900;
+    @apply text-black;
   }
 
   table th:hover .state-sort {

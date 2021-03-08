@@ -1,5 +1,5 @@
-import { computed, reactive } from 'vue';
 import { createMachine } from 'xstate';
+import { computed, reactive } from 'vue';
 import { sort, compose, toLower, propOr, descend, ascend } from 'ramda';
 
 const SORT_STATE_ORIGINAL = 'original';
@@ -12,36 +12,45 @@ const sortMachine = createMachine({
   states: {
     [SORT_STATE_ORIGINAL]: {
       on: {
-        STATE: SORT_STATE_DESCEND,
+        DIRECTION1: SORT_STATE_DESCEND,
+        DIRECTION2: SORT_STATE_ASCEND,
       },
     },
     [SORT_STATE_DESCEND]: {
       on: {
-        STATE: SORT_STATE_ASCEND,
+        DIRECTION1: SORT_STATE_ASCEND,
+        DIRECTION2: SORT_STATE_ORIGINAL,
       },
     },
     [SORT_STATE_ASCEND]: {
       on: {
-        STATE: SORT_STATE_ORIGINAL,
+        DIRECTION1: SORT_STATE_ORIGINAL,
+        DIRECTION2: SORT_STATE_DESCEND,
       },
     },
   },
 });
 
-export const useSort = (initialData = []) => {
+export const useSort = (initialData = [], initialSort = {}) => {
   const sortingData = reactive({ data: initialData });
   const sorting = reactive({
-    sortTarget: '',
-    sortState: SORT_STATE_ORIGINAL,
+    sortTarget: initialSort.sortTarget || '',
+    sortState: initialSort.sortState || SORT_STATE_ORIGINAL,
   });
 
   const setData = (newData) => {
     sortingData.data = newData;
   };
 
-  const toggle = (target) => {
+  const toggle = ({ target, initialState }) => {
+    const currentTarget = sorting.sortTarget;
     sorting.sortTarget = target;
-    sorting.sortState = sortMachine.transition(sorting.sortState, 'STATE').value;
+    if (currentTarget !== target && initialState) {
+      sorting.sortState = initialState;
+      return;
+    }
+    const direction = initialState === SORT_STATE_ASCEND ? 'DIRECTION2' : 'DIRECTION1';
+    sorting.sortState = sortMachine.transition(sorting.sortState, direction).value;
   };
 
   const sortedData = computed(() =>
