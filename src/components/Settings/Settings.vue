@@ -12,15 +12,15 @@
         <template v-slot:title="{ state }">
           <div class="mb-4 sm:mb-0 flex-grow">
             <h2 class="text-sm font-bold uppercase text-gray-900">
-              Recent Features List
+              Recent Setting List
             </h2>
             <p class="text-xs text-gray-500 font-medium">
-              Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> features
+              Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> settings
             </p>
           </div>
         </template>
 
-        <template v-slot:cell-names="{ row }">
+        <template v-slot:cell-title="{ row }">
           <h5 class="font-bold text-base">{{ row.label }}</h5>
           <p class="text-gray-500">{{ row.key }}</p>
         </template>
@@ -52,7 +52,7 @@ const state = reactive({
       label: '#',
       class: 'w-1',
     },
-    names: {
+    title: {
       label: 'Title',
       class: '',
     },

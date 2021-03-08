@@ -1,24 +1,56 @@
 import { computed, reactive } from 'vue';
-import { sort, compose, toLower, prop, descend, ascend } from 'ramda';
+import { createMachine } from 'xstate';
+import { sort, compose, toLower, propOr, descend, ascend } from 'ramda';
 
-export const useSort = (data) => {
+const SORT_STATE_ORIGINAL = 'original';
+const SORT_STATE_DESCEND = 'descend';
+const SORT_STATE_ASCEND = 'ascend';
+
+const sortMachine = createMachine({
+  id: 'sort',
+  initial: SORT_STATE_ORIGINAL,
+  states: {
+    [SORT_STATE_ORIGINAL]: {
+      on: {
+        STATE: SORT_STATE_DESCEND,
+      },
+    },
+    [SORT_STATE_DESCEND]: {
+      on: {
+        STATE: SORT_STATE_ASCEND,
+      },
+    },
+    [SORT_STATE_ASCEND]: {
+      on: {
+        STATE: SORT_STATE_ORIGINAL,
+      },
+    },
+  },
+});
+
+export const useSort = (initialData = []) => {
+  const sortingData = reactive({ data: initialData });
   const sorting = reactive({
-    data: data || [],
-    target: 'title',
-    reverse: null,
+    sortTarget: '',
+    sortState: SORT_STATE_ORIGINAL,
   });
 
-  const setData = (data) => {
-    sorting.data = data;
+  const setData = (newData) => {
+    sortingData.data = newData;
   };
 
-  const toggle = () => {
-    sorting.reverse = !sorting.reverse;
+  const toggle = (target) => {
+    sorting.sortTarget = target;
+    sorting.sortState = sortMachine.transition(sorting.sortState, 'STATE').value;
   };
 
-  const sortedData = computed(() => makeSorter({ reverse: sorting.reverse, target: sorting.target })(sorting.data));
+  const sortedData = computed(() =>
+    sorting.sortState === SORT_STATE_ORIGINAL
+      ? sortingData.data
+      : makeSorter({ reverse: sorting.sortState === SORT_STATE_DESCEND, target: sorting.sortTarget })(sortingData.data)
+  );
 
-  const makeSorter = ({ reverse, target }) => sort((reverse ? descend : ascend)(compose(toLower, prop(target))));
+  const makeSorter = ({ reverse, target }) => sort((reverse ? descend : ascend)(compose(toLower, propOr('', target))));
 
   return {
     sortedData,

@@ -16,7 +16,18 @@
   }
 
   table th {
-    @apply text-xs h-12 px-4 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left;
+    @apply text-xs h-12 px-4 text-gray-500 font-semibold bg-gray-50 border-b border-t border-gray-300 text-left align-middle;
+  }
+
+  table th .state-sort {
+    @apply mt-1 ml-1 w-4 h-4 text-gray-400;
+  }
+  table th.is-active {
+    @apply text-gray-900;
+  }
+
+  table th:hover .state-sort {
+    @apply text-gray-600;
   }
 
   table td {

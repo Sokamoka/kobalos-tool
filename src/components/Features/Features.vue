@@ -20,7 +20,7 @@
           </div>
         </template>
 
-        <template v-slot:cell-names="{ row }">
+        <template v-slot:cell-title="{ row }">
           <h5 class="font-bold text-base">{{ row.title }}</h5>
           <p class="text-gray-500">{{ row.name }}</p>
         </template>
@@ -55,8 +55,13 @@ const state = reactive({
       label: '#',
       class: 'w-1',
     },
-    names: {
+    title: {
       label: 'Title',
+      class: '',
+      sortable: true
+    },
+    name: {
+      label: 'Name',
       class: '',
       sortable: true
     },

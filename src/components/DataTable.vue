@@ -10,18 +10,19 @@
             {
               'is-active': prop === sort.sortTarget,
               'is-sortable cursor-pointer': column.sortable,
-              'is-desc': prop === sort.sortTarget && sort.sortReverse,
-              'is-asc': prop === sort.sortTarget && !sort.sortReverse
+              'is-desc': prop === sort.sortTarget && sort.sortState === 'descend',
+              'is-asc': prop === sort.sortTarget && sort.sortState === 'ascend'
             }
           ]"
           @click="sortBy(column, prop)"
         >
           <slot :name="`header-${prop}`">
             <span>{{ column.label }}</span>
+            <Icon v-if="column.sortable && prop !== sort.sortTarget" name="sort" class="state-sort" fill="currentColor"></Icon>
+            <Icon v-if="prop === sort.sortTarget && sort.sortState === 'original'" name="sort" class="state-sort" fill="currentColor"></Icon>
+            <Icon v-if="prop === sort.sortTarget && sort.sortState === 'descend'" name="sort-down" class="mt-1 ml-1 w-4 h-4"></Icon>
+            <Icon v-if="prop === sort.sortTarget && sort.sortState === 'ascend'" name="sort-up" class="mt-1 ml-1 w-4 h-4"></Icon>
           </slot>
-          <Icon v-if="column.sortable && prop !== sort.sortTarget" name="create" class="w-4 h-4"></Icon>
-          <Icon v-if="prop === sort.sortTarget && sort.sortReverse" name="sort-up" class="ml-auto w-4 h-4"></Icon>
-          <Icon v-if="prop === sort.sortTarget && !sort.sortReverse" name="sort-down" class="ml-auto w-4 h-4"></Icon>
         </th>
       </tr>
     </thead>

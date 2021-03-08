@@ -21,7 +21,7 @@
     </button>
   </div>
   <div class="relative w-full overflow-auto">
-    <DataTable :columns="state.columns" :rows="sortedData" :sort="state.sort" @sort="onSort">
+    <DataTable :columns="state.columns" :rows="sortedData" :sort="sorting" @sort="onSort">
       <template v-slot:header-index>
         <BaseCheckbox
           :model-value="allItemSelected"
@@ -30,7 +30,7 @@
         />
       </template>
 
-      <template v-if="itemSelection.selected.size > 0" v-slot:header-names>
+      <template v-if="itemSelection.selected.size > 0" v-slot:header-title>
         <button class="button is-xs is-primary" aria-label="Delete items" @click="onBulkRemove">
           <Icon name="delete" class="w-4 h-4 fill-current mr-2" />
           Delete {{ numberSelected }} items
@@ -41,8 +41,8 @@
         <BaseCheckbox :model-value="itemSelection.selected.has(row)" @update:model-value="itemSelection.toggle(row)" />
       </template>
 
-      <template v-slot:cell-names="{ row }">
-        <slot name="cell-names" :row="row" />
+      <template v-slot:cell-title="{ row }">
+        <slot name="cell-title" :row="row" />
       </template>
 
       <template v-slot:cell-values="{ row }">
@@ -116,10 +116,6 @@ const state = reactive({
   filteredCount: computed(() => state.filteredFeatures.length),
   filteredFeatures: computed(() => props.searchFilter(props.data, search.value)),
   columns: props.columns,
-  sort: {
-    sortTarget: 'names',
-    sortReverse: true
-  },
 });
 
 const { sortedData, sorting, setData, toggle } = useSort(state.filteredFeatures);
@@ -172,9 +168,9 @@ const onBulkRemove = () => {
   emit('remove', itemSelection);
 };
 
-const onSort = (value) => {
-  console.log(value, isReactive(sorting));
-  state.sort.sortReverse = !state.sort.sortReverse;
-  toggle();
+const onSort = (target) => {
+  // console.log(value, isReactive(sorting));
+  // state.sort.sortReverse = !state.sort.sortReverse;
+  toggle(target);
 };
 </script>
