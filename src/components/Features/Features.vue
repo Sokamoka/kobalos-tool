@@ -2,7 +2,7 @@
   <div class="container m-auto">
     <div class="flex flex-col bg-white rounded-lg shadow-lg">
       <List
-        :columns="state.columns"
+        :columns="columns"
         :data="state.features"
         :search-filter="searchfFilter"
         @edit="onEdit"
@@ -50,29 +50,30 @@ const state = reactive({
   isLoading: false,
   isModalVisible: false,
   features: store.features,
-  columns: {
-    index: {
-      label: '#',
-      class: 'w-1',
-    },
-    title: {
-      label: 'Title',
-      sortable: true,
-      initSortState: 'ascend'
-    },
-    values: {
-      label: 'Variants',
-    },
-    edit: {
-      label: 'Edit',
-      class: 'w-1 text-center',
-    },
-    delete: {
-      label: 'Delete',
-      class: 'w-1',
-    },
-  },
 });
+
+const columns = {
+  index: {
+    label: '#',
+    class: 'w-1',
+  },
+  title: {
+    label: 'Title',
+    sortable: true,
+    initSortState: 'ascend',
+  },
+  values: {
+    label: 'Variants',
+  },
+  edit: {
+    label: 'Edit',
+    class: 'w-1 text-center',
+  },
+  delete: {
+    label: 'Delete',
+    class: 'w-1',
+  },
+};
 
 onMounted(() => {
   featuresRef.on('value', (snapshot) => {

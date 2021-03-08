@@ -2,7 +2,7 @@
   <div class="container m-auto">
     <div class="bg-white rounded-lg shadow-lg">
       <List
-        :columns="state.columns"
+        :columns="columns"
         :data="state.settings"
         :search-filter="searchfFilter"
         @edit="onEdit"
@@ -47,30 +47,54 @@ const store = useStore();
 const isModalVisible = ref(false);
 const state = reactive({
   settings: store.settings,
-  columns: {
-    index: {
-      label: '#',
-      class: 'w-1',
-    },
-    title: {
-      label: 'Title',
-      class: '',
-      sortable: true
-    },
-    values: {
-      label: 'Labels',
-      class: '',
-    },
-    edit: {
-      label: 'Edit',
-      class: 'w-1 text-center',
-    },
-    delete: {
-      label: 'Delete',
-      class: 'w-1',
-    },
-  },
+  // columns: {
+  //   index: {
+  //     label: '#',
+  //     class: 'w-1',
+  //   },
+  //   title: {
+  //     label: 'Title',
+  //     class: '',
+  //     sortable: true
+  //   },
+  //   values: {
+  //     label: 'Labels',
+  //     class: '',
+  //   },
+  //   edit: {
+  //     label: 'Edit',
+  //     class: 'w-1 text-center',
+  //   },
+  //   delete: {
+  //     label: 'Delete',
+  //     class: 'w-1',
+  //   },
+  // },
 });
+
+const columns = {
+  index: {
+    label: '#',
+    class: 'w-1',
+  },
+  title: {
+    label: 'Title',
+    class: '',
+    sortable: true,
+  },
+  values: {
+    label: 'Labels',
+    class: '',
+  },
+  edit: {
+    label: 'Edit',
+    class: 'w-1 text-center',
+  },
+  delete: {
+    label: 'Delete',
+    class: 'w-1',
+  },
+};
 
 onMounted(async () => {
   settingsRef.on('value', (snapshot) => {
@@ -99,9 +123,9 @@ const onRemove = async (payload) => {
 const onRemoveProcess = async (ids) => {
   try {
     await store.bulkRemove(ids, 'settings');
-    notify({ type: TYPE_SUCCESS, title: 'Remove success', icon: 'check-circle'});
+    notify({ type: TYPE_SUCCESS, title: 'Remove success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error'});
+    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error' });
   }
 };
 
@@ -110,7 +134,7 @@ const onSave = async () => {
     await store.saveSetting();
     notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error'});
+    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error' });
   } finally {
     isModalVisible.value = false;
   }
