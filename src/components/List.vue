@@ -81,7 +81,7 @@
 
 <script setup>
 import { defineProps, computed, reactive, defineEmit, ref, watch } from 'vue';
-import DataTable from './DataTable.vue';
+import DataTable from './DataTable/index.vue';
 import BaseCheckbox from './FormControls/BaseCheckbox.vue';
 import useSelection from '../composables/UseSelection.js';
 import useSort from '../composables/UseSort.js';

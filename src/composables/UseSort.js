@@ -1,10 +1,7 @@
 import { createMachine } from 'xstate';
 import { computed, reactive } from 'vue';
 import { sort, compose, toLower, propOr, descend, ascend } from 'ramda';
-
-const SORT_STATE_ORIGINAL = 'original';
-const SORT_STATE_DESCEND = 'descend';
-const SORT_STATE_ASCEND = 'ascend';
+import { SORT_STATE_ASCEND, SORT_STATE_DESCEND, SORT_STATE_ORIGINAL } from '../components/DataTable/internal';
 
 const sortMachine = createMachine({
   id: 'sort',
