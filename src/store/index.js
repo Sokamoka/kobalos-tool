@@ -1,7 +1,13 @@
 import { reactive, computed, watch } from 'vue';
 import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
-import { convertFeaturePayload, convertFeatures, convertSettingPayload, convertSettings } from './internal.js';
+import {
+  convertEnvironments,
+  convertFeaturePayload,
+  convertFeatures,
+  convertSettingPayload,
+  convertSettings,
+} from './internal.js';
 
 const storeName = 'kobalos-manager-store';
 
@@ -23,6 +29,7 @@ const defaultState = () => ({
   user: {},
   features: [],
   settings: [],
+  environments: [],
   manageFeature: defaultManageFeatureState(),
   manageSetting: defaultManageSettingState(),
 });
@@ -40,6 +47,7 @@ export const useStore = () => ({
   isSignIn: computed(() => Boolean(state.user?.uid)),
   features: computed(() => state.features.slice().reverse()),
   settings: computed(() => state.settings.slice().reverse()),
+  environments: computed(() => state.environments),
   manageSettingId: computed(() => state.manageSetting.id),
   manageSettingLabel: computed(() => state.manageSetting.label),
   manageSettingKey: computed(() => state.manageSetting.key),
@@ -61,6 +69,10 @@ export const useStore = () => ({
 
   setSettings(data) {
     state.settings = convertSettings(data);
+  },
+
+  setEnvironments(data) {
+    state.environments = convertEnvironments(data);
   },
 
   resetManageSetting() {

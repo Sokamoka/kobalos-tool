@@ -27,6 +27,7 @@ provider.setCustomParameters({
 // References
 const featuresRef = db.ref('kobalos/features');
 const settingsRef = db.ref('kobalos/settings');
+const environmentsRef = db.ref('environments');
 
 // export utils/refs
-export { db, auth, provider, featuresRef, settingsRef };
+export { db, auth, provider, featuresRef, settingsRef, environmentsRef };

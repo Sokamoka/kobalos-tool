@@ -40,3 +40,9 @@ export const convertSettingPayload = (data) => ({
     value: index,
   })),
 });
+
+export const convertEnvironments = (data) =>
+  Object.keys(data).map((key) => ({
+    id: key,
+    ...data[key],
+  }));
