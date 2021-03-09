@@ -1,12 +1,15 @@
 import { reactive, computed, watch } from 'vue';
+import { findIndex, propEq, reject } from 'ramda';
 import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
 import {
   convertEnvironments,
+  convertEnvironmentsPayload,
   convertFeaturePayload,
   convertFeatures,
   convertSettingPayload,
   convertSettings,
+  newEnvironment,
 } from './internal.js';
 
 const storeName = 'kobalos-manager-store';
@@ -73,6 +76,10 @@ export const useStore = () => ({
 
   setEnvironments(data) {
     state.environments = convertEnvironments(data);
+  },
+
+  addEnvironment() {
+    state.environments.unshift(newEnvironment());
   },
 
   resetManageSetting() {
@@ -151,5 +158,20 @@ export const useStore = () => ({
       deleted[`kobalos/${reference}/${item.id}`] = null;
     });
     return db.ref().update(deleted);
+  },
+
+  async onEnvironmentsOrderChanged(payload) {
+    this.setEnvironments(payload);
+    await db.ref('environments').set(convertEnvironmentsPayload(payload));
+  },
+
+  removeEnvironment(payload) {
+    // console.log(payload.id);
+    if (payload.isNew) {
+      state.environments = reject(propEq('id', payload.id))(state.environments);
+      return;
+    }
+    console.log('REMOVE ITEM');
+    return db.ref(`environments/${payload.id}`).remove();
   },
 });

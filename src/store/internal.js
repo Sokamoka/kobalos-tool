@@ -46,3 +46,16 @@ export const convertEnvironments = (data) =>
     id: key,
     ...data[key],
   }));
+
+export const convertEnvironmentsPayload = (data) =>
+  data.map((item) => ({
+    label: item.label,
+    value: item.value,
+  }));
+
+export const newEnvironment = () => ({
+  id: nanoid(6),
+  label: '',
+  value: '',
+  isNew: true,
+});

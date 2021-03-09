@@ -1,58 +1,87 @@
 <template>
   <div class="container m-auto">
     <div class="flex flex-col bg-white rounded-lg shadow-lg">
-      <div class="p-7">
+      <div class="flex flex-col sm:flex-row p-7">
         <div class="mb-4 sm:mb-0 flex-grow">
           <h2 class="text-sm font-bold uppercase text-gray-900">
             Recent Environments List
           </h2>
-          <p class="text-xs text-gray-500 font-medium">Showing <b>5</b> of <b>5</b> environments</p>
+          <p class="text-xs text-gray-500 font-medium">
+            Showing <b>{{ total }}</b> environments
+          </p>
         </div>
+        <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" aria-label="New" @click="onAdd">
+          <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
+          New
+        </button>
       </div>
       <div class="relative w-full overflow-auto">
         <table>
           <thead>
             <tr>
-              <th>Drag</th>
+              <th class="w-1 text-center">Drag</th>
               <th>Label</th>
               <th>Value</th>
-              <th>Action</th>
-              <th>Delete</th>
+              <th class="w-1 text-center">Action</th>
+              <th class="w-1 text-center">Delete</th>
             </tr>
           </thead>
-          <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody">
-            <tr v-for="env in environmentsList" :key="env.id">
+          <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody" :disabled="false">
+            <!-- <tr v-for="env in environmentsList" :key="env.id">
               <td>
-                <Icon name="drag" class="handle w-6 h-6"></Icon>
+                <button class="handle button is-icon is-flat" aria-label="Delete" @click="onRemove(row)">
+                  <Icon name="drag" class="w-6 h-6"></Icon>
+                </button>
               </td>
               <td>{{ env.label }}</td>
-              <td>{{ env.value }}</td>
+              <td>
+                {{ env.value }}
+              </td>
               <td>Edit/save</td>
-              <td>Delete</td>
-            </tr>
+              <td>
+                <button class="button is-icon is-flat" aria-label="Delete" @click="onRemove(row)">
+                  <Icon name="delete" class="w-6 h-6 fill-current" />
+                </button>
+              </td>
+            </tr> -->
+            <template v-for="env in environmentsList" :key="env.id">
+              <Item :item="env" @remove="onRemove"></Item>
+            </template>
           </VueDraggableNext>
         </table>
+        <div class="px-3 py-4">
+          <a
+            href="https://console.firebase.google.com/u/0/project/tyr-label-manager/database/tyr-label-manager/data"
+            target="_blank"
+            rel="noreferrer"
+            class="button is-flat is-secondary"
+          >
+            Open firebase database
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, onMounted, reactive } from 'vue';
-import { VueDraggableNext } from 'vue-draggable-next'
-import { db, environmentsRef } from '../firebase';
+import { computed, inject, onMounted } from 'vue';
+import { VueDraggableNext } from 'vue-draggable-next';
+import { environmentsRef } from '../firebase';
 import { useStore } from '../store';
+import { TYPE_CONFIRM, TYPE_SUCCESS } from './Dialog/internal';
+import Item from './TeamEnvironmentItem.vue';
+
+const notify = inject('notify');
 
 const store = useStore();
 
-const state = reactive({
-  environments: store.environments,
-});
+const total = computed(() => store.environments.value.length);
 
 const environmentsList = computed({
   get: () => store.environments.value,
   set: (value) => {
-    store.setEnvironments(value);
+    store.onEnvironmentsOrderChanged(value);
   },
 });
 
@@ -63,9 +92,24 @@ onMounted(() => {
     store.setEnvironments(data);
   });
 });
+
+const onAdd = () => {
+  store.addEnvironment();
+};
+
+const onRemove = async (payload) => {
+  const result = await notify({ type: TYPE_CONFIRM, title: 'Are you sure you want to delete?' });
+  if (!result) return;
+  try {
+    await store.removeEnvironment(payload);
+    notify({ type: TYPE_SUCCESS, title: 'Delete success', icon: 'check-circle' });
+  } catch (error) {
+    console.log(error);
+  }
+}
 </script>
 
-<style scoped>
+<style>
 .handle {
   cursor: grab;
 }

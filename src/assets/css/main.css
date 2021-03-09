@@ -31,7 +31,7 @@
   }
 
   table td {
-    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
+    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap bg-white;
   }
 
   table th:first-of-type,
