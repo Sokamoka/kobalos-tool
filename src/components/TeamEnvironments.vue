@@ -27,25 +27,8 @@
             </tr>
           </thead>
           <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody" :disabled="false">
-            <!-- <tr v-for="env in environmentsList" :key="env.id">
-              <td>
-                <button class="handle button is-icon is-flat" aria-label="Delete" @click="onRemove(row)">
-                  <Icon name="drag" class="w-6 h-6"></Icon>
-                </button>
-              </td>
-              <td>{{ env.label }}</td>
-              <td>
-                {{ env.value }}
-              </td>
-              <td>Edit/save</td>
-              <td>
-                <button class="button is-icon is-flat" aria-label="Delete" @click="onRemove(row)">
-                  <Icon name="delete" class="w-6 h-6 fill-current" />
-                </button>
-              </td>
-            </tr> -->
             <template v-for="env in environmentsList" :key="env.id">
-              <Item :item="env" @remove="onRemove"></Item>
+              <Item :item="env" @remove="onRemove" @save="onSave"></Item>
             </template>
           </VueDraggableNext>
         </table>
@@ -95,6 +78,10 @@ onMounted(() => {
 
 const onAdd = () => {
   store.addEnvironment();
+};
+
+const onSave = (payload) => {
+  console.log(payload);
 };
 
 const onRemove = async (payload) => {

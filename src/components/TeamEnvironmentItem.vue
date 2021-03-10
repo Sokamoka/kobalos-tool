@@ -5,15 +5,25 @@
         <Icon name="drag" class="w-6 h-6"></Icon>
       </button>
     </td>
-    <td>
-      <div :contenteditable="state.isEditActive" class="overflow-scroll p-2 font-semibold">
-        {{ item.label }}
-      </div>
+    <td class="align-top">
+      <BaseContenteditable
+        name="label"
+        v-model="fieldLabel"
+        :contenteditable="state.isEditActive"
+        class="p-2 font-semibold"
+        :class="{ 'is-error': labelError }"
+      />
+      <p class="text-xs text-red-a400">{{ labelError }}</p>
     </td>
-    <td>
-      <div :contenteditable="state.isEditActive" class="overflow-scroll p-2">
-        {{ item.value }}
-      </div>
+    <td class="align-top">
+      <BaseContenteditable
+        name="value"
+        v-model="fieldValue"
+        :contenteditable="state.isEditActive"
+        class="p-2"
+        :class="{ 'is-error': valueError }"
+      />
+      <p class="text-xs text-red-a400 leading-tight">{{ valueError }}</p>
     </td>
     <td>
       <button v-if="state.isEditActive" class="button is-icon is-flat" aria-label="Save" @click="onSave">
@@ -33,6 +43,9 @@
 
 <script setup>
 import { defineProps, reactive } from 'vue';
+import { object, string } from 'yup';
+import { useField, useForm } from 'vee-validate';
+import BaseContenteditable from './FormControls/BaseContenteditable.vue';
 
 const emit = defineEmit(['save', 'edit', 'remove']);
 
@@ -47,27 +60,37 @@ const state = reactive({
   isEditActive: props.item.isNew,
 });
 
+const schema = object({
+  label: string().required(),
+  value: string().required(),
+});
+
+const { validate } = useForm({
+  validationSchema: schema,
+  initialValues: {
+    label: props.item.label,
+    value: props.item.value,
+  },
+});
+
+const { value: fieldLabel, errorMessage: labelError } = useField('label');
+const { value: fieldValue, errorMessage: valueError } = useField('value');
+
 const onEdit = () => {
   state.isEditActive = true;
   emit('edit');
 };
 
-const onSave = () => {
-  emit('save');
+const onInput = (event) => {
+  console.log('INPUT', event);
+};
+
+const onSave = async () => {
+  const { valid, errors } = await validate();
+  console.log(valid, errors);
 };
 
 const onRemove = () => {
   emit('remove', props.item);
 };
 </script>
-
-<style scoped>
-[contenteditable='true'] {
-  @apply bg-gray-100 border border-gray-400;
-}
-
-[contenteditable='true']:active,
-[contenteditable='true']:focus {
-  outline: none;
-}
-</style>
