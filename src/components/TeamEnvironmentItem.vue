@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { defineProps, reactive } from 'vue';
+import { defineProps, reactive, toRef, watch } from 'vue';
 import { object, string } from 'yup';
 import { useField, useForm } from 'vee-validate';
 import BaseContenteditable from './FormControls/BaseContenteditable.vue';
@@ -56,8 +56,10 @@ const props = defineProps({
   },
 });
 
+const item = toRef(props, 'item');
+
 const state = reactive({
-  isEditActive: props.item.isNew,
+  isEditActive: item.value.isNew,
 });
 
 const schema = object({
@@ -65,32 +67,37 @@ const schema = object({
   value: string().required(),
 });
 
-const { validate } = useForm({
+const { setFieldValue, validate, values } = useForm({
   validationSchema: schema,
   initialValues: {
-    label: props.item.label,
-    value: props.item.value,
+    label: item.value.label,
+    value: item.value.value,
   },
 });
 
 const { value: fieldLabel, errorMessage: labelError } = useField('label');
 const { value: fieldValue, errorMessage: valueError } = useField('value');
 
+watch(item, (item) => {
+   setFieldValue('label', item.label);
+   setFieldValue('value', item.value);
+});
+
 const onEdit = () => {
   state.isEditActive = true;
   emit('edit');
 };
 
-const onInput = (event) => {
-  console.log('INPUT', event);
-};
-
 const onSave = async () => {
-  const { valid, errors } = await validate();
-  console.log(valid, errors);
+  const { valid } = await validate();
+  if (!valid) return;
+  emit('save', { ...item.value, ...values });
+  state.isEditActive = false;
 };
 
 const onRemove = () => {
-  emit('remove', props.item);
+  emit('remove', item.value);
 };
+
+
 </script>

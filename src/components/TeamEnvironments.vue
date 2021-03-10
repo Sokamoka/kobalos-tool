@@ -26,7 +26,7 @@
               <th class="w-1 text-center">Delete</th>
             </tr>
           </thead>
-          <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody" :disabled="false">
+          <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody" :disabled="false" @end="onChange">
             <template v-for="env in environmentsList" :key="env.id">
               <Item :item="env" @remove="onRemove" @save="onSave"></Item>
             </template>
@@ -69,9 +69,10 @@ const environmentsList = computed({
 });
 
 onMounted(() => {
-  console.log('MOUNTED');
+  // console.log('MOUNTED');
   environmentsRef.on('value', (snapshot) => {
     const data = snapshot.val();
+    // console.log('UPDATE-VALUE', data);
     store.setEnvironments(data);
   });
 });
@@ -80,8 +81,15 @@ const onAdd = () => {
   store.addEnvironment();
 };
 
-const onSave = (payload) => {
-  console.log(payload);
+const onSave = async (payload) => {
+  // console.log(payload);
+  // store.updateEnvironment(payload);
+  try {
+    await store.setEnvironmentsRef();
+    notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const onRemove = async (payload) => {
@@ -90,6 +98,14 @@ const onRemove = async (payload) => {
   try {
     await store.removeEnvironment(payload);
     notify({ type: TYPE_SUCCESS, title: 'Delete success', icon: 'check-circle' });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const onChange = async () => {
+  try {
+    await store.setEnvironmentsRef();
   } catch (error) {
     console.log(error);
   }

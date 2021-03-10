@@ -78,6 +78,12 @@ export const useStore = () => ({
     state.environments = convertEnvironments(data);
   },
 
+  // updateEnvironment(payload) {
+  //   const index = findIndex(propEq('id', payload.id))(state.environments);
+  //   console.log(index);
+  //   state.environments[index] = payload;
+  // },
+
   addEnvironment() {
     state.environments.unshift(newEnvironment());
   },
@@ -160,13 +166,18 @@ export const useStore = () => ({
     return db.ref().update(deleted);
   },
 
-  async onEnvironmentsOrderChanged(payload) {
+  onEnvironmentsOrderChanged(payload) {
+    console.log('onEnvironmentsOrderChanged:', payload);
     this.setEnvironments(payload);
-    await db.ref('environments').set(convertEnvironmentsPayload(payload));
+    // await db.ref('environments').set(convertEnvironmentsPayload(payload));
+    // await this.setEnvironmentsRef();
+  },
+
+  setEnvironmentsRef() {
+    return db.ref('environments').set(convertEnvironmentsPayload(state.environments));
   },
 
   removeEnvironment(payload) {
-    // console.log(payload.id);
     if (payload.isNew) {
       state.environments = reject(propEq('id', payload.id))(state.environments);
       return;
