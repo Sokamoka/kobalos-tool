@@ -51,6 +51,7 @@ export const useStore = () => ({
   features: computed(() => state.features.slice().reverse()),
   settings: computed(() => state.settings.slice().reverse()),
   environments: computed(() => state.environments),
+  isEnvironmentActionDisabled: computed(() => state.environments.some((item) => item.isNew)),
   manageSettingId: computed(() => state.manageSetting.id),
   manageSettingLabel: computed(() => state.manageSetting.label),
   manageSettingKey: computed(() => state.manageSetting.key),
@@ -78,11 +79,11 @@ export const useStore = () => ({
     state.environments = convertEnvironments(data);
   },
 
-  // updateEnvironment(payload) {
-  //   const index = findIndex(propEq('id', payload.id))(state.environments);
-  //   console.log(index);
-  //   state.environments[index] = payload;
-  // },
+  updateEnvironment(payload) {
+    const index = findIndex(propEq('id', payload.id))(state.environments);
+    console.log(index);
+    state.environments[index] = payload;
+  },
 
   addEnvironment() {
     state.environments.unshift(newEnvironment());
@@ -166,12 +167,11 @@ export const useStore = () => ({
     return db.ref().update(deleted);
   },
 
-  onEnvironmentsOrderChanged(payload) {
-    console.log('onEnvironmentsOrderChanged:', payload);
-    this.setEnvironments(payload);
-    // await db.ref('environments').set(convertEnvironmentsPayload(payload));
-    // await this.setEnvironmentsRef();
-  },
+  // onEnvironmentsOrderChanged(payload) {
+  //   this.setEnvironments(payload);
+  //   await db.ref('environments').set(convertEnvironmentsPayload(payload));
+  //   await this.setEnvironmentsRef();
+  // },
 
   setEnvironmentsRef() {
     return db.ref('environments').set(convertEnvironmentsPayload(state.environments));
@@ -182,7 +182,6 @@ export const useStore = () => ({
       state.environments = reject(propEq('id', payload.id))(state.environments);
       return;
     }
-    console.log('REMOVE ITEM');
     return db.ref(`environments/${payload.id}`).remove();
   },
 });

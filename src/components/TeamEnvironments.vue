@@ -10,7 +10,12 @@
             Showing <b>{{ total }}</b> environments
           </p>
         </div>
-        <button class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0" aria-label="New" @click="onAdd">
+        <button
+          class="button is-secondary is-xs sm:ml-3 mt-3 sm:mt-0"
+          :disabled="isEnvironmentActionDisabled"
+          aria-label="New"
+          @click="onAdd"
+        >
           <Icon name="add-circle" class="w-4 h-4 fill-current mr-1"></Icon>
           New
         </button>
@@ -26,7 +31,13 @@
               <th class="w-1 text-center">Delete</th>
             </tr>
           </thead>
-          <VueDraggableNext v-model="environmentsList" handle=".handle" tag="tbody" :disabled="false" @end="onChange">
+          <VueDraggableNext
+            v-model="environmentsList"
+            handle=".handle"
+            tag="tbody"
+            :disabled="isEnvironmentActionDisabled"
+            @end="onChange"
+          >
             <template v-for="env in environmentsList" :key="env.id">
               <Item :item="env" @remove="onRemove" @save="onSave"></Item>
             </template>
@@ -48,7 +59,7 @@
 </template>
 
 <script setup>
-import { computed, inject, onMounted } from 'vue';
+import { computed, inject, onMounted, ref, toRef } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
 import { environmentsRef } from '../firebase';
 import { useStore } from '../store';
@@ -61,18 +72,18 @@ const store = useStore();
 
 const total = computed(() => store.environments.value.length);
 
+const isEnvironmentActionDisabled = toRef(store, 'isEnvironmentActionDisabled');
+
 const environmentsList = computed({
   get: () => store.environments.value,
   set: (value) => {
-    store.onEnvironmentsOrderChanged(value);
+    store.setEnvironments(value);
   },
 });
 
 onMounted(() => {
-  // console.log('MOUNTED');
   environmentsRef.on('value', (snapshot) => {
     const data = snapshot.val();
-    // console.log('UPDATE-VALUE', data);
     store.setEnvironments(data);
   });
 });
@@ -82,8 +93,7 @@ const onAdd = () => {
 };
 
 const onSave = async (payload) => {
-  // console.log(payload);
-  // store.updateEnvironment(payload);
+  store.updateEnvironment(payload);
   try {
     await store.setEnvironmentsRef();
     notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
@@ -101,7 +111,7 @@ const onRemove = async (payload) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const onChange = async () => {
   try {
@@ -109,7 +119,7 @@ const onChange = async () => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 </script>
 
 <style>

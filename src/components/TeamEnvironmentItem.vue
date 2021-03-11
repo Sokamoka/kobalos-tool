@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      <button class="handle button is-icon is-flat hover:bg-transparent" aria-label="drag">
+      <button class="handle focus:outline-none" aria-label="drag">
         <Icon name="drag" class="w-6 h-6"></Icon>
       </button>
     </td>
@@ -91,7 +91,7 @@ const onEdit = () => {
 const onSave = async () => {
   const { valid } = await validate();
   if (!valid) return;
-  emit('save', { ...item.value, ...values });
+  emit('save', { ...item.value, ...values, isNew: false });
   state.isEditActive = false;
 };
 
