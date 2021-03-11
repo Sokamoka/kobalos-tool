@@ -90,6 +90,10 @@ const onEdit = () => {
 const onSave = async () => {
   const { valid } = await validate();
   if (!valid) return;
+  if(item.value.label === values.label && item.value.value === values.value ) {
+    state.isEditActive = false;
+    return;
+  } 
   emit('save', { ...item.value, ...values, isNew: false });
   state.isEditActive = false;
 };
