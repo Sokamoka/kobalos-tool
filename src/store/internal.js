@@ -53,9 +53,6 @@ export const convertEnvironmentsPayload = (data) => {
     label: item.label,
     value: item.value,
   });
-  // const result = compose(map(convert), reject(propEq('isNew', true)))(data);
-  // console.log(result);
-  // return result;
   return compose(map(convert), reject(propEq('isNew', true)))(data);
 };
 

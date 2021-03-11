@@ -47,7 +47,7 @@ import { object, string } from 'yup';
 import { useField, useForm } from 'vee-validate';
 import BaseContenteditable from './FormControls/BaseContenteditable.vue';
 
-const emit = defineEmit(['save', 'edit', 'remove']);
+const emit = defineEmit(['save', 'remove']);
 
 const props = defineProps({
   item: {
@@ -79,13 +79,12 @@ const { value: fieldLabel, errorMessage: labelError } = useField('label');
 const { value: fieldValue, errorMessage: valueError } = useField('value');
 
 watch(item, (item) => {
-   setFieldValue('label', item.label);
-   setFieldValue('value', item.value);
+  setFieldValue('label', item.label);
+  setFieldValue('value', item.value);
 });
 
 const onEdit = () => {
   state.isEditActive = true;
-  emit('edit');
 };
 
 const onSave = async () => {
@@ -96,8 +95,6 @@ const onSave = async () => {
 };
 
 const onRemove = () => {
-  emit('remove', item.value);
+  emit('remove', { ...item.value, ...values });
 };
-
-
 </script>

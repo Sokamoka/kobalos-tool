@@ -81,7 +81,6 @@ export const useStore = () => ({
 
   updateEnvironment(payload) {
     const index = findIndex(propEq('id', payload.id))(state.environments);
-    console.log(index);
     state.environments[index] = payload;
   },
 
@@ -166,12 +165,6 @@ export const useStore = () => ({
     });
     return db.ref().update(deleted);
   },
-
-  // onEnvironmentsOrderChanged(payload) {
-  //   this.setEnvironments(payload);
-  //   await db.ref('environments').set(convertEnvironmentsPayload(payload));
-  //   await this.setEnvironmentsRef();
-  // },
 
   setEnvironmentsRef() {
     return db.ref('environments').set(convertEnvironmentsPayload(state.environments));

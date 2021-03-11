@@ -59,11 +59,11 @@
 </template>
 
 <script setup>
-import { computed, inject, onMounted, ref, toRef } from 'vue';
+import { computed, inject, onMounted, toRef } from 'vue';
 import { VueDraggableNext } from 'vue-draggable-next';
 import { environmentsRef } from '../firebase';
 import { useStore } from '../store';
-import { TYPE_CONFIRM, TYPE_SUCCESS } from './Dialog/internal';
+import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from './Dialog/internal';
 import Item from './TeamEnvironmentItem.vue';
 
 const notify = inject('notify');
@@ -98,18 +98,20 @@ const onSave = async (payload) => {
     await store.setEnvironmentsRef();
     notify({ type: TYPE_SUCCESS, title: 'Save success', icon: 'check-circle' });
   } catch (error) {
-    console.log(error);
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error' });
   }
 };
 
 const onRemove = async (payload) => {
-  const result = await notify({ type: TYPE_CONFIRM, title: 'Are you sure you want to delete?' });
-  if (!result) return;
+  if (payload.label || payload.value) {
+    const result = await notify({ type: TYPE_CONFIRM, title: 'Are you sure you want to delete?' });
+    if (!result) return;
+  }
   try {
     await store.removeEnvironment(payload);
     notify({ type: TYPE_SUCCESS, title: 'Delete success', icon: 'check-circle' });
   } catch (error) {
-    console.log(error);
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error' });
   }
 };
 
@@ -117,7 +119,7 @@ const onChange = async () => {
   try {
     await store.setEnvironmentsRef();
   } catch (error) {
-    console.log(error);
+    notify({ type: TYPE_ERROR, title: error.message, icon: 'error' });
   }
 };
 </script>
