@@ -31,6 +31,15 @@ const routes = [
       title: 'Site settings',
     },
   },
+  {
+    path: '/environments',
+    name: 'Environments',
+    component: () => import('../components/TeamEnvironments.vue'),
+    meta: {
+      requiresAuth: true,
+      title: 'Team environments',
+    },
+  },
 ];
 
 const router = createRouter({

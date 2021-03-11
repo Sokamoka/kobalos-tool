@@ -31,7 +31,7 @@
   }
 
   table td {
-    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap;
+    @apply px-4 py-2 text-sm border-b border-gray-300 whitespace-nowrap bg-white;
   }
 
   table th:first-of-type,
@@ -42,6 +42,22 @@
   table th:last-of-type,
   table td:last-of-type {
     @apply pr-7;
+  }
+
+  [contenteditable='false'] {
+    @apply border border-transparent;
+  }
+
+  [contenteditable='true'] {
+    @apply border border-gray-400 rounded;
+  }
+  
+  [contenteditable='true']:active,
+  [contenteditable='true']:focus {
+    @apply outline-none;
+  }
+  [contenteditable].is-error {
+    @apply border-red-a400;
   }
 }
 
@@ -68,6 +84,10 @@
 
   .button {
     @apply inline-flex flex-row items-center justify-center px-6 h-10 bg-gray-100 text-gray-700 text-sm font-semibold leading-none rounded shadow-md hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:ring-opacity-75 transition-all duration-300 ease-in-out;
+  }
+
+  .button[disabled] {
+    @apply opacity-50 cursor-not-allowed;
   }
 
   .button.is-primary {

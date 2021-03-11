@@ -1,7 +1,16 @@
 import { reactive, computed, watch } from 'vue';
+import { findIndex, propEq, reject } from 'ramda';
 import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
-import { convertFeaturePayload, convertFeatures, convertSettingPayload, convertSettings } from './internal.js';
+import {
+  convertEnvironments,
+  convertEnvironmentsPayload,
+  convertFeaturePayload,
+  convertFeatures,
+  convertSettingPayload,
+  convertSettings,
+  newEnvironment,
+} from './internal.js';
 
 const storeName = 'kobalos-manager-store';
 
@@ -23,6 +32,7 @@ const defaultState = () => ({
   user: {},
   features: [],
   settings: [],
+  environments: [],
   manageFeature: defaultManageFeatureState(),
   manageSetting: defaultManageSettingState(),
 });
@@ -40,6 +50,8 @@ export const useStore = () => ({
   isSignIn: computed(() => Boolean(state.user?.uid)),
   features: computed(() => state.features.slice().reverse()),
   settings: computed(() => state.settings.slice().reverse()),
+  environments: computed(() => state.environments),
+  isEnvironmentActionDisabled: computed(() => state.environments.some((item) => item.isNew)),
   manageSettingId: computed(() => state.manageSetting.id),
   manageSettingLabel: computed(() => state.manageSetting.label),
   manageSettingKey: computed(() => state.manageSetting.key),
@@ -61,6 +73,19 @@ export const useStore = () => ({
 
   setSettings(data) {
     state.settings = convertSettings(data);
+  },
+
+  setEnvironments(data) {
+    state.environments = convertEnvironments(data);
+  },
+
+  updateEnvironment(payload) {
+    const index = findIndex(propEq('id', payload.id))(state.environments);
+    state.environments[index] = payload;
+  },
+
+  addEnvironment() {
+    state.environments.unshift(newEnvironment());
   },
 
   resetManageSetting() {
@@ -139,5 +164,17 @@ export const useStore = () => ({
       deleted[`kobalos/${reference}/${item.id}`] = null;
     });
     return db.ref().update(deleted);
+  },
+
+  setEnvironmentsRef() {
+    return db.ref('environments').set(convertEnvironmentsPayload(state.environments));
+  },
+
+  removeEnvironment(payload) {
+    if (payload.isNew) {
+      state.environments = reject(propEq('id', payload.id))(state.environments);
+      return;
+    }
+    return db.ref(`environments/${payload.id}`).remove();
   },
 });

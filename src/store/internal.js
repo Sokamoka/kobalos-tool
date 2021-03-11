@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { compose, map, propEq, reject } from 'ramda';
 
 const MATRICES_LIMIT = 3;
 
@@ -39,4 +40,25 @@ export const convertSettingPayload = (data) => ({
     label: item,
     value: index,
   })),
+});
+
+export const convertEnvironments = (data) =>
+  Object.keys(data).map((key) => ({
+    id: key,
+    ...data[key],
+  }));
+
+export const convertEnvironmentsPayload = (data) => {
+  const convert = (item) => ({
+    label: item.label,
+    value: item.value,
+  });
+  return compose(map(convert), reject(propEq('isNew', true)))(data);
+};
+
+export const newEnvironment = () => ({
+  id: nanoid(6),
+  label: '',
+  value: '',
+  isNew: true,
 });

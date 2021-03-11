@@ -13,6 +13,9 @@
         <router-link :to="{ name: 'Settings' }" tag="button" class="button is-flat ml-1 px-3">
           Site settings
         </router-link>
+        <router-link :to="{ name: 'Environments' }" tag="button" class="button is-flat ml-1 px-3">
+          Team environments
+        </router-link>
       </div>
     </div>
 </template>
