@@ -26,7 +26,7 @@
 import { useField } from 'vee-validate';
 import { equalityIndicatorClass } from './internal';
 
-export default {
+const BaseTagInput = {
   emits: ['update:modelValue'],
 
   props: {
@@ -102,7 +102,8 @@ export default {
 
     onInput() {
       equalityIndicatorClass(this.$el).remove();
-    }
+    },
   },
 };
+export default BaseTagInput;
 </script>

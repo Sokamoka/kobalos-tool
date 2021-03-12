@@ -13,8 +13,7 @@
 </template>
 
 <script>
-import { toRef } from '@vue/reactivity';
-export default {
+const Switch = {
   name: 'Switch',
 
   inheritAttrs: false,
@@ -31,6 +30,7 @@ export default {
     },
   },
 };
+export default Switch;
 </script>
 
 <style scoped>
@@ -44,9 +44,9 @@ export default {
   @apply text-gray-800;
   margin-left: 8px;
   text-transform: capitalize;
-  /* overflow: hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; */
+  white-space: nowrap;
 }
 
 .input {
@@ -75,7 +75,6 @@ export default {
   align-items: center;
   position: relative;
   height: var(--switch-size);
-  /* flex-basis: var(--switch-container-width); */
   width: var(--switch-container-width);
   border-radius: var(--switch-size);
   background-color: var(--light-gray);

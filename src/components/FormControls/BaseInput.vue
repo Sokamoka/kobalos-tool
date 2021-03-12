@@ -19,7 +19,7 @@
 import { useField } from 'vee-validate';
 import { toRef } from 'vue';
 
-export default {
+const BaseInput = {
   name: 'BaseInput',
 
   emits: ['update:modelValue'],
@@ -85,4 +85,5 @@ export default {
     },
   },
 };
+export default BaseInput;
 </script>

@@ -5,7 +5,7 @@
 <script>
 import { toRef } from 'vue';
 
-export default {
+const BaseContenteditable = {
   emits: ['update:modelValue'],
 
   props: {
@@ -29,8 +29,5 @@ export default {
     }
   }
 }
+export default BaseContenteditable;
 </script>
-
-<style scoped>
-
-</style>
