@@ -48,22 +48,6 @@
   table td:last-of-type {
     @apply pr-7;
   }
-
-  [contenteditable='false'] {
-    @apply border border-transparent;
-  }
-
-  [contenteditable='true'] {
-    @apply border border-gray-400 rounded;
-  }
-  
-  [contenteditable='true']:active,
-  [contenteditable='true']:focus {
-    @apply outline-none;
-  }
-  [contenteditable].is-error {
-    @apply border-red-a400;
-  }
 }
 
 @layer components {
@@ -159,4 +143,20 @@
   .input.is-valid input {
     @apply text-green-600;
   } */
+}
+
+div[contenteditable='false'] {
+  @apply border border-transparent;
+}
+
+div[contenteditable='true'] {
+  @apply border border-gray-400 rounded;
+}
+
+div[contenteditable='true']:active,
+div[contenteditable='true']:focus {
+  @apply outline-none;
+}
+div[contenteditable].is-error {
+  @apply border-red-a400;
 }
