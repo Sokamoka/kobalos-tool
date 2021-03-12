@@ -185,7 +185,6 @@ export const useStore = () => ({
   },
 
   setMaintenanceRef(value) {
-    // this.setMaintenance(value);
     return db.ref('kobalos/maintenance').set(value);
   },
 });

@@ -8,6 +8,7 @@
 import { computed, inject, onMounted } from 'vue';
 import { maintenanceRef } from '../firebase';
 import { useStore } from '../store';
+import { dbErrorMessage } from '../utils/db-error-message';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from './Dialog/internal';
 import BaseSwitch from './FormControls/BaseSwitch.vue';
 
@@ -43,7 +44,7 @@ const onSetMaintenance = async (value) => {
     if (value) return notify({ type: TYPE_SUCCESS, title: 'You are in Maintenance mode', icon: 'check-circle' });
     notify({ type: TYPE_SUCCESS, title: 'Maintenance mode is over', icon: 'check-circle' });
   } catch (error) {
-    notify({ type: TYPE_ERROR, title: error.message, icon: 'error' });
+    notify({ type: TYPE_ERROR, title: dbErrorMessage(error.message), icon: 'error' });
   }
 };
 </script>
