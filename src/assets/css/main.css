@@ -20,7 +20,10 @@
   }
 
   table th .state-sort {
-    @apply mt-1 ml-1 w-4 h-4 text-gray-400;
+    @apply ml-1 w-4 h-4 text-gray-400;
+  }
+  table th.is-sortable {
+    @apply flex items-center;
   }
   table th.is-active {
     @apply text-black;
