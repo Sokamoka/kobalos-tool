@@ -67,7 +67,7 @@
 import { toRefs } from '@vue/reactivity';
 import { SORT_STATE_ASCEND, SORT_STATE_DESCEND, SORT_STATE_ORIGINAL } from './internal';
 
-export default {
+const DataTable = {
   name: 'DataTable',
 
   props: {
@@ -118,4 +118,5 @@ export default {
     },
   },
 };
+export default DataTable;
 </script>

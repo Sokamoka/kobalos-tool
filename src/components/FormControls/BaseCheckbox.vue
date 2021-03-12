@@ -10,7 +10,7 @@
 </template>
 
 <script>
-export default {
+const BaseCheckbox = {
   props: {
     label: {
       type: String,
@@ -35,9 +35,8 @@ export default {
       }
     }
   }
-
-
 };
+export default BaseCheckbox;
 </script>
 
 <style scoped>

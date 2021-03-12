@@ -1,13 +1,14 @@
 <template>
-  <div class="container flex flex-col sm:flex-row mb-5 items-center m-auto">
-      <div class="flex-grow mb-5 sm:mb-0">
+  <div class="container flex flex-col lg:flex-row mb-5 lg:items-center m-auto">
+      <div class="flex-grow mb-5 lg:mb-0">
         <h1 class="text-3xl font-bold uppercase">
           {{ title }}
         </h1>
         <User />
       </div>
-      <div>
-        <router-link :to="{ name: 'Features' }" tag="button" class="button is-flat px-3">
+      <div class="flex flex-wrap items-center justify-end">
+        <Maintenance class="button is-flat px-3 cursor-pointer" />
+        <router-link :to="{ name: 'Features' }" tag="button" class="button ml-1 is-flat px-3">
           A/B Tests
         </router-link>
         <router-link :to="{ name: 'Settings' }" tag="button" class="button is-flat ml-1 px-3">
@@ -23,6 +24,7 @@
 <script setup>
 import { ref } from "vue";
 import User from "./User.vue";
+import Maintenance from './Maintenance.vue';
 
 const title = ref(import.meta.env.VITE_TITLE);
 </script>

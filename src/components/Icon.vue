@@ -1,6 +1,6 @@
 <template>
   <i class="inline-block">
-    <component :is="componentFile" v-bind="$attrs"/>
+    <component :is="componentFile" fill="currentColor"/>
   </i>
 </template>
 

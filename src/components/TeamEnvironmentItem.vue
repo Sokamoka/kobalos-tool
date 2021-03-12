@@ -10,7 +10,7 @@
         name="label"
         v-model="fieldLabel"
         :contenteditable="state.isEditActive"
-        class="p-2 font-semibold"
+        class="p-2 font-semibold -mx-2"
         :class="{ 'is-error': labelError }"
       />
       <p class="text-xs text-red-a400">{{ labelError }}</p>
@@ -20,7 +20,7 @@
         name="value"
         v-model="fieldValue"
         :contenteditable="state.isEditActive"
-        class="p-2"
+        class="p-2 -mx-2"
         :class="{ 'is-error': valueError }"
       />
       <p class="text-xs text-red-a400 leading-tight">{{ valueError }}</p>

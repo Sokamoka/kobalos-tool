@@ -33,6 +33,7 @@ const defaultState = () => ({
   features: [],
   settings: [],
   environments: [],
+  maintenance: false,
   manageFeature: defaultManageFeatureState(),
   manageSetting: defaultManageSettingState(),
 });
@@ -60,6 +61,7 @@ export const useStore = () => ({
   manageFeatureTitle: computed(() => state.manageFeature.title),
   manageFeatureName: computed(() => state.manageFeature.name),
   manageFeatureVariants: computed(() => state.manageFeature.variants),
+  maintenance: computed(() => state.maintenance),
 
   // Mutations
 
@@ -128,6 +130,10 @@ export const useStore = () => ({
     state.manageFeature.variants = payload;
   },
 
+  setMaintenance(value) {
+    state.maintenance = value;
+  },
+
   // Actions
 
   signIn(user) {
@@ -176,5 +182,9 @@ export const useStore = () => ({
       return;
     }
     return db.ref(`environments/${payload.id}`).remove();
+  },
+
+  setMaintenanceRef(value) {
+    return db.ref('kobalos/maintenance').set(value);
   },
 });

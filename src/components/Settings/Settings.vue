@@ -47,29 +47,6 @@ const store = useStore();
 const isModalVisible = ref(false);
 const state = reactive({
   settings: store.settings,
-  // columns: {
-  //   index: {
-  //     label: '#',
-  //     class: 'w-1',
-  //   },
-  //   title: {
-  //     label: 'Title',
-  //     class: '',
-  //     sortable: true
-  //   },
-  //   values: {
-  //     label: 'Labels',
-  //     class: '',
-  //   },
-  //   edit: {
-  //     label: 'Edit',
-  //     class: 'w-1 text-center',
-  //   },
-  //   delete: {
-  //     label: 'Delete',
-  //     class: 'w-1',
-  //   },
-  // },
 });
 
 const columns = {
