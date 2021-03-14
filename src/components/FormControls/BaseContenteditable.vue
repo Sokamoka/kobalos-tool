@@ -1,10 +1,8 @@
 <template>
-  <div @input="onInput" v-html="modelValue" @paste.prevent="onPaste"></div>
+  <div @input="onInput" v-text="modelValue" @paste.prevent="onPaste"></div>
 </template>
 
 <script>
-import { toRef } from 'vue';
-
 const BaseContenteditable = {
   emits: ['update:modelValue'],
 
@@ -17,7 +15,7 @@ const BaseContenteditable = {
 
   methods: {
     onInput(event) {
-      this.$emit('update:modelValue', event.target.innerHTML);
+      this.$emit('update:modelValue', event.target.innerText);
     },
 
     onPaste(event) {
