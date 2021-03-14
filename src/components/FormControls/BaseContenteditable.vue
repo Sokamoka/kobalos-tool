@@ -1,5 +1,5 @@
 <template>
-  <div @input="onInput" v-text="modelValue"></div>
+  <div @input="onInput" v-html="modelValue" @paste.prevent="onPaste"></div>
 </template>
 
 <script>
@@ -11,23 +11,21 @@ const BaseContenteditable = {
   props: {
     modelValue: {
       type: String,
-      default: ''
-    }
-  },
-
-  setup(props) {
-    const modelValue = toRef(props, 'modelValue');
-
-    return {
-      modelValue
-    }
+      default: '',
+    },
   },
 
   methods: {
     onInput(event) {
       this.$emit('update:modelValue', event.target.innerHTML);
-    }
-  }
-}
+    },
+
+    onPaste(event) {
+      const clipboardData = event.clipboardData || window.clipboardData;
+      const pastedData = clipboardData.getData('text/plain');
+      document.execCommand('insertHTML', false, pastedData);
+    },
+  },
+};
 export default BaseContenteditable;
 </script>
