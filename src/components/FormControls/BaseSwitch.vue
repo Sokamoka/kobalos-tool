@@ -34,6 +34,8 @@ export default Switch;
 </script>
 
 <style scoped>
+@reference "tailwindcss";
+
 .switch-container {
   cursor: pointer;
   display: flex;

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   purge: ['./src/**/*.{vue,js,ts}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
