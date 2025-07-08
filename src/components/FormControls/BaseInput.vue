@@ -5,7 +5,7 @@
     <input
       :id="name"
       :name="name"
-      :value="inputValue"
+      v-model="inputValue"
       v-bind="$attrs"
       @input="onInputChange($event)"
       @blur="handleBlur"
@@ -50,14 +50,20 @@ const BaseInput = {
   setup(props) {
     const modelValue = toRef(props, 'modelValue');
 
-    const { value: inputValue, errorMessage, handleBlur, handleInput, meta } = useField(props.name, undefined, {
+    const {
+      value: inputValue,
+      errorMessage,
+      // handleBlur,
+      // handleInput,
+      meta,
+    } = useField(() => props.name, undefined, {
       initialValue: modelValue.value,
     });
 
     return {
       modelValue,
-      handleInput,
-      handleBlur,
+      // handleInput,
+      // handleBlur,
       errorMessage,
       inputValue,
       meta,
@@ -80,7 +86,7 @@ const BaseInput = {
 
   methods: {
     onInputChange(event) {
-      this.handleInput(event);
+      // this.handleInput(event);
       this.$emit('update:modelValue', event.target.value);
     },
   },

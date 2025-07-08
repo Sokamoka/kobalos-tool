@@ -1,6 +1,6 @@
-import { firebase } from '@firebase/app';
-import 'firebase/auth';
-import 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref } from 'firebase/database';
+import { getAuth, OAuthProvider } from 'firebase/auth';
 
 // firebase init
 const firebaseConfig = {
@@ -13,22 +13,23 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
   measurementId: import.meta.env.VITE_MEASUREMENT_ID,
 };
-firebase.initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 // utils
-const db = firebase.database();
-const auth = firebase.auth();
+const db = getDatabase(app);
+const auth = getAuth(app);
 
-const provider = new firebase.auth.OAuthProvider('microsoft.com');
-provider.setCustomParameters({
-  tenant: import.meta.env.VITE_APP_TENANT,
-});
+const provider = new OAuthProvider('microsoft.com');
+// provider.setCustomParameters({
+//   tenant: import.meta.env.VITE_APP_TENANT,
+// });
 
 // References
-const featuresRef = db.ref('kobalos/features');
-const settingsRef = db.ref('kobalos/settings');
-const maintenanceRef = db.ref('kobalos/maintenance');
-const environmentsRef = db.ref('environments');
+const featuresRef = ref(db, '/features');
+// const featuresRef = ref(db, 'kobalos/features');
+const settingsRef = ref(db, 'kobalos/settings');
+const maintenanceRef = ref(db, 'kobalos/maintenance');
+const environmentsRef = ref(db, 'environments');
 
 // export utils/refs
 export { db, auth, provider, featuresRef, settingsRef, maintenanceRef, environmentsRef };

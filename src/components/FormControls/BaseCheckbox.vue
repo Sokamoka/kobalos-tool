@@ -14,7 +14,7 @@ const BaseCheckbox = {
   props: {
     label: {
       type: String,
-      default: "",
+      default: '',
     },
 
     modelValue: {
@@ -25,30 +25,32 @@ const BaseCheckbox = {
     intermediate: {
       type: Boolean,
       default: false,
-    }
+    },
   },
-  
+
   computed: {
     mainClasses() {
       return {
-        'intermediate': this.intermediate
-      }
-    }
-  }
+        intermediate: this.intermediate,
+      };
+    },
+  },
 };
 export default BaseCheckbox;
 </script>
 
 <style scoped>
-input[type="checkbox"] {
-  @apply w-3 h-3 bg-white border border-gray-400 rounded-sm relative align-middle appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-opacity-75;
+@reference "tailwindcss";
+
+input[type='checkbox'] {
+  @apply w-3 h-3 bg-white border border-gray-400 rounded-sm relative align-middle appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-300;
 }
 
-input[type="checkbox"].intermediate {
+input[type='checkbox'].intermediate {
   @apply bg-indigo-200 border-indigo-300;
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   @apply bg-indigo-500 border-indigo-700;
 }
 </style>
