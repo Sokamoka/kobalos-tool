@@ -1,18 +1,18 @@
 <template>
   <i class="inline-block">
-    <component :is="componentFile" fill="currentColor"/>
+    <component :is="componentFile" fill="currentColor" />
   </i>
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, defineProps } from "vue";
+import { computed, defineAsyncComponent } from 'vue';
 
-const props =  defineProps({
+const props = defineProps({
   name: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const componentFile = computed(()=> defineAsyncComponent( () => import(`../assets/svgs/${props.name}.svg`)));
+const componentFile = computed(() => defineAsyncComponent(() => import(`../assets/svgs/${props.name}.svg`)));
 </script>

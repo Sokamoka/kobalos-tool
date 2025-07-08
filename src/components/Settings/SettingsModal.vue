@@ -34,14 +34,14 @@
 </template>
 
 <script setup>
-import { computed, defineProps, markRaw } from 'vue';
+import { computed, markRaw } from 'vue';
 import { useForm } from 'vee-validate';
 import { object, string, array } from 'yup';
 import { useStore } from '../../store';
 import Modal from '../Modal.vue';
 import BaseTagInput from '../FormControls/BaseTagInput.vue';
 
-const emit = defineEmit(['save', 'remove', 'update:modelValue']);
+const emit = defineEmits(['save', 'remove', 'update:modelValue']);
 
 const props = defineProps({
   modelValue: {

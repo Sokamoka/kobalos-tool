@@ -11,6 +11,7 @@ import {
   convertSettings,
   newEnvironment,
 } from './internal.js';
+import { ref } from 'firebase/database';
 
 const storeName = 'kobalos-manager-store';
 
@@ -151,7 +152,7 @@ export const useStore = () => ({
   saveSetting() {
     const payload = convertSettingPayload(state.manageSetting);
     if (state.manageSetting.id) {
-      return db.ref(`kobalos/settings/${state.manageSetting.id}`).update(payload);
+      return ref(db, `kobalos/settings/${state.manageSetting.id}`).update(payload);
     }
     return settingsRef.push(payload);
   },
@@ -159,7 +160,7 @@ export const useStore = () => ({
   saveFeature() {
     const payload = convertFeaturePayload(state.manageFeature);
     if (state.manageFeature.id) {
-      return db.ref(`kobalos/features/${state.manageFeature.id}`).update(payload);
+      return ref(db, `kobalos/features/${state.manageFeature.id}`).update(payload);
     }
     return featuresRef.push(payload);
   },
@@ -169,11 +170,11 @@ export const useStore = () => ({
     payload.forEach((item) => {
       deleted[`kobalos/${reference}/${item.id}`] = null;
     });
-    return db.ref().update(deleted);
+    return ref(db).update(deleted);
   },
 
   setEnvironmentsRef() {
-    return db.ref('environments').set(convertEnvironmentsPayload(state.environments));
+    return ref(db, 'environments').set(convertEnvironmentsPayload(state.environments));
   },
 
   removeEnvironment(payload) {
@@ -181,10 +182,10 @@ export const useStore = () => ({
       state.environments = reject(propEq('id', payload.id))(state.environments);
       return;
     }
-    return db.ref(`environments/${payload.id}`).remove();
+    return ref(db, `environments/${payload.id}`).remove();
   },
 
   setMaintenanceRef(value) {
-    return db.ref('kobalos/maintenance').set(value);
+    return ref(db, 'kobalos/maintenance').set(value);
   },
 });

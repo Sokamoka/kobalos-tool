@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, defineEmits, markRaw } from 'vue';
+import { computed, markRaw } from 'vue';
 import { useForm } from 'vee-validate';
 import { object, string, array } from 'yup';
 import { useStore } from '../../store';

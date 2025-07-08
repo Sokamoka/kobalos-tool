@@ -11,9 +11,7 @@
       >
         <template v-slot:title="{ state }">
           <div class="mb-4 sm:mb-0 flex-grow">
-            <h2 class="text-sm font-bold uppercase text-gray-900">
-              Recent Setting List
-            </h2>
+            <h2 class="text-sm font-bold uppercase text-gray-900">Recent Setting List</h2>
             <p class="text-xs text-gray-500 font-medium">
               Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> settings
             </p>
@@ -31,8 +29,9 @@
 </template>
 
 <script setup>
-import { dbErrorMessage } from '../../utils/db-error-message';
 import { defineAsyncComponent, inject, onMounted, reactive, ref } from 'vue';
+import { onValue } from 'firebase/database';
+import { dbErrorMessage } from '../../utils/db-error-message';
 import { settingsRef } from '../../firebase';
 import { useStore } from '../../store';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
@@ -74,7 +73,7 @@ const columns = {
 };
 
 onMounted(async () => {
-  settingsRef.on('value', (snapshot) => {
+  onValue(settingsRef, (snapshot) => {
     store.setSettings(snapshot.val());
   });
 });
