@@ -22,18 +22,13 @@
           </footer>
         </div>
       </slot>
-      <button
-        v-if="isContent"
-        class="modal-close is-large"
-        aria-label="close"
-        @click="close"
-      ></button>
+      <button v-if="isContent" class="modal-close is-large" aria-label="close" @click="close"></button>
     </div>
   </transition>
 </template>
 <script>
 export default {
-  name: "Modal",
+  name: 'Modal',
 
   props: {
     modelValue: {
@@ -43,7 +38,7 @@ export default {
 
     type: {
       type: String,
-      default: "card",
+      default: 'card',
     },
 
     title: {
@@ -52,9 +47,9 @@ export default {
 
     size: {
       validator(value) {
-        return ["xs", "sm", "md", "base", "lg"].includes(value);
+        return ['xs', 'sm', 'md', 'base', 'lg'].includes(value);
       },
-      default: "base",
+      default: 'base',
     },
 
     header: {
@@ -68,7 +63,7 @@ export default {
     },
   },
 
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
 
   computed: {
     isVisible() {
@@ -76,35 +71,37 @@ export default {
     },
 
     mainClasses() {
-      return ["modal", [`is-${this.size}`], { "is-active": this.isVisible }];
+      return ['modal', [`is-${this.size}`], { 'is-active': this.isVisible }];
     },
 
     contentClasses() {
       return {
-        "modal-content": this.type === "content",
-        "modal-card": this.type === "card",
+        'modal-content': this.type === 'content',
+        'modal-card': this.type === 'card',
       };
     },
 
     isContent() {
-      return this.type === "content";
+      return this.type === 'content';
     },
   },
 
   methods: {
     close() {
-      this.$emit("update:modelValue", !this.isVisible);
+      this.$emit('update:modelValue', !this.isVisible);
     },
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .modal {
   @apply h-screen w-full fixed top-0 right-0 bottom-0 left-0 flex flex-col justify-center overflow-hidden items-center z-40;
 
   .modal-background {
-    @apply h-screen w-full absolute left-0 top-0 bg-gray-900 bg-opacity-75 z-0;
+    @apply h-screen w-full absolute left-0 top-0 bg-gray-900/75 z-0;
   }
 
   .modal-card {

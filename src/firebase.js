@@ -25,8 +25,7 @@ const provider = new OAuthProvider('microsoft.com');
 // });
 
 // References
-const featuresRef = ref(db, '/features');
-// const featuresRef = ref(db, 'kobalos/features');
+const featuresRef = ref(db, 'kobalos/features');
 const settingsRef = ref(db, 'kobalos/settings');
 const maintenanceRef = ref(db, 'kobalos/maintenance');
 const environmentsRef = ref(db, 'environments');

@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmits, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import DataTable from './DataTable/index.vue';
 import BaseCheckbox from './FormControls/BaseCheckbox.vue';
 import useSelection from '../composables/UseSelection.js';
