@@ -44,7 +44,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { auth, provider } from '../firebase';
@@ -81,7 +81,7 @@ const onSubmit = handleSubmit(async (values) => {
 
 const onSignInWithMicrosoft = async () => {
   try {
-    const userCredential = await auth.signInWithPopup(provider);
+    const userCredential = await signInWithPopup(auth, provider);
     const { displayName, email, uid } = userCredential.user;
     store.signIn({ displayName, email, uid });
   } catch (err) {

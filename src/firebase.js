@@ -20,9 +20,9 @@ const db = getDatabase(app);
 const auth = getAuth(app);
 
 const provider = new OAuthProvider('microsoft.com');
-// provider.setCustomParameters({
-//   tenant: import.meta.env.VITE_APP_TENANT,
-// });
+provider.setCustomParameters({
+  tenant: import.meta.env.VITE_APP_TENANT,
+});
 
 // References
 const featuresRef = ref(db, 'kobalos/features');
