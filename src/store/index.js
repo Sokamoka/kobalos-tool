@@ -1,4 +1,5 @@
 import { reactive, computed, watch } from 'vue';
+import { push, ref, update } from 'firebase/database';
 import { findIndex, propEq, reject } from 'ramda';
 import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
@@ -11,7 +12,6 @@ import {
   convertSettings,
   newEnvironment,
 } from './internal.js';
-import { ref } from 'firebase/database';
 
 const storeName = 'kobalos-manager-store';
 
@@ -159,10 +159,14 @@ export const useStore = () => ({
 
   saveFeature() {
     const payload = convertFeaturePayload(state.manageFeature);
+    console.log(payload);
     if (state.manageFeature.id) {
-      return ref(db, `kobalos/features/${state.manageFeature.id}`).update(payload);
+      const updates = {};
+      updates[`kobalos/features/${state.manageFeature.id}`] = payload;
+      return update(ref(db), updates);
+      // return ref(db, `kobalos/features/${state.manageFeature.id}`).update(payload);
     }
-    return featuresRef.push(payload);
+    return push(featuresRef, payload);
   },
 
   bulkRemove(payload, reference) {
@@ -170,7 +174,7 @@ export const useStore = () => ({
     payload.forEach((item) => {
       deleted[`kobalos/${reference}/${item.id}`] = null;
     });
-    return ref(db).update(deleted);
+    return update(ref(db), deleted);
   },
 
   setEnvironmentsRef() {
