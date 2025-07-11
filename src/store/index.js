@@ -164,7 +164,6 @@ export const useStore = () => ({
       const updates = {};
       updates[`kobalos/features/${state.manageFeature.id}`] = payload;
       return update(ref(db), updates);
-      // return ref(db, `kobalos/features/${state.manageFeature.id}`).update(payload);
     }
     return push(featuresRef, payload);
   },
