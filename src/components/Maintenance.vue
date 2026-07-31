@@ -26,7 +26,6 @@ const isChecked = computed({
 
 onMounted(async () => {
   onValue(maintenanceRef, (snapshot) => {
-    // console.log('value:', snapshot.val());
     // isChecked.value = snapshot.val();
     store.setMaintenance(snapshot.val());
   });

@@ -77,7 +77,6 @@ const columns = {
 onMounted(() => {
   onValue(featuresRef, (snapshot) => {
     const data = snapshot.val();
-    console.log(data);
     store.setFeatures(data);
   });
 });
@@ -123,6 +122,6 @@ const onSave = async (payload) => {
 const searchfFilter = (data, value) =>
   data.filter(
     (item) =>
-      item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
+      item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase()),
   );
 </script>
