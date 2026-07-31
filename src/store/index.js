@@ -1,4 +1,5 @@
 import { reactive, computed, watch } from 'vue';
+import { push, ref, update } from 'firebase/database';
 import { findIndex, propEq, reject } from 'ramda';
 import { db, featuresRef, settingsRef } from '../firebase.js';
 import router from '../router/index.js';
@@ -151,7 +152,7 @@ export const useStore = () => ({
   saveSetting() {
     const payload = convertSettingPayload(state.manageSetting);
     if (state.manageSetting.id) {
-      return db.ref(`kobalos/settings/${state.manageSetting.id}`).update(payload);
+      return ref(db, `kobalos/settings/${state.manageSetting.id}`).update(payload);
     }
     return settingsRef.push(payload);
   },
@@ -159,9 +160,11 @@ export const useStore = () => ({
   saveFeature() {
     const payload = convertFeaturePayload(state.manageFeature);
     if (state.manageFeature.id) {
-      return db.ref(`kobalos/features/${state.manageFeature.id}`).update(payload);
+      const updates = {};
+      updates[`kobalos/features/${state.manageFeature.id}`] = payload;
+      return update(ref(db), updates);
     }
-    return featuresRef.push(payload);
+    return push(featuresRef, payload);
   },
 
   bulkRemove(payload, reference) {
@@ -169,11 +172,11 @@ export const useStore = () => ({
     payload.forEach((item) => {
       deleted[`kobalos/${reference}/${item.id}`] = null;
     });
-    return db.ref().update(deleted);
+    return update(ref(db), deleted);
   },
 
   setEnvironmentsRef() {
-    return db.ref('environments').set(convertEnvironmentsPayload(state.environments));
+    return ref(db, 'environments').set(convertEnvironmentsPayload(state.environments));
   },
 
   removeEnvironment(payload) {
@@ -181,10 +184,10 @@ export const useStore = () => ({
       state.environments = reject(propEq('id', payload.id))(state.environments);
       return;
     }
-    return db.ref(`environments/${payload.id}`).remove();
+    return ref(db, `environments/${payload.id}`).remove();
   },
 
   setMaintenanceRef(value) {
-    return db.ref('kobalos/maintenance').set(value);
+    return ref(db, 'kobalos/maintenance').set(value);
   },
 });

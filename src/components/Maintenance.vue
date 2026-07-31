@@ -11,6 +11,7 @@ import { useStore } from '../store';
 import { dbErrorMessage } from '../utils/db-error-message';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from './Dialog/internal';
 import BaseSwitch from './FormControls/BaseSwitch.vue';
+import { onValue } from 'firebase/database';
 
 const notify = inject('notify');
 
@@ -24,8 +25,7 @@ const isChecked = computed({
 });
 
 onMounted(async () => {
-  maintenanceRef.on('value', (snapshot) => {
-    // console.log('value:', snapshot.val());
+  onValue(maintenanceRef, (snapshot) => {
     // isChecked.value = snapshot.val();
     store.setMaintenance(snapshot.val());
   });

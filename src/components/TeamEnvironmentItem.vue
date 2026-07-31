@@ -42,12 +42,12 @@
 </template>
 
 <script setup>
-import { defineProps, reactive, toRef, watch } from 'vue';
+import { reactive, toRef, watch } from 'vue';
 import { object, string } from 'yup';
 import { useField, useForm } from 'vee-validate';
 import BaseContenteditable from './FormControls/BaseContenteditable.vue';
 
-const emit = defineEmit(['save', 'remove']);
+const emit = defineEmits(['save', 'remove']);
 
 const props = defineProps({
   item: {
@@ -90,10 +90,10 @@ const onEdit = () => {
 const onSave = async () => {
   const { valid } = await validate();
   if (!valid) return;
-  if(item.value.label === values.label && item.value.value === values.value ) {
+  if (item.value.label === values.label && item.value.value === values.value) {
     state.isEditActive = false;
     return;
-  } 
+  }
   emit('save', { ...item.value, ...values, isNew: false });
   state.isEditActive = false;
 };

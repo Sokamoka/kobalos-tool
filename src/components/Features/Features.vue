@@ -11,9 +11,7 @@
       >
         <template v-slot:title="{ state }">
           <div class="mb-4 sm:mb-0 flex-grow">
-            <h2 class="text-sm font-bold uppercase text-gray-900">
-              Recent Features List
-            </h2>
+            <h2 class="text-sm font-bold uppercase text-gray-900">Recent Features List</h2>
             <p class="text-xs text-gray-500 font-medium">
               Showing <b>{{ state.filteredCount }}</b> of <b>{{ state.total }}</b> features
             </p>
@@ -33,6 +31,7 @@
 
 <script setup>
 import { defineAsyncComponent, inject, onMounted, reactive } from 'vue';
+import { onValue } from 'firebase/database';
 import { featuresRef } from '../../firebase';
 import { useStore } from '../../store';
 import { TYPE_CONFIRM, TYPE_ERROR, TYPE_SUCCESS } from '../Dialog/internal';
@@ -76,7 +75,7 @@ const columns = {
 };
 
 onMounted(() => {
-  featuresRef.on('value', (snapshot) => {
+  onValue(featuresRef, (snapshot) => {
     const data = snapshot.val();
     store.setFeatures(data);
   });
@@ -123,6 +122,6 @@ const onSave = async (payload) => {
 const searchfFilter = (data, value) =>
   data.filter(
     (item) =>
-      item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase())
+      item.title.toLowerCase().includes(value.toLowerCase()) || item.name.toLowerCase().includes(value.toLowerCase()),
   );
 </script>

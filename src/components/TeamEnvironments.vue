@@ -3,9 +3,7 @@
     <div class="flex flex-col bg-white rounded-lg shadow-lg">
       <div class="flex flex-col sm:flex-row p-7">
         <div class="mb-4 sm:mb-0 flex-grow">
-          <h2 class="text-sm font-bold uppercase text-gray-900">
-            Recent Environments List
-          </h2>
+          <h2 class="text-sm font-bold uppercase text-gray-900">Recent Environments List</h2>
           <p class="text-xs text-gray-500 font-medium">
             Showing <b>{{ total }}</b> environments
           </p>
@@ -60,6 +58,7 @@
 
 <script setup>
 import { computed, inject, onMounted, toRef } from 'vue';
+import { onValue } from 'firebase/database';
 import { VueDraggableNext } from 'vue-draggable-next';
 import { environmentsRef } from '../firebase';
 import { useStore } from '../store';
@@ -82,7 +81,7 @@ const environmentsList = computed({
 });
 
 onMounted(() => {
-  environmentsRef.on('value', (snapshot) => {
+  onValue(environmentsRef, (snapshot) => {
     const data = snapshot.val();
     store.setEnvironments(data);
   });

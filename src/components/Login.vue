@@ -1,9 +1,7 @@
 <template>
   <div class="container m-auto">
     <div class="w-full sm:w-2/4 md:w-2/5 lg:w-2/6 p-6 bg-white m-auto rounded-lg shadow-lg">
-      <h1 class="text-3xl font-bold uppercase flex-grow">
-        Sign in
-      </h1>
+      <h1 class="text-3xl font-bold uppercase flex-grow">Sign in</h1>
       <p class="text-gray-500 text-sm mb-5">{{ title }}</p>
       <form @submit.prevent="onSubmit">
         <div class="mb-4">
@@ -22,7 +20,12 @@
         </div>
 
         <div>
-          <button class="button is-secondary w-full" type="submit" :class="{ 'is-loading': isSubmitting }" aria-label="Sign in">
+          <button
+            class="button is-secondary w-full"
+            type="submit"
+            :class="{ 'is-loading': isSubmitting }"
+            aria-label="Sign in"
+          >
             Sign in
           </button>
         </div>
@@ -41,6 +44,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { useForm } from 'vee-validate';
 import { object, string } from 'yup';
 import { auth, provider } from '../firebase';
@@ -66,8 +70,8 @@ const title = ref(import.meta.env.VITE_TITLE);
 
 const onSubmit = handleSubmit(async (values) => {
   try {
-    const userCredential = await auth.signInWithEmailAndPassword(values.email, values.password);
-    const { email, uid  } = userCredential.user;
+    const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+    const { email, uid } = userCredential.user;
     store.signIn({ displayName: email, email, uid });
   } catch (err) {
     console.error(err);
@@ -77,8 +81,8 @@ const onSubmit = handleSubmit(async (values) => {
 
 const onSignInWithMicrosoft = async () => {
   try {
-    const userCredential =  await auth.signInWithPopup(provider);
-    const { displayName, email, uid  } = userCredential.user;
+    const userCredential = await signInWithPopup(auth, provider);
+    const { displayName, email, uid } = userCredential.user;
     store.signIn({ displayName, email, uid });
   } catch (err) {
     console.error(err);

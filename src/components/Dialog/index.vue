@@ -1,6 +1,6 @@
 <template>
   <transition name="dialog-fade">
-    <div v-if="isConfirm && isVisible" class="curtain fixed top-0 left-0 right-0 bottom-0 "></div>
+    <div v-if="isConfirm && isVisible" class="curtain fixed top-0 left-0 right-0 bottom-0"></div>
   </transition>
   <transition name="dialog-fade">
     <div v-if="isVisible" class="fixed top-0 left-1/2 flex flex-col items-center z-50 transform -translate-x-1/2">
@@ -9,19 +9,10 @@
           <Icon :name="dialog.icon" class="w-5 h-5 fill-current mr-3 opacity-90" />
           <span class="mr-2">{{ dialog.title }}</span>
         </div>
-        <a
-          v-if="isConfirm"
-          href="#"
-          class="button is-flat ml-2"
-          @click.prevent="onConfirm"
-        >
+        <a v-if="isConfirm" href="#" class="button is-flat ml-2" @click.prevent="onConfirm">
           {{ dialog.confirmText }}
         </a>
-        <a
-          href="#"
-          class="button is-icon is-flat is-xs ml-2"
-          @click.prevent="onCancel"
-        >
+        <a href="#" class="button is-icon is-flat is-xs ml-2" @click.prevent="onCancel">
           <Icon name="clear" class="w-4 h-4" fill="currentColor" />
         </a>
       </div>
@@ -56,7 +47,7 @@ emitter.on('add', function (payload) {
   isVisible.value = true;
   if (payload.type !== TYPE_CONFIRM) {
     timeoutId = hideInterval(payload.duration);
-  } 
+  }
 });
 
 const onConfirm = () => {
@@ -73,10 +64,12 @@ const onCancel = () => {
   dialog.value.cb(false);
 };
 
-const hideInterval = (duration) => setTimeout(() => isVisible.value = false, duration);
+const hideInterval = (duration) => setTimeout(() => (isVisible.value = false), duration);
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+@reference "tailwindcss";
+
 .curtain {
   backdrop-filter: blur(2px);
 }
@@ -87,7 +80,7 @@ const hideInterval = (duration) => setTimeout(() => isVisible.value = false, dur
   .button {
     @apply text-sm px-4 h-8 text-gray-300 hover:text-white hover:bg-gray-600;
   }
- 
+
   &.is-confirm {
     @apply bg-pink-600 text-sm;
 
@@ -105,10 +98,10 @@ const hideInterval = (duration) => setTimeout(() => isVisible.value = false, dur
   }
 
   &.is-error {
-    @apply bg-red-a400 text-sm;
+    @apply bg-red-400 text-sm;
 
     .button {
-      @apply text-red-300 hover:text-white hover:bg-red-a200;
+      @apply text-red-300 hover:text-white hover:bg-red-200;
     }
   }
 }

@@ -80,7 +80,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed, reactive, defineEmit, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import DataTable from './DataTable/index.vue';
 import BaseCheckbox from './FormControls/BaseCheckbox.vue';
 import useSelection from '../composables/UseSelection.js';
@@ -108,7 +108,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmit(['add', 'edit', 'remove']);
+const emit = defineEmits(['add', 'edit', 'remove']);
 
 const search = ref('');
 const state = reactive({
